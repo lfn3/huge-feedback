@@ -1,0 +1,72 @@
+#app {
+	margin: 100px;
+}
+
+.pipeline-stage {
+	display: inline-block;
+	position: relative;
+	border: 0px;
+	height: 40px;
+	padding: 5px 5px 5px 35px;
+}
+
+.pipeline .pipeline-stage:first-child {
+	padding-left: 10px;
+}
+
+.pipeline .pipeline-stage:last-child {
+	padding-right: 10px;
+}
+
+.pipeline-stage::after,
+.pipeline-stage::before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.pipeline-stage::after {
+	border-color: rgba(136, 183, 213, 0);
+	border-width: 25px;
+	margin-top: -25px;
+	z-index: 2;
+}
+
+.pipeline-stage::before {
+	border-color: rgba(194, 225, 245, 0);
+	border-left-color: #ffffff;
+	z-index: 1;
+	border-width: 31px;
+	margin-top: -31px;
+}
+
+.pipeline .pipeline-stage:last-child::after,
+.pipeline .pipeline-stage:last-child::before {
+	border-width: 0;
+}
+
+.pipeline-stage.success {
+	background-color: green;
+}
+.pipeline-stage.success::after {
+	border-left-color: green;
+}
+
+.pipeline-stage.failed {
+	background-color: red;
+}
+.pipeline-stage.failed::after {
+	border-left-color: red;
+}
+
+.pipeline-stage.manual {
+	background-color: lightskyblue;
+}
+.pipeline-stage.manual::after {
+	border-left-color: lightskyblue;
+}
