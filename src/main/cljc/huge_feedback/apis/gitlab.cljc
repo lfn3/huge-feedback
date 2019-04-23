@@ -41,12 +41,14 @@
     (when (and contains-master-pipeline? next-link)
       (last (re-find #"<(http.+)>; rel=\"next\"" next-link)))))
 
-(defn latest-master [pipelines-by-ids]
+(defn masters [pipelines-by-ids]
   (->> pipelines-by-ids
        (vals)
        (filter (comp (partial = "master") :ref))
-       (sort-by :id)
-       (last)))
+       (sort-by :id)))
+
+(defn latest-master [pipelines-by-ids]
+  (last (masters pipelines-by-ids)))
 
 (defn pipelines->by-id [pipelines]
   (->> pipelines
@@ -54,7 +56,7 @@
        (into {})))
 
 ;In priority order
-(def job-states ["failed" "running" "success" "skipped" "manual"])
+(def job-states ["failed" "running" "pending" "success" "skipped" "manual"])
 (def job-states-map (->> job-states
                          (map-indexed (fn [idx val] [val idx]))
                          (into {})))

@@ -19,18 +19,30 @@
 
 (defn pipeline-html [pipeline]
   [:div
-   [:a {:href (:web_url pipeline)} (:ref pipeline)]
-   [:div.pipeline
-    (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
-      (pipeline-stage-html stage-state))]])
+   [:a.block {:href (:web_url pipeline)}
+    [:div (str (:ref pipeline) \@ (:sha pipeline))]
+    [:div.pipeline
+     (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
+       (pipeline-stage-html stage-state))]]])
 
+(defn mini-pipeline-html [pipeline]
+  [:div
+   [:a.block {:href (:web_url pipeline)}
+    [:div.pipeline.mini
+     (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
+       (pipeline-stage-html stage-state))]]])
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_]
   [:div
    (if-let [master @(rf/subscribe [:latest-master])]
-     [pipeline-html master]
-     [:h1 "Fetching pipelines..."])])
+     [:div
+      [pipeline-html master]
+      (for [pipeline @(rf/subscribe [:other-masters])]
+        [mini-pipeline-html pipeline])
+      (for [pipeline @(rf/subscribe [:non-master])]
+        [pipeline-html pipeline])]
+     [:p "Fetching pipelines..."])])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
@@ -40,8 +52,14 @@
   (fn [{:keys [pipelines]}]
     (gitlab/latest-master pipelines)))
 
-(rf/reg-sub :pipelines
-  (fn [{:keys [pipelines]}] pipelines))
+(rf/reg-sub :other-masters
+  (fn [{:keys [pipelines]}]
+    (rest (reverse (gitlab/masters pipelines)))))
+
+(rf/reg-sub :non-master
+  (fn [{:keys [pipelines]}] (->> pipelines
+                                 (vals)
+                                 (filter (comp (partial not= "master") :ref)))))
 
 (rf/reg-sub :stage-state-for-pipeline
   (fn [{:keys [jobs]} [_ pipeline-id]]
