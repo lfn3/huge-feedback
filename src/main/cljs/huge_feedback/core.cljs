@@ -108,6 +108,29 @@
 (defn app []
   (active-panel @(rf/subscribe [:active-panel])))
 
+(def refresh-interval-ms 60000)
+
+(rf/reg-sub :pipelines
+  (fn [{:keys [pipelines]}] (vals pipelines)))
+
+(rf/reg-event-db :next-poll-id
+  (fn [db [_ id]] (assoc db :next-poll-id id)))
+
+(rf/reg-sub :next-poll-id
+  (fn [{:keys [next-poll-id]}] next-poll-id))
+
+(defn poll-for-updated-jobs []
+  (js/clearTimeout @(rf/subscribe [:next-poll-id]))
+  (->> @(rf/subscribe [:pipelines])
+       (map :id)
+       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab/public-base-url
+                                                            gitlab/project-id
+                                                            pipeline-id
+                                                            gitlab/token
+                                                            (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
+       (dorun))
+  (rf/dispatch [:next-poll-id (js/setTimeout poll-for-updated-jobs refresh-interval-ms)]))
+
 ;TODO: remove the nasty (ref-fx instead?)
 (defn nasty-side-effecty-pipelines-handler [pipelines]
   (->> pipelines
@@ -118,6 +141,9 @@
                                                             gitlab/token
                                                             (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
        (dorun))
+
+  (js/clearTimeout @(rf/subscribe [:next-poll-id]))
+  (js/setTimeout poll-for-updated-jobs refresh-interval-ms)
 
   (rf/dispatch [:pipelines (gitlab/pipelines->by-id pipelines)]))
 
