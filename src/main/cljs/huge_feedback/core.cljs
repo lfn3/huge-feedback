@@ -35,31 +35,50 @@
 
 (defmethod active-panel ::routes/index [_]
   [:div
-   (if-let [master @(rf/subscribe [:latest-master])]
+   (if-let [master @(rf/subscribe [:latest "master"])]
      [:div
       [pipeline-html master]
-      (for [pipeline @(rf/subscribe [:other-masters])]
+      (for [pipeline @(rf/subscribe [:rest "master"])]
         [mini-pipeline-html pipeline])
-      (for [pipeline @(rf/subscribe [:non-master])]
-        [pipeline-html pipeline])]
+      (for [ref (->> @(rf/subscribe [:refs])
+                     (filter (partial not= "master")))]
+        [:div
+         [pipeline-html @(rf/subscribe [:latest ref])]
+         (for [rest @(rf/subscribe [:rest ref])]
+           [mini-pipeline-html rest])])]
      [:p "Fetching pipelines..."])])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
    (util/display-html-debug args)])
 
-(rf/reg-sub :latest-master
-  (fn [{:keys [pipelines]}]
-    (gitlab/latest-master pipelines)))
+(rf/reg-sub :latest
+  (fn [{:keys [pipelines]} [_ ref]]
+    (->> pipelines
+         (vals)
+         (filter (comp (partial = ref) :ref))
+         (sort-by :id)
+         (last))))
 
-(rf/reg-sub :other-masters
-  (fn [{:keys [pipelines]}]
-    (rest (reverse (gitlab/masters pipelines)))))
+(rf/reg-sub :rest
+  (fn [{:keys [pipelines]} [_ ref]]
+    (->> pipelines
+         (vals)
+         (filter (comp (partial = ref) :ref))
+         (sort-by :id)
+         (reverse)
+         (rest))))
 
 (rf/reg-sub :non-master
   (fn [{:keys [pipelines]}] (->> pipelines
                                  (vals)
                                  (filter (comp (partial not= "master") :ref)))))
+
+(rf/reg-sub :refs
+  (fn [{:keys [pipelines]}] (->> pipelines
+                                 (vals)
+                                 (map :ref)
+                                 (distinct))))
 
 (rf/reg-sub :stage-state-for-pipeline
   (fn [{:keys [jobs]} [_ pipeline-id]]

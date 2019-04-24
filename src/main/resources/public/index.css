@@ -94,11 +94,13 @@
 
 .pipeline-stage.manual,
 .pipeline-stage.skipped,
+.pipeline-stage.canceled,
 .pipeline-stage.created {
 	background-color: gray;
 }
 .pipeline-stage.manual::after,
 .pipeline-stage.skipped::after,
+.pipeline-stage.canceled::after,
 .pipeline-stage.created::after {
 	border-left-color: gray;
 }
