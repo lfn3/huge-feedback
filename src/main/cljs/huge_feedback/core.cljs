@@ -98,7 +98,11 @@
 
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
-    (update db :pipelines merge pipelines-by-id)))
+    (-> db
+        (assoc :pipelines pipelines-by-id)
+        (update :jobs #(->> %1
+                            (filter (fn [[k _]] (get pipelines-by-id k)))
+                            (into {}))))))
 
 (rf/reg-event-db :jobs
   (fn [db [_ pipeline-id jobs]]
@@ -120,23 +124,7 @@
 (rf/reg-sub :next-poll-id
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
-;TODO: make this more selective - only look for jobs that are in a non-terminal state?
-;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
-;TODO: since this is getting rate limited.
-(defn poll-for-updated-jobs []
-  (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (->> @(rf/subscribe [:pipelines])
-       (map :id)
-       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab/public-base-url
-                                                            gitlab/project-id
-                                                            pipeline-id
-                                                            gitlab/token
-                                                            (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
-       (dorun))
-  (rf/dispatch [:next-poll-id (js/setTimeout poll-for-updated-jobs refresh-interval-ms)]))
-
-;TODO: remove the nasty (ref-fx instead?)
-(defn nasty-side-effecty-pipelines-handler [pipelines]
+(defn poll-jobs [pipelines]
   (->> pipelines
        (map :id)
        (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab/public-base-url
@@ -144,12 +132,22 @@
                                                             pipeline-id
                                                             gitlab/token
                                                             (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
-       (dorun))
+       (dorun)))
 
+;TODO: make this more selective - only look for jobs that are in a non-terminal state?
+;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
+;TODO: since this is getting rate limited.
+(defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (js/setTimeout poll-for-updated-jobs refresh-interval-ms)
 
-  (rf/dispatch [:pipelines (gitlab/pipelines->by-id pipelines)]))
+  (gitlab/get-pipelines-including-at-least-one-master-build gitlab/public-base-url
+                                                            gitlab/project-id
+                                                            gitlab/token
+                                                            (fn [resp]
+                                                              (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
+                                                              (poll-jobs resp)))
+
+  (rf/dispatch [:next-poll-id (js/setTimeout poll-gitlab refresh-interval-ms)]))
 
 (defn main []
   (enable-console-print!)
@@ -160,11 +158,7 @@
   (rg/render [app] (js/document.getElementById "app"))
 
   (set! (.-onpopstate js/window) routes/handle-pop-state)
-
-  (gitlab/get-pipelines-including-at-least-one-master-build gitlab/public-base-url
-                                                            gitlab/project-id
-                                                            gitlab/token
-                                                            nasty-side-effecty-pipelines-handler)
+  (poll-gitlab)
 
   (when (nil? (-> js/window (.-history) (.-state)))
     (.replaceState (.-history js/window)
