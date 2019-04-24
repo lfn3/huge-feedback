@@ -14,6 +14,7 @@
     ; which is useful for now
     {:active-panel {:handler :index}}))
 
+;TODO: add count of jobs pending/running/passed/failed?
 (defn pipeline-stage-html [[stage-name {:keys [status]}]]
   [:div {:class (str "pipeline-stage " status)} stage-name])
 
@@ -119,6 +120,9 @@
 (rf/reg-sub :next-poll-id
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
+;TODO: make this more selective - only look for jobs that are in a non-terminal state?
+;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
+;TODO: since this is getting rate limited.
 (defn poll-for-updated-jobs []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
   (->> @(rf/subscribe [:pipelines])
