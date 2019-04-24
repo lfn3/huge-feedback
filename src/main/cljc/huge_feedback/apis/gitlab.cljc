@@ -56,7 +56,7 @@
        (into {})))
 
 ;In priority order
-(def job-states ["failed" "running" "pending" "success" "skipped" "manual"])
+(def job-states ["failed" "running" "pending" "success" "canceled" "skipped" "manual"])
 (def job-states-map (->> job-states
                          (map-indexed (fn [idx val] [val idx]))
                          (into {})))
