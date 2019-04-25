@@ -2,17 +2,19 @@
   (:require [huge-feedback.routes :as routes]
             [reagent.core :as rg]
             [re-frame.core :as rf]
+            [reagent.core :as r]
             [huge-feedback.util :as util]
-            [huge-feedback.apis.gitlab :as gitlab]))
+            [huge-feedback.apis.gitlab :as gitlab]
+            [clojure.tools.reader.edn :as edn]))
 
 (rf/reg-event-db :initialize
   (fn [db _]
     (if (empty? db)
-      {:active-panel {:handler :index}}
-      db)
-    ;TODO: delete this - it clears app state on figwheel reload.
-    ; which is useful for now
-    {:active-panel {:handler :index}}))
+      {:active-panel {:handler :index}
+       :config {:gitlab-url "https://gitlab.com/api/v4"
+                :project-id 13083
+                :user-token ""}}                            ;TODO: prompt users to fill this out?
+      db)))
 
 ;TODO: add count of jobs pending/running/passed/failed?
 (defn pipeline-stage-html [[stage-name {:keys [status]}]]
@@ -32,10 +34,24 @@
     [:div.pipeline.mini
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
        (pipeline-stage-html stage-state))]]])
+
+(defn text-editor [initial-value on-save & [validate]]
+  (let [state (r/atom {:input initial-value :valid? true})
+        {:keys [input valid?]} @state]
+    [:form
+     [:textarea {:class (if valid? "" "invalid")
+                 :on-blur #(->> %1 (.-target) (.-value) (reset! state))
+                 :value input}]
+     [:input {:type "submit"
+              :on-click #(if (or (nil? validate) (validate))
+                           (on-save input)
+                           (swap! state assoc :valid? false))}]]))
+
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_]
   [:div
+   (routes/link-for "Config" :config)
    (if-let [master @(rf/subscribe [:latest "master"])]
      [:div
       [pipeline-html master]
@@ -48,6 +64,16 @@
          (for [rest @(rf/subscribe [:rest ref])]
            [mini-pipeline-html rest])])]
      [:p "Fetching pipelines..."])])
+
+(defmethod active-panel :config [_]
+  [:div
+   (text-editor (str @(rf/subscribe [:config]))
+                #(rf/dispatch [:config (edn/read-string %1)])
+                #(try (let [val (edn/read-string %1)]
+                       ;TODO: check we have all the keys we need
+                       true)
+                     (catch js/Error e
+                       false)))])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
@@ -89,9 +115,8 @@
           stage-order (->> (gitlab/stage-ordering jobs)
                            (map-indexed (fn [idx val] [val idx]))
                            (into {}))
-          key-fn (comp stage-order key)
-          stage-state (sort-by key-fn (gitlab/stage-state jobs))]
-          stage-state)))
+          key-fn (comp stage-order key)]
+      (sort-by key-fn (gitlab/stage-state jobs)))))
 
 (rf/reg-sub :active-panel
   #(get %1 :active-panel))
@@ -124,13 +149,20 @@
 (rf/reg-sub :next-poll-id
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
-(defn poll-jobs [pipelines]
+(rf/reg-sub :config
+  (fn [{:keys [config]}] config))
+
+(rf/reg-event-db :config
+  (fn [db [_ config]]
+    (assoc db :config config)))
+
+(defn poll-jobs [{:keys [gitlab-url project-id user-token]} pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab/public-base-url
-                                                            gitlab/project-id
+       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab-url
+                                                            project-id
                                                             pipeline-id
-                                                            gitlab/token
+                                                            user-token
                                                             (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
        (dorun)))
 
@@ -139,13 +171,14 @@
 ;TODO: since this is getting rate limited.
 (defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
+  (let [{:keys [gitlab-url project-id user-token] :as config} @(rf/subscribe [:config])]
 
-  (gitlab/get-pipelines-including-at-least-one-master-build gitlab/public-base-url
-                                                            gitlab/project-id
-                                                            gitlab/token
-                                                            (fn [resp]
-                                                              (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
-                                                              (poll-jobs resp)))
+    (gitlab/get-pipelines-including-at-least-one-master-build gitlab-url
+                                                              project-id
+                                                              user-token
+                                                              (fn [resp]
+                                                                (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
+                                                                (poll-jobs config resp))))
 
   (rf/dispatch [:next-poll-id (js/setTimeout poll-gitlab refresh-interval-ms)]))
 

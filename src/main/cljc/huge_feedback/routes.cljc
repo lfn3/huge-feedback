@@ -6,7 +6,8 @@
 
 (def index-key ::index)
 
-(def clientside-routes ["/" {"" index-key}])
+(def clientside-routes ["/" {"" index-key
+                             "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]
                              [true :huge-feedback.handlers/resources]]])

@@ -2,14 +2,6 @@
   (:require [huge-feedback.apis.http :as http]
             [clojure.string :as str]))
 
-;TODO: remove these credentials.
-;TODO: and retract the token.
-(def token "ZiyFizkydhZPSWsb2jSi")
-(def user-id 3880404)
-(def project-id 13083)
-(def pipeline-id 57798833)
-(def public-base-url "https://gitlab.com/api/v4")
-
 ;What is this nonsense?
 (def link-header-name #?(:clj "Link"
                          :cljs "link"))
