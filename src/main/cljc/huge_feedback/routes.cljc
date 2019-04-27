@@ -10,6 +10,7 @@
                              "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]
+                             ["config" index-key]
                              [true :huge-feedback.handlers/resources]]])
 #?(:clj (def serverside-handler-map {index-key handlers/index
                                      :huge-feedback.handlers/resources handlers/resources}))

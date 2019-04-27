@@ -5,15 +5,16 @@
             [reagent.core :as r]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
-            [clojure.tools.reader.edn :as edn]))
+            [clojure.tools.reader.edn :as edn]
+            [cljs.spec.alpha :as s]))
 
 (rf/reg-event-db :initialize
   (fn [db _]
     (if (empty? db)
-      {:active-panel {:handler :index}
-       :config {:gitlab-url "https://gitlab.com/api/v4"
-                :project-id 13083
-                :user-token ""}}                            ;TODO: prompt users to fill this out?
+      {:active-panel {:handler routes/index-key}
+       ::gitlab/config {::gitlab/base-url   "https://gitlab.com/api/v4"
+                        ::gitlab/project-id 13083
+                        ::gitlab/token      ""}}            ;TODO: prompt users to fill this out?
       db)))
 
 ;TODO: add count of jobs pending/running/passed/failed?
@@ -36,44 +37,47 @@
        (pipeline-stage-html stage-state))]]])
 
 (defn text-editor [initial-value on-save & [validate]]
-  (let [state (r/atom {:input initial-value :valid? true})
-        {:keys [input valid?]} @state]
-    [:form
-     [:textarea {:class (if valid? "" "invalid")
-                 :on-blur #(->> %1 (.-target) (.-value) (reset! state))
-                 :value input}]
-     [:input {:type "submit"
-              :on-click #(if (or (nil? validate) (validate))
-                           (on-save input)
-                           (swap! state assoc :valid? false))}]]))
+  (let [state (r/atom {:input initial-value :valid? true})]
+    (fn []
+      [:form
+       (util/display-html-debug @state)
+       [:textarea {:class         (if (:valid? @state) "" "invalid")
+                   :on-change     #(->> %1 (.-target) (.-value) (swap! state assoc :input))
+                   :default-value initial-value}]
+       [:input {:type     "submit"
+                :on-click #(let [{:keys [input]} @state]
+                             (.preventDefault %1)
+                             (if (or (nil? validate) (validate input))
+                               (on-save input)
+                               (swap! state assoc :valid? false)))}]])))
 
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_]
-  [:div
-   (routes/link-for "Config" :config)
-   (if-let [master @(rf/subscribe [:latest "master"])]
-     [:div
-      [pipeline-html master]
-      (for [pipeline @(rf/subscribe [:rest "master"])]
-        [mini-pipeline-html pipeline])
-      (for [ref (->> @(rf/subscribe [:refs])
-                     (filter (partial not= "master")))]
-        [:div
-         [pipeline-html @(rf/subscribe [:latest ref])]
-         (for [rest @(rf/subscribe [:rest ref])]
-           [mini-pipeline-html rest])])]
-     [:p "Fetching pipelines..."])])
+  (let [master @(rf/subscribe [:latest "master"])]
+    [:div
+     (routes/link-for "Config" :config)
+     (if master
+       [:div
+        [pipeline-html master]
+        (for [pipeline @(rf/subscribe [:rest "master"])]
+          [mini-pipeline-html pipeline])
+        (for [ref (->> @(rf/subscribe [:refs])
+                       (filter (partial not= "master")))]
+          [:div
+           [pipeline-html @(rf/subscribe [:latest ref])]
+           (for [rest @(rf/subscribe [:rest ref])]
+             [mini-pipeline-html rest])])]
+       [:p "Fetching pipelines..."])]))
 
 (defmethod active-panel :config [_]
   [:div
-   (text-editor (str @(rf/subscribe [:config]))
-                #(rf/dispatch [:config (edn/read-string %1)])
-                #(try (let [val (edn/read-string %1)]
-                       ;TODO: check we have all the keys we need
-                       true)
-                     (catch js/Error e
-                       false)))])
+   [text-editor (str @(rf/subscribe [:config]))
+    #(rf/dispatch [:config (edn/read-string %1)])
+    #(try (let [val (edn/read-string %1)]
+            (gitlab/valid-config? val))
+          (catch js/Error e
+            false))]])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
@@ -150,19 +154,19 @@
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
 (rf/reg-sub :config
-  (fn [{:keys [config]}] config))
+  (fn [{:keys [::gitlab/config]}] config))
 
 (rf/reg-event-db :config
   (fn [db [_ config]]
-    (assoc db :config config)))
+    (assoc db ::gitlab/config config)))
 
-(defn poll-jobs [{:keys [gitlab-url project-id user-token]} pipelines]
+(defn poll-jobs [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token]} pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline gitlab-url
+       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline base-url
                                                             project-id
                                                             pipeline-id
-                                                            user-token
+                                                            token
                                                             (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
        (dorun)))
 
@@ -171,11 +175,11 @@
 ;TODO: since this is getting rate limited.
 (defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (let [{:keys [gitlab-url project-id user-token] :as config} @(rf/subscribe [:config])]
+  (let [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token] :as config} @(rf/subscribe [:config])]
 
-    (gitlab/get-pipelines-including-at-least-one-master-build gitlab-url
+    (gitlab/get-pipelines-including-at-least-one-master-build base-url
                                                               project-id
-                                                              user-token
+                                                              token
                                                               (fn [resp]
                                                                 (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
                                                                 (poll-jobs config resp))))
@@ -195,7 +199,7 @@
 
   (when (nil? (-> js/window (.-history) (.-state)))
     (.replaceState (.-history js/window)
-                   (pr-str {:handler :index})
+                   (pr-str {:handler routes/index-key})
                    "")))
 
 (main)

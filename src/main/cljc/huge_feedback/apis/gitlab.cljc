@@ -1,6 +1,18 @@
 (ns huge-feedback.apis.gitlab
   (:require [huge-feedback.apis.http :as http]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.spec.alpha :as s]))
+
+(s/def ::token string?)
+(s/def ::project-id int?)
+(s/def ::base-url string?)
+(s/def ::config (s/keys :req [::token ::project-id ::base-url]))
+
+(defn valid-config? [config]
+  ;TODO: use api to check we can actually make a request that requires auth
+  (s/valid? ::config config))
+
+(s/fdef valid-config? :args (s/cat :config ::config))
 
 ;What is this nonsense?
 (def link-header-name #?(:clj "Link"
