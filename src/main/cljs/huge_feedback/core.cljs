@@ -5,8 +5,7 @@
             [reagent.core :as r]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
-            [clojure.tools.reader.edn :as edn]
-            [cljs.spec.alpha :as s]))
+            [clojure.tools.reader.edn :as edn]))
 
 (rf/reg-event-db :initialize
   (fn [db _]
