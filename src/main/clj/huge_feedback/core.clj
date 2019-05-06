@@ -14,11 +14,16 @@
                                    :join? false})
   :stop (.stop server))
 
-(def figwheel-config {:mode     :serve
-                      :open-url "http://localhost:3000/"})
+(def figwheel-config {:id "dev"
+                      :options {:main 'huge-feedback.core
+                                :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
+                                :preloads             ['day8.re-frame-10x.preload]}
+                      :config {:watch-dirs ["src/main/cljs" "src/main/cljc"]
+                               :mode :serve
+                               :open-url "http://localhost:3000/"}})
 
 (mount/defstate ^{:on-reload :noop} figwheel
-  :start (figwheel.main.api/start figwheel-config "dev")
+  :start (figwheel.main.api/start figwheel-config)
   :stop (figwheel.main.api/stop "dev"))
 
 (defn -main [& args]

@@ -1,2 +1,0 @@
-{:watch-dirs ["src/main/cljs" "src/main/cljc"]
- :mode :serve}
