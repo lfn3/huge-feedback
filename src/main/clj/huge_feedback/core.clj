@@ -20,3 +20,6 @@
 (mount/defstate ^{:on-reload :noop} figwheel
   :start (figwheel.main.api/start figwheel-config "dev")
   :stop (figwheel.main.api/stop "dev"))
+
+(defn -main [& args]
+  (mount/start #'server))

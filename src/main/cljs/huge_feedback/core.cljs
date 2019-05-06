@@ -5,15 +5,17 @@
             [reagent.core :as r]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
-            [clojure.tools.reader.edn :as edn]))
+            [clojure.tools.reader.edn :as edn]
+            [huge-feedback.config :as config]))
 
 (rf/reg-event-db :initialize
   (fn [db _]
     (if (empty? db)
       {:active-panel {:handler routes/index-key}
-       ::gitlab/config {::gitlab/base-url   "https://gitlab.com/api/v4"
-                        ::gitlab/project-id 13083
-                        ::gitlab/token      ""}}            ;TODO: prompt users to fill this out?
+       ::config {::gitlab/config {::gitlab/base-url   "https://gitlab.com/api/v4"
+                                  ::gitlab/project-id 13083
+                                  ::gitlab/token      ""}
+                 ::use-cors-proxy? false}}
       db)))
 
 ;TODO: add count of jobs pending/running/passed/failed?
@@ -35,21 +37,6 @@
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
        (pipeline-stage-html stage-state))]]])
 
-(defn text-editor [initial-value on-save & [validate]]
-  (let [state (r/atom {:input initial-value :valid? true})]
-    (fn []
-      [:form
-       (util/display-html-debug @state)
-       [:textarea {:class         (if (:valid? @state) "" "invalid")
-                   :on-change     #(->> %1 (.-target) (.-value) (swap! state assoc :input))
-                   :default-value initial-value}]
-       [:input {:type     "submit"
-                :on-click #(let [{:keys [input]} @state]
-                             (.preventDefault %1)
-                             (if (or (nil? validate) (validate input))
-                               (on-save input)
-                               (swap! state assoc :valid? false)))}]])))
-
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_]
@@ -70,13 +57,7 @@
        [:p "Fetching pipelines..."])]))
 
 (defmethod active-panel :config [_]
-  [:div
-   [text-editor (str @(rf/subscribe [:config]))
-    #(rf/dispatch [:config (edn/read-string %1)])
-    #(try (let [val (edn/read-string %1)]
-            (gitlab/valid-config? val))
-          (catch js/Error e
-            false))]])
+  [config/panel])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
@@ -153,11 +134,14 @@
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
 (rf/reg-sub :config
-  (fn [{:keys [::gitlab/config]}] config))
+  (fn [db] (get-in db [::config])))
+
+(rf/reg-sub :gitlab-config
+  (fn [db] (get-in db [::config ::gitlab/config])))
 
 (rf/reg-event-db :config
   (fn [db [_ config]]
-    (assoc db ::gitlab/config config)))
+    (assoc-in db [::config ::gitlab/config] config)))
 
 (defn poll-jobs [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token]} pipelines]
   (->> pipelines
@@ -174,7 +158,7 @@
 ;TODO: since this is getting rate limited.
 (defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (let [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token] :as config} @(rf/subscribe [:config])]
+  (let [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token] :as config} @(rf/subscribe [:gitlab-config])]
 
     (gitlab/get-pipelines-including-at-least-one-master-build base-url
                                                               project-id
