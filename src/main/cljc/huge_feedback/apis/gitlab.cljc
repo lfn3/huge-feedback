@@ -18,7 +18,7 @@
 (def link-header-name #?(:clj "Link"
                          :cljs "link"))
 
-(defn gitlab-paginator [resp]
+(defn get-next-link-header-value [resp]
   (let [link-header (get-in resp [:headers link-header-name])
         next-link (-> link-header
                       (str/split #",")
@@ -29,21 +29,15 @@
       (last (re-find #"<(http.+)>; rel=\"next\"" next-link)))))
 
 (defn paginate-until-we-find-at-least-one-master-build [resp]
-  (let [contains-master-pipeline? (->> resp
+  (let [does-not-contain-master-pipeline? (->> resp
                                        :body
                                        (map :ref)
                                        (filter (partial = "master"))
                                        (seq)
                                        (nil?)
-                                       (not))
-        link-header (get-in resp [:headers "Link"])
-        next-link (-> link-header
-                      (str/split #",")
-                      (->>
-                        (filter #(str/ends-with? %1 "rel=\"next\""))
-                        (first)))]
-    (when (and contains-master-pipeline? next-link)
-      (last (re-find #"<(http.+)>; rel=\"next\"" next-link)))))
+                                       (not))]
+    (when does-not-contain-master-pipeline?
+      (get-next-link-header-value resp))))
 
 (defn masters [pipelines-by-ids]
   (->> pipelines-by-ids
@@ -87,7 +81,7 @@
 
 (defn get-jobs-for-pipeline [base-url project-id pipeline-id token handler]
   (http/paginated-get (str base-url "/projects/" project-id "/pipelines/" pipeline-id "/jobs?private_token=" token)
-                      gitlab-paginator
+                      get-next-link-header-value
                       handler))
 
 (defn get-user-projects [base-url user-id token handler]
