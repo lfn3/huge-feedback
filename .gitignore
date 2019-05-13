@@ -1,0 +1,5 @@
+src/main/resources/public/config.edn
+target/
+.nrepl-port
+*.iml
+.idea

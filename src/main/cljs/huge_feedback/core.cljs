@@ -5,18 +5,27 @@
             [reagent.core :as r]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
+            [huge-feedback.apis.http]
+            [huge-feedback.apis.huge-feedback]
             [clojure.tools.reader.edn :as edn]
-            [huge-feedback.config :as config]))
+            [huge-feedback.config :as config]
+            [huge-feedback.apis.http :as http]))
 
-(rf/reg-event-db :initialize
-  (fn [db _]
+(defn parse-serverside-config-response [[ok? resp]]
+  (when (and ok? (= 200 (:status resp)))
+    (:body resp)))
+
+(rf/reg-event-fx :initialize
+  (fn [{:keys [db]} _]
     (if (empty? db)
-      {:active-panel {:handler routes/index-key}
-       ::config {::gitlab/config {::gitlab/base-url   "https://gitlab.com/api/v4"
-                                  ::gitlab/project-id 13083
-                                  ::gitlab/token      ""}
-                 ::use-cors-proxy? false}}
-      db)))
+      (let [active-panel (routes/parse-url (-> js/window (.-location) (.-pathname)))]
+        {:db           {:active-panel active-panel
+                        ::config/config-state ::config/requesting}
+         ;TODO: pull in a saved config from localstorage?
+         :ajax-request (huge-feedback.apis.huge-feedback/get-config #(-> %1
+                                                                         (parse-serverside-config-response)
+                                                                         (config/validate-then-set-config)))})
+      {})))
 
 ;TODO: add count of jobs pending/running/passed/failed?
 (defn pipeline-stage-html [[stage-name {:keys [status]}]]
@@ -42,7 +51,7 @@
 (defmethod active-panel ::routes/index [_]
   (let [master @(rf/subscribe [:latest "master"])]
     [:div
-     (routes/link-for "Config" :config)
+     [config/status]
      (if master
        [:div
         [pipeline-html master]
@@ -108,7 +117,7 @@
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
     (-> db
-        (assoc :pipelines pipelines-by-id)
+        (update :pipelines merge pipelines-by-id)           ;TODO: this will grow without bound.
         (update :jobs #(->> %1
                             (filter (fn [[k _]] (get pipelines-by-id k)))
                             (into {}))))))
@@ -134,23 +143,21 @@
   (fn [{:keys [next-poll-id]}] next-poll-id))
 
 (rf/reg-sub :config
-  (fn [db] (get-in db [::config])))
+  (fn [db] (get-in db [::config/config])))
 
 (rf/reg-sub :gitlab-config
-  (fn [db] (get-in db [::config ::gitlab/config])))
+  (fn [db] (get-in db [::config/config ::gitlab/config])))
 
 (rf/reg-event-db :config
   (fn [db [_ config]]
-    (assoc-in db [::config ::gitlab/config] config)))
+    (assoc-in db [::config/config ::gitlab/config] config)))
 
-(defn poll-jobs [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token]} pipelines]
+(defn poll-jobs [gitlab-config pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (gitlab/get-jobs-for-pipeline base-url
-                                                            project-id
-                                                            pipeline-id
-                                                            token
-                                                            (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))))
+       (map (fn [pipeline-id] (rf/dispatch [:ajax-request (gitlab/get-jobs-for-pipeline pipeline-id
+                                                                                        gitlab-config
+                                                                                        (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))])))
        (dorun)))
 
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
@@ -158,14 +165,11 @@
 ;TODO: since this is getting rate limited.
 (defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (let [{:keys [::gitlab/base-url ::gitlab/project-id ::gitlab/token] :as config} @(rf/subscribe [:gitlab-config])]
-
-    (gitlab/get-pipelines-including-at-least-one-master-build base-url
-                                                              project-id
-                                                              token
-                                                              (fn [resp]
-                                                                (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
-                                                                (poll-jobs config resp))))
+  (when (= ::config/valid (first @(rf/subscribe [:config-state])))
+    (let [config @(rf/subscribe [:gitlab-config])]
+      (http/execute (gitlab/get-pipelines-including-at-least-one-master-build config (fn [resp]
+                                                                                       (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
+                                                                                       (poll-jobs config resp))))))
 
   (rf/dispatch [:next-poll-id (js/setTimeout poll-gitlab refresh-interval-ms)]))
 
@@ -173,12 +177,11 @@
   (enable-console-print!)
 
   (rf/dispatch-sync [:initialize])
-  (rf/dispatch-sync [:set-active-panel (routes/parse-url (-> js/window (.-location) (.-pathname)))])
 
   (rg/render [app] (js/document.getElementById "app"))
 
   (set! (.-onpopstate js/window) routes/handle-pop-state)
-  (poll-gitlab)
+  #_(poll-gitlab)
 
   (when (nil? (-> js/window (.-history) (.-state)))
     (.replaceState (.-history js/window)

@@ -1,21 +1,31 @@
 (ns huge-feedback.apis.gitlab
   (:require [huge-feedback.apis.http :as http]
             [clojure.string :as str]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [ajax.json]
+            [ajax.ring]))
 
 (s/def ::token string?)
 (s/def ::project-id int?)
 (s/def ::base-url string?)
 (s/def ::config (s/keys :req [::token ::project-id ::base-url]))
 
-(defn valid-config? [config]
-  ;TODO: use api to check we can actually make a request that requires auth
-  (s/valid? ::config config))
+(defn build-gitlab-request [uri method config handler & [params]]
+  (cond-> {:uri          (str (::base-url config) "/" uri "?private_token=" (::token config))
+           :method       method
+           :handler      handler
+           ::http/format ::http/json}
+          params (assoc :params params)))
 
-(s/fdef valid-config? :args (s/cat :config ::config))
+(s/fdef build-gitlab-request
+        :args (s/cat :uri string? :method ::http/method :config ::config :handler fn? :params coll?)
+        :ret ::http/req-map)
+
+(defn test-request [config handler]
+  (build-gitlab-request "todos" "GET" config handler))
 
 ;What is this nonsense?
-(def link-header-name #?(:clj "Link"
+(def link-header-name #?(:clj  "Link"
                          :cljs "link"))
 
 (defn get-next-link-header-value [resp]
@@ -30,23 +40,13 @@
 
 (defn paginate-until-we-find-at-least-one-master-build [resp]
   (let [does-not-contain-master-pipeline? (->> resp
-                                       :body
-                                       (map :ref)
-                                       (filter (partial = "master"))
-                                       (seq)
-                                       (nil?)
-                                       (not))]
+                                               :body
+                                               (map :ref)
+                                               (filter (partial = "master"))
+                                               (seq)
+                                               (nil?))]
     (when does-not-contain-master-pipeline?
       (get-next-link-header-value resp))))
-
-(defn masters [pipelines-by-ids]
-  (->> pipelines-by-ids
-       (vals)
-       (filter (comp (partial = "master") :ref))
-       (sort-by :id)))
-
-(defn latest-master [pipelines-by-ids]
-  (last (masters pipelines-by-ids)))
 
 (defn pipelines->by-id [pipelines]
   (->> pipelines
@@ -59,33 +59,19 @@
                          (map-indexed (fn [idx val] [val idx]))
                          (into {})))
 
-(defn get-projects [base-url handler]
-  (http/get (str base-url "/projects") handler))
+(defn get-pipelines-including-at-least-one-master-build [{:keys [::project-id] :as config} handler]
+  (http/with-paginator-handler (build-gitlab-request (str "projects/" project-id "/pipelines")
+                                                     "GET"
+                                                     config
+                                                     (fn [[ok? {:keys [body]}]] (when ok? (handler body))))
+                               paginate-until-we-find-at-least-one-master-build))
 
-(defn get-project [base-url id handler]
-  (http/get (str base-url "/projects/" id) handler))
-
-(defn get-pipelines [base-url project-id token handler]
-  (http/get (str base-url "/projects/" project-id "/pipelines?private_token=" token) handler))
-
-(defn get-pipelines-including-at-least-one-master-build [base-url project-id token handler]
-  (http/paginated-get (str base-url "/projects/" project-id "/pipelines?private_token=" token)
-                      paginate-until-we-find-at-least-one-master-build
-                      handler))
-
-(defn get-pipeline [base-url project-id pipeline-id token handler]
-  (http/get (str base-url "/projects/" project-id "/pipelines/" pipeline-id "?private_token=" token) handler))
-
-(defn get-jobs [base-url project-id token handler]
-  (http/get (str base-url "/projects/" project-id "/jobs?private_token=" token) handler))
-
-(defn get-jobs-for-pipeline [base-url project-id pipeline-id token handler]
-  (http/paginated-get (str base-url "/projects/" project-id "/pipelines/" pipeline-id "/jobs?private_token=" token)
-                      get-next-link-header-value
-                      handler))
-
-(defn get-user-projects [base-url user-id token handler]
-  (http/get (str base-url "/users/" user-id "/projects?private_token=" token) handler))
+(defn get-jobs-for-pipeline [pipeline-id {:keys [::project-id] :as config} handler]
+  (http/with-paginator-handler (build-gitlab-request (str "projects/" project-id "/pipelines/" pipeline-id "/jobs")
+                                                     "GET"
+                                                     config
+                                                     (fn [[ok? {:keys [body]}]] (when ok? (handler body))))
+                               get-next-link-header-value))
 
 (defn stage-ordering [jobs]
   (->> jobs

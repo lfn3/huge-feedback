@@ -33,5 +33,8 @@
   :start (nrepl/start-server :port 7888 :handler (nrepl/default-handler #'cider.piggieback/wrap-cljs-repl))
   :stop (nrepl/stop-server nrepl))
 
+(defn cljs-repl []
+  (figwheel.main.api/cljs-repl fig-build-id))
+
 (defn -main [& args]
   (mount/start))
