@@ -51,7 +51,7 @@
 (defmethod active-panel ::routes/index [_]
   (let [master @(rf/subscribe [:latest "master"])]
     [:div
-     [config/status]
+     [config/status true]
      (if master
        [:div
         [pipeline-html master]

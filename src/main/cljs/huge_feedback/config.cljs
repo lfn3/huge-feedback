@@ -37,20 +37,11 @@
                                (on-save input)
                                (swap! state assoc :valid? false)))}]])))
 
-(defn panel []
-  [:div
-   [text-editor (str @(rf/subscribe [:config]))
-    #(rf/dispatch [:config (edn/read-string %1)])
-    #(try (let [{:keys [::gitlab/config]} (edn/read-string %1)]
-            (validate-then-set-config config))
-          (catch js/Error e
-            false))]])
-
 (rf/reg-sub :config-state
   (fn [{:keys [::config-state ::config-message]}]
     [config-state config-message]))
 
-(defn status []
+(defn status [& [link?]]
   (fn []
     (let [[state message] @(rf/subscribe [:config-state])]
       [:div.config-status
@@ -61,7 +52,20 @@
                     [:pre message]]
          ::validating [:div [:p "Validating configuration..."]]
          ::valid [:div [:p "Config ok"]])
-       (routes/link-for "Edit config" :config)])))
+       (when link?
+         (routes/link-for "Edit config" :config))])))
+
+(defn panel []
+  [:div
+   [status]
+   [text-editor (str @(rf/subscribe [:config]))
+    #(rf/dispatch [:config (edn/read-string %1)])
+    #(try (let [config (edn/read-string %1)]
+            (validate-then-set-config config))
+          (catch js/Error e
+            (rf/dispatch [:invalid-config (.-message e)])
+            false))]])
+
 
 (rf/reg-event-db :validating-config
   (fn [db [_ config]] (-> db
