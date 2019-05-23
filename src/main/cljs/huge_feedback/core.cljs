@@ -15,17 +15,23 @@
   (when (and ok? (= 200 (:status resp)))
     (:body resp)))
 
+(defn reset-fx []
+  (let [active-panel (routes/parse-url (-> js/window (.-location) (.-pathname)))]
+    {:db           {:active-panel active-panel
+                    ::config/config-state ::config/requesting}
+     ;TODO: pull in a saved config from localstorage?
+     :ajax-request (huge-feedback.apis.huge-feedback/get-config #(-> %1
+                                                                     (parse-serverside-config-response)
+                                                                     (config/validate-then-set-config)))}))
+
 (rf/reg-event-fx :initialize
   (fn [{:keys [db]} _]
     (if (empty? db)
-      (let [active-panel (routes/parse-url (-> js/window (.-location) (.-pathname)))]
-        {:db           {:active-panel active-panel
-                        ::config/config-state ::config/requesting}
-         ;TODO: pull in a saved config from localstorage?
-         :ajax-request (huge-feedback.apis.huge-feedback/get-config #(-> %1
-                                                                         (parse-serverside-config-response)
-                                                                         (config/validate-then-set-config)))})
+      (reset-fx)
       {})))
+
+(rf/reg-event-fx :reset
+  (fn [_ _] (reset-fx)))
 
 ;TODO: add count of jobs pending/running/passed/failed?
 (defn pipeline-stage-html [[stage-name {:keys [status]}]]
@@ -160,17 +166,25 @@
                                                                                         (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))])))
        (dorun)))
 
+(defn with-proxy [config req-map]
+  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
+
+(defn get-pipelines [config]
+  (http/execute
+    (with-proxy config
+                (gitlab/get-pipelines-including-at-least-one-master-build
+                  (::gitlab/config config)
+                  (fn [resp]
+                    (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
+                    (poll-jobs (::gitlab/config config) resp))))))
+
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
 ;TODO: since this is getting rate limited.
 (defn poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
   (when (= ::config/valid (first @(rf/subscribe [:config-state])))
-    (let [config @(rf/subscribe [:gitlab-config])]
-      (http/execute (gitlab/get-pipelines-including-at-least-one-master-build config (fn [resp]
-                                                                                       (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
-                                                                                       (poll-jobs config resp))))))
-
+    (get-pipelines @(rf/subscribe [:config])))
   (rf/dispatch [:next-poll-id (js/setTimeout poll-gitlab refresh-interval-ms)]))
 
 (defn main []
