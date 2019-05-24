@@ -1,24 +1,26 @@
 (ns huge-feedback.handlers
   (:require [ring.util.response :as resp]
             [huge-feedback.apis.gitlab]
-            [huge-feedback.apis.http :as http]))
+            [huge-feedback.apis.http :as http]
+            [clojure.tools.reader.edn :as edn]
+            [ring.util.response]
+            [clojure.java.io :as io])
+  (:import (java.io PushbackReader)))
 
 (defn index [_]
   (resp/resource-response "index.html" {:root "public"}))
 
-(def destination->req-builder-fn {:gitlab huge-feedback.apis.gitlab/build-gitlab-request})
-
-(defn launch-req [req-map handler]
-  (-> req-map
-      (assoc :handler handler)
-      (http/execute)))
-
-(defn proxy-request [{:keys [destination] :as req-map}]
+(defn proxy-request [{:keys [body]}]
   (let [p (promise)
-        handler (fn [resp] (deliver p resp))
-        req-map ((destination->req-builder-fn destination) req-map)]
-    (launch-req req-map handler)
-    @p))
+        handler (fn [resp]
+                  (prn "Got response " resp)
+                  (deliver p resp))
+        body (edn/read (PushbackReader. (io/reader body)))]
+    (prn "Proxying request " body)
+    (http/execute (-> body
+                      (assoc ::http/proxy? false)
+                      (assoc :handler handler)))
+    (ring.util.response/response (str @p))))
 
 (defn resources [request]
   (let [target (:uri request)]

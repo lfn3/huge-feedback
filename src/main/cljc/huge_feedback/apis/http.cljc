@@ -26,9 +26,12 @@
 (defn should-proxy? [req-map] (::proxy? req-map))
 
 (defn req-map->proxy-req-map [req-map]
-  (let [{:keys [::format :handler]} req-map]
-    (merge req-map {::format ::proxy
-                    :handler (fn [])})))
+  (-> {:body    (dissoc req-map :handler)
+       :method  "POST"
+       :uri     "/proxy"
+       ::format ::proxy
+       :handler (fn [resp] (prn resp))}
+      (hydrate-req)))
 
 (s/def ::format (keys formats))
 (s/def ::proxy? boolean?)
