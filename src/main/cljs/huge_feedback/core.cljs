@@ -158,16 +158,17 @@
   (fn [db [_ config]]
     (assoc-in db [::config/config ::gitlab/config] config)))
 
+(defn with-proxy [config req-map]
+  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
+
 (defn poll-jobs [gitlab-config pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (rf/dispatch [:ajax-request (gitlab/get-jobs-for-pipeline pipeline-id
-                                                                                        gitlab-config
-                                                                                        (fn [resp] (rf/dispatch [:jobs pipeline-id resp])))])))
+       (map (fn [pipeline-id] (rf/dispatch [:ajax-request
+                                            (with-proxy gitlab-config (gitlab/get-jobs-for-pipeline pipeline-id
+                                                                           gitlab-config
+                                                                           (fn [resp] (rf/dispatch [:jobs pipeline-id resp]))))])))
        (dorun)))
-
-(defn with-proxy [config req-map]
-  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
 
 (defn get-pipelines [config]
   (http/execute

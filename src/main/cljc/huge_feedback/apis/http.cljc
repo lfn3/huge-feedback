@@ -30,7 +30,7 @@
        :method  "POST"
        :uri     "/proxy"
        ::format ::proxy
-       :handler (fn [resp] (prn resp))}
+       :handler (fn [resp] ((:handler req-map) resp))}
       (hydrate-req)))
 
 (s/def ::format (keys formats))
