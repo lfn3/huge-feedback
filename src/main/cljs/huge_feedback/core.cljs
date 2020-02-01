@@ -161,32 +161,38 @@
 (defn with-proxy [config req-map]
   (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
 
+(defn dispatch-req [gitlab-config req]
+  (rf/dispatch [:ajax-request (with-proxy gitlab-config req)]))
+
 (defn poll-jobs [gitlab-config pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (rf/dispatch [:ajax-request
-                                            (with-proxy gitlab-config (gitlab/get-jobs-for-pipeline pipeline-id
-                                                                           gitlab-config
-                                                                           (fn [resp] (rf/dispatch [:jobs pipeline-id resp]))))])))
+       (map (fn [pipeline-id] (dispatch-req gitlab-config
+                                            (gitlab/get-jobs-for-pipeline pipeline-id
+                                                                          gitlab-config
+                                                                          (fn [resp] (rf/dispatch [:jobs pipeline-id resp]))))))
        (dorun)))
 
 (defn get-pipelines [config]
-  (http/execute
-    (with-proxy config
+  (dispatch-req config
                 (gitlab/get-pipelines-including-at-least-one-master-build
                   (::gitlab/config config)
-                  (fn [resp]
-                    (rf/dispatch [:pipelines (gitlab/pipelines->by-id resp)])
-                    (poll-jobs (::gitlab/config config) resp))))))
+                  (fn [[_ {:keys [body]}]]
+
+                    (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
+                    (poll-jobs (::gitlab/config config) body)))))
+
+(defn poll-gitlab-once []
+  (when (= ::config/valid (first @(rf/subscribe [:config-state])))
+    (get-pipelines @(rf/subscribe [:config]))))
 
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
 ;TODO: since this is getting rate limited.
-(defn poll-gitlab []
+(defn continuously-poll-gitlab []
   (js/clearTimeout @(rf/subscribe [:next-poll-id]))
-  (when (= ::config/valid (first @(rf/subscribe [:config-state])))
-    (get-pipelines @(rf/subscribe [:config])))
-  (rf/dispatch [:next-poll-id (js/setTimeout poll-gitlab refresh-interval-ms)]))
+  (poll-gitlab-once)
+  (rf/dispatch [:next-poll-id (js/setTimeout continuously-poll-gitlab refresh-interval-ms)]))
 
 (defn main []
   (enable-console-print!)
@@ -196,7 +202,7 @@
   (rg/render [app] (js/document.getElementById "app"))
 
   (set! (.-onpopstate js/window) routes/handle-pop-state)
-  #_(poll-gitlab)
+  #_(continuously-poll-gitlab)
 
   (when (nil? (-> js/window (.-history) (.-state)))
     (.replaceState (.-history js/window)
