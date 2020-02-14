@@ -120,6 +120,24 @@
 (rf/reg-sub :active-panel
   #(get %1 :active-panel))
 
+(defn get-all-stage-names [db]
+  (->> db
+       :jobs
+       (vals)
+       (mapcat vals)
+       (map :stage)
+       (distinct)
+       (into #{})))
+
+(rf/reg-sub :all-stage-names get-all-stage-names)
+
+(defn get-job-names-by-stage [db]
+  (->> db
+       :jobs
+       (vals)
+       (mapcat vals))
+  )
+
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
     (-> db
