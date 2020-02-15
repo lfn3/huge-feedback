@@ -9,6 +9,7 @@
             [clojure.tools.reader.edn :as edn]
             [huge-feedback.config :as config]
             [huge-feedback.pipelines :as pipelines]
+            [huge-feedback.jobs :as jobs]
             [huge-feedback.apis.http :as http]))
 
 (defn parse-serverside-config-response [[ok? resp]]
@@ -36,39 +37,14 @@
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_] [pipelines/panel])
-
+(defmethod active-panel ::routes/jobs [_] [jobs/panel])
 (defmethod active-panel :config [_] [config/panel])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
    (util/display-html-debug args)])
 
-(rf/reg-sub :stage-state-for-pipeline
-  (fn [{:keys [jobs]} [_ pipeline-id]]
-    (let [jobs (-> jobs
-                   (get pipeline-id)
-                   (vals))
-          stage-order (->> (gitlab/stage-ordering jobs)
-                           (map-indexed (fn [idx val] [val idx]))
-                           (into {}))
-          key-fn (comp stage-order key)]
-      (sort-by key-fn (gitlab/stage-state jobs)))))
-
-(rf/reg-sub :active-panel
-  #(get %1 :active-panel))
-
-(defn get-all-stage-names [{:keys [jobs] :as db}]
-  (->> jobs
-       (vals)
-       (mapcat vals)
-       (map :stage)
-       (distinct)
-       (into #{})))
-
-(rf/reg-sub :all-stage-names get-all-stage-names)
-
-(defn get-job-names-by-stage [{:keys [jobs] :as db}]
-  (->> jobs (vals) (mapcat vals)))
+(rf/reg-sub :active-panel #(get %1 :active-panel))
 
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
@@ -91,6 +67,7 @@
     (routes/link-for inner item)))
 
 (def panels [::routes/index
+             ::routes/jobs
              :config])
 
 (defn header [active-panel]

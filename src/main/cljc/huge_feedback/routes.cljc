@@ -7,9 +7,11 @@
 (def index-key ::index)
 
 (def clientside-routes ["/" {"" index-key
+                             "jobs" ::jobs
                              "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]
+                             ["jobs" index-key]
                              ["config" index-key]
                              ["proxy" :huge-feedback.handlers/proxy]
                              [true :huge-feedback.handlers/resources]]])

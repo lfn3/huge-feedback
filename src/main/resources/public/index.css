@@ -1,3 +1,5 @@
+/* Pipeline page */
+
 .pipeline {
 	display: flex;
 	flex-direction: row;
@@ -79,24 +81,28 @@
 	border-width: 0;
 }
 
-.pipeline-stage.success {
+.success {
 	background-color: green;
 }
 .pipeline-stage.success::after {
 	border-left-color: green;
 }
 
-.pipeline-stage.failed {
+.failed {
 	background-color: red;
 }
 .pipeline-stage.failed::after {
 	border-left-color: red;
 }
 
-.pipeline-stage.manual,
-.pipeline-stage.skipped,
-.pipeline-stage.canceled,
-.pipeline-stage.created {
+.not-created {
+    background-color: white;
+}
+
+.manual,
+.skipped,
+.canceled,
+.created {
 	background-color: gray;
 }
 .pipeline-stage.manual::after,
@@ -106,9 +112,28 @@
 	border-left-color: gray;
 }
 
-.pipeline-stage.running {
+.running {
 	background-color: lightskyblue;
 }
 .pipeline-stage.running::after {
 	border-left-color: lightskyblue;
+}
+
+/* Jobs table */
+
+.job-status {
+    width: 100%;
+}
+
+.job-status td {
+    min-width: 2px;
+    height: 5px;
+    border-width: 1px;
+}
+
+.job-status td a {
+    display: block;
+    height:100%;
+    width:100%;
+    font-size: 2px;
 }

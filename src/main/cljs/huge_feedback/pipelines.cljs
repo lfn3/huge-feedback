@@ -1,5 +1,6 @@
 (ns huge-feedback.pipelines
-  (:require [re-frame.core :as rf]))
+  (:require [re-frame.core :as rf]
+            [huge-feedback.apis.gitlab :as gitlab]))
 
 (rf/reg-sub :latest
   (fn [{:keys [pipelines]} [_ ref]]
@@ -28,6 +29,17 @@
                                  (vals)
                                  (map :ref)
                                  (distinct))))
+
+(rf/reg-sub :stage-state-for-pipeline
+  (fn [{:keys [jobs]} [_ pipeline-id]]
+    (let [jobs (-> jobs
+                   (get pipeline-id)
+                   (vals))
+          stage-order (->> (gitlab/stage-ordering jobs)
+                           (map-indexed (fn [idx val] [val idx]))
+                           (into {}))
+          key-fn (comp stage-order key)]
+      (sort-by key-fn (gitlab/stage-state jobs)))))
 
 ;TODO: add count of jobs pending/running/passed/failed?
 (defn pipeline-stage-html [[stage-name {:keys [status]}]]
