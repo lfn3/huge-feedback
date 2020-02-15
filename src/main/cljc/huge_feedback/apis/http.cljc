@@ -1,5 +1,4 @@
 (ns huge-feedback.apis.http
-  (:refer-clojure :exclude [get])
   (:require [ajax.core]
             [ajax.json]
             [ajax.edn]

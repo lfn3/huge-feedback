@@ -2,13 +2,13 @@
   (:require [huge-feedback.routes :as routes]
             [reagent.core :as rg]
             [re-frame.core :as rf]
-            [reagent.core :as r]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
             [huge-feedback.apis.http]
             [huge-feedback.apis.huge-feedback]
             [clojure.tools.reader.edn :as edn]
             [huge-feedback.config :as config]
+            [huge-feedback.pipelines :as pipelines]
             [huge-feedback.apis.http :as http]))
 
 (defn parse-serverside-config-response [[ok? resp]]
@@ -33,43 +33,12 @@
 (rf/reg-event-fx :reset
   (fn [_ _] (reset-fx)))
 
-;TODO: add count of jobs pending/running/passed/failed?
-(defn pipeline-stage-html [[stage-name {:keys [status]}]]
-  [:div {:class (str "pipeline-stage " status)} stage-name])
-
-(defn pipeline-html [pipeline]
-  [:div
-   [:a.block {:href (:web_url pipeline)}
-    [:div (str (:ref pipeline) \@ (:sha pipeline))]
-    [:div.pipeline
-     (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
-       (pipeline-stage-html stage-state))]]])
-
-(defn mini-pipeline-html [pipeline]
-  [:div
-   [:a.block {:href (:web_url pipeline)}
-    [:div.pipeline.mini
-     (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
-       (pipeline-stage-html stage-state))]]])
-
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_]
-  (let [master @(rf/subscribe [:latest "master"])]
-    [:div
-     [config/status true]
-     (if master
-       [:div
-        [pipeline-html master]
-        (for [pipeline @(rf/subscribe [:rest "master"])]
-          [mini-pipeline-html pipeline])
-        (for [ref (->> @(rf/subscribe [:refs])
-                       (filter (partial not= "master")))]
-          [:div
-           [pipeline-html @(rf/subscribe [:latest ref])]
-           (for [rest @(rf/subscribe [:rest ref])]
-             [mini-pipeline-html rest])])]
-       [:p "Fetching pipelines..."])]))
+  [:div
+   [config/status true]
+   [pipelines/panel]])
 
 (defmethod active-panel :config [_]
   [config/panel])
@@ -77,34 +46,6 @@
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
    (util/display-html-debug args)])
-
-(rf/reg-sub :latest
-  (fn [{:keys [pipelines]} [_ ref]]
-    (->> pipelines
-         (vals)
-         (filter (comp (partial = ref) :ref))
-         (sort-by :id)
-         (last))))
-
-(rf/reg-sub :rest
-  (fn [{:keys [pipelines]} [_ ref]]
-    (->> pipelines
-         (vals)
-         (filter (comp (partial = ref) :ref))
-         (sort-by :id)
-         (reverse)
-         (rest))))
-
-(rf/reg-sub :non-master
-  (fn [{:keys [pipelines]}] (->> pipelines
-                                 (vals)
-                                 (filter (comp (partial not= "master") :ref)))))
-
-(rf/reg-sub :refs
-  (fn [{:keys [pipelines]}] (->> pipelines
-                                 (vals)
-                                 (map :ref)
-                                 (distinct))))
 
 (rf/reg-sub :stage-state-for-pipeline
   (fn [{:keys [jobs]} [_ pipeline-id]]
@@ -120,9 +61,8 @@
 (rf/reg-sub :active-panel
   #(get %1 :active-panel))
 
-(defn get-all-stage-names [db]
-  (->> db
-       :jobs
+(defn get-all-stage-names [{:keys [jobs] :as db}]
+  (->> jobs
        (vals)
        (mapcat vals)
        (map :stage)
@@ -131,12 +71,8 @@
 
 (rf/reg-sub :all-stage-names get-all-stage-names)
 
-(defn get-job-names-by-stage [db]
-  (->> db
-       :jobs
-       (vals)
-       (mapcat vals))
-  )
+(defn get-job-names-by-stage [{:keys [jobs] :as db}]
+  (->> jobs (vals) (mapcat vals)))
 
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
@@ -156,9 +92,6 @@
   (active-panel @(rf/subscribe [:active-panel])))
 
 (def refresh-interval-ms 60000)
-
-(rf/reg-sub :pipelines
-  (fn [{:keys [pipelines]}] (vals pipelines)))
 
 (rf/reg-event-db :next-poll-id
   (fn [db [_ id]] (assoc db :next-poll-id id)))
@@ -196,7 +129,6 @@
                 (gitlab/get-pipelines-including-at-least-one-master-build
                   (::gitlab/config config)
                   (fn [[_ {:keys [body]}]]
-
                     (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
                     (poll-jobs (::gitlab/config config) body)))))
 
