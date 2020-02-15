@@ -59,11 +59,14 @@
                          (map-indexed (fn [idx val] [val idx]))
                          (into {})))
 
-(defn get-pipelines-including-at-least-one-master-build [{:keys [::project-id] :as config} handler]
-  (http/with-paginator-handler (build-gitlab-request (str "projects/" project-id "/pipelines")
-                                                     "GET"
-                                                     config
-                                                     (fn [[ok? {:keys [body]}]] (when ok? (handler body))))
+(defn get-pipelines-for-project [{:keys [::project-id] :as config} handler]
+  (build-gitlab-request (str "projects/" project-id "/pipelines")
+                        "GET"
+                        config
+                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
+(defn get-pipelines-including-at-least-one-master-build [config handler]
+  (http/with-paginator-handler (get-pipelines-for-project config handler)
                                paginate-until-we-find-at-least-one-master-build))
 
 (defn get-jobs-for-pipeline [pipeline-id {:keys [::project-id] :as config} handler]
@@ -101,3 +104,21 @@
                                 (only-latest-runs)
                                 (reduce-jobs-status))]))
        (into {})))
+
+(defn get-merge-requests [{:keys [::project-id] :as config} handler]
+  (build-gitlab-request (str "projects/" project-id "/merge_requests")
+                        "GET"
+                        config
+                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
+(defn get-mr-pipelines [mr-id {:keys [::project-id] :as config} handler]
+  (build-gitlab-request (str "projects/" project-id "/merge_requests/" mr-id "/pipelines")
+                        "GET"
+                        config
+                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
+(defn get-jobs [{:keys [::project-id] :as config} handler]
+  (build-gitlab-request (str "projects/" project-id "/jobs/")
+                        "GET"
+                        config
+                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))

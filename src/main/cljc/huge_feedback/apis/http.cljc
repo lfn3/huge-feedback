@@ -70,6 +70,14 @@
        ~(concat (last body) handler)
        (deref ~psym))))
 
+(defn execute-sync [req-map]
+  (let [handler (or (:handler req-map) identity)
+        p (promise)
+        sync-handler #(deliver p %1)
+        sync-req-map (assoc req-map :handler sync-handler)]
+    (execute sync-req-map)
+    (handler @p)))
+
 #?(:cljs (do
            (rf/reg-event-fx :ajax-request
              (fn [cofx [_ req-map]]
