@@ -35,13 +35,9 @@
 
 (defmulti active-panel :handler)
 
-(defmethod active-panel ::routes/index [_]
-  [:div
-   [config/status true]
-   [pipelines/panel]])
+(defmethod active-panel ::routes/index [_] [pipelines/panel])
 
-(defmethod active-panel :config [_]
-  [config/panel])
+(defmethod active-panel :config [_] [config/panel])
 
 (defmethod active-panel :default [& args]
   [:div [:h3 "Couldn't find handler for "]
@@ -88,8 +84,26 @@
                                                  (map (juxt :id identity))
                                                  (into {})))))
 
+(defn menu-item [item active-panel]
+  (let [inner (if (= item active-panel)
+                [:li.active (name item)]
+                [:li item])]
+    (routes/link-for inner item)))
+
+(def panels [::routes/index
+             :config])
+
+(defn header [active-panel]
+  [:header
+   [:ul (for [p panels]
+          (menu-item p active-panel))]
+   [config/status]])
+
 (defn app []
-  (active-panel @(rf/subscribe [:active-panel])))
+  (let [p @(rf/subscribe [:active-panel])]
+    [:div
+     [header p]
+     [active-panel p]]))
 
 (def refresh-interval-ms 60000)
 
