@@ -72,8 +72,9 @@
 
 (defn header [active-panel]
   [:header
-   [:ul (for [p panels]
-          (menu-item p active-panel))]
+   [:ul
+    (for [p panels]
+      ^{:key (name p)} [menu-item p active-panel])]
    [config/status]])
 
 (defn app []

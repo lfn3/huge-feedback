@@ -21,19 +21,16 @@
                                                           (map :name)
                                                           (into (sorted-set)))]))
                                 (into {}))]
-    (prn stage-ordering)
    (->> stage-ordering
         (map (fn [s] [s (get job-names-by-stage s)])))))
 
 (rf/reg-sub :job-table-header job-table-header)
 
-(defn get-job-names-by-stage [{:keys [jobs] :as db}] (->> jobs (vals) (mapcat vals)))
-
-(defn header []
+(defn header [job-table-header]
   [:thead
    [:tr
-    (for [[sn job-names] @(rf/subscribe [:job-table-header])]
-      [:th {:col-span (count job-names)} sn])]])
+    (for [[sn job-names] job-table-header]
+      ^{:key sn} [:th {:col-span (count job-names)} sn])]])
 
 (defn map-by [key-fn coll]
   (->> coll (map (fn [x] [(key-fn x) x])) (into {})))
@@ -53,19 +50,20 @@
 
 (defn row [table-header jobs]
   [:tr
-   (for [job (add-missing-jobs table-header (vals jobs))]
-     [cell job])])
+   (for [job (->> jobs (vals) (add-missing-jobs table-header))]
+     ^{:key (:name job)} [cell job])])
 
 (rf/reg-sub :all-jobs-by-pipeline :jobs)
 
 
-(defn body []
+(defn body [job-table-header]
   [:tbody
-   (for [[_ jobs] @(rf/subscribe [:all-jobs-by-pipeline])]
-       [row @(rf/subscribe [:job-table-header]) jobs])])
+   (for [[pipeline-id jobs] @(rf/subscribe [:all-jobs-by-pipeline])]
+       ^{:key pipeline-id} [row job-table-header jobs])])
 
 (defn panel []
-  [:div
-   [:table.job-status
-    [header]
-    [body]]])
+  (let [jth @(rf/subscribe [:job-table-header])]
+    [:div
+     [:table.job-status
+      [header jth]
+      [body jth]]]))
