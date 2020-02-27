@@ -55,7 +55,6 @@
 
 (rf/reg-sub :all-jobs-by-pipeline :jobs)
 
-
 (defn body [job-table-header]
   [:tbody
    (for [[pipeline-id jobs] @(rf/subscribe [:all-jobs-by-pipeline])]

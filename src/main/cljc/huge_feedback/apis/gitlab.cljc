@@ -105,6 +105,12 @@
                                 (reduce-jobs-status))]))
        (into {})))
 
+(defn get-merge-request [mr-iid {:keys [::project-id] :as config} handler]
+  (build-gitlab-request (str "projects/" project-id "/merge_requests/" mr-iid)
+                        "GET"
+                        config
+                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
 (defn get-merge-requests [{:keys [::project-id] :as config} handler]
   (build-gitlab-request (str "projects/" project-id "/merge_requests")
                         "GET"

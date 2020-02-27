@@ -1,0 +1,2431 @@
+[{:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress true,
+  :description
+  "## What does this MR do?\n\n<!--\n\nDescribe in detail what your merge request does and why.\n\nAre there any risks involved with the proposed change? What additional\ntest coverage is introduced to offset the risk?\n\nPlease keep this description up-to-date with any discussion that takes\nplace so that reviewers can understand your intent. This is especially\nimportant if they didn't participate in the discussion.\n\n-->\n\n## Screenshots\n\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\n\n## Does this MR meet the acceptance criteria?\n\n### Conformity\n\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\n\n### Availability and Testing\n\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\nWhat additional test coverage or changes to tests will be needed?\nWill it require cross-browser testing?\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\n\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\n\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\n\n### Security\n\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\n\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \n\n\nCloses #207976",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Category:Snippets"
+   "P2"
+   "S4"
+   "backend"
+   "bug"
+   "devops::create"
+   "group::editor"
+   "performance"
+   "workflow::In dev"],
+  :assignees
+  [{:id 5249152,
+    :name "Vijay Hawoldar",
+    :username "vhawoldar",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/14567a8b4af4374011c43778878de399?s=80&d=identicon",
+    :web_url "https://gitlab.com/vhawoldar"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121477443,
+   :sha "be9dcde27f19203846740eb4ff6effab202094d2",
+   :ref "refs/merge-requests/25985/head",
+   :status "failed",
+   :created_at "2020-02-27T09:20:37.990Z",
+   :updated_at "2020-02-27T09:35:40.659Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121477443"},
+  :user_notes_count 1,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25985,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25985/head",
+   :finished_at "2020-02-27T09:35:40.621Z",
+   :started_at "2020-02-27T09:20:48.276Z",
+   :coverage nil,
+   :duration 891,
+   :updated_at "2020-02-27T09:35:40.659Z",
+   :status "failed",
+   :id 121477443,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121477443",
+   :before_sha "0000000000000000000000000000000000000000",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 5249152,
+    :name "Vijay Hawoldar",
+    :username "vhawoldar",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/14567a8b4af4374011c43778878de399?s=80&d=identicon",
+    :web_url "https://gitlab.com/vhawoldar"},
+   :sha "be9dcde27f19203846740eb4ff6effab202094d2",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121477443",
+    :group "failed",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_failed-41304d7f7e3828808b0c26771f0309e55296819a9beea3ea9fbf6689d9857c12.png",
+    :icon "status_failed",
+    :illustration nil,
+    :label "failed",
+    :tooltip "failed",
+    :text "failed"},
+   :created_at "2020-02-27T09:20:37.990Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25985",
+   :relative "!25985",
+   :full "gitlab-org/gitlab!25985"},
+  :merge_error nil,
+  :squash false,
+  :title
+  "WIP: Resolve \"Stop markdown caching of non-markdown Snippet content\"",
+  :author
+  {:id 5249152,
+   :name "Vijay Hawoldar",
+   :username "vhawoldar",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/14567a8b4af4374011c43778878de399?s=80&d=identicon",
+   :web_url "https://gitlab.com/vhawoldar"},
+  :updated_at "2020-02-27T09:33:49.006Z",
+  :source_project_id 278964,
+  :reference "!25985",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "4",
+  :blocking_discussions_resolved true,
+  :source_branch
+  "207976-stop-markdown-caching-of-non-markdown-snippet-content",
+  :closed_by nil,
+  :id 50916517,
+  :diff_refs
+  {:base_sha "22d85fbc99e634e865992835313a566f544adb01",
+   :head_sha "be9dcde27f19203846740eb4ff6effab202094d2",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25985",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:20:48.276Z",
+  :user {:can_merge false},
+  :sha "be9dcde27f19203846740eb4ff6effab202094d2",
+  :assignee
+  {:id 5249152,
+   :name "Vijay Hawoldar",
+   :username "vhawoldar",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/14567a8b4af4374011c43778878de399?s=80&d=identicon",
+   :web_url "https://gitlab.com/vhawoldar"},
+  :created_at "2020-02-26T11:35:08.685Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\n\nAdds the possibility to query epics by partial iids.\n\n<!--\n\nDescribe in detail what your merge request does and why.\n\nAre there any risks involved with the proposed change? What additional\ntest coverage is introduced to offset the risk?\n\nPlease keep this description up-to-date with any discussion that takes\nplace so that reviewers can understand your intent. This is especially\nimportant if they didn't participate in the discussion.\n\n-->\n\n## Screenshots\n\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\n\n## Does this MR meet the acceptance criteria?\n\n### Conformity\n\n- [x] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\n\n### Availability and Testing\n\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\nWhat additional test coverage or changes to tests will be needed?\nWill it require cross-browser testing?\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\n\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\n\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\n\n### Security\n\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\n\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \n\n\n#118797",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["GraphQL"
+   "P2"
+   "S2"
+   "backend"
+   "bug"
+   "database"
+   "database::reviewed"
+   "devops::plan"
+   "group::project management"
+   "workflow::In review"],
+  :assignees
+  [{:id 1562869,
+    :name "Andreas Brandl",
+    :username "abrandl",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/1695cc5a71bceb20e318d46114abef48?s=80&d=identicon",
+    :web_url "https://gitlab.com/abrandl"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121475572,
+   :sha "eb5dada2fd4fa41b6a93c7d2b1a2cc156fe40f53",
+   :ref "refs/merge-requests/24673/merge",
+   :status "running",
+   :created_at "2020-02-27T09:15:07.427Z",
+   :updated_at "2020-02-27T09:15:16.837Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121475572"},
+  :user_notes_count 61,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 1},
+  :iid 24673,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/24673/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:15:16.836Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:15:16.837Z",
+   :status "running",
+   :id 121475572,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121475572",
+   :before_sha "eb5dada2fd4fa41b6a93c7d2b1a2cc156fe40f53",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3078895,
+    :name "Patrick Derichs",
+    :username "pderichs",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+    :web_url "https://gitlab.com/pderichs"},
+   :sha "eb5dada2fd4fa41b6a93c7d2b1a2cc156fe40f53",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121475572",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:15:07.427Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!24673",
+   :relative "!24673",
+   :full "gitlab-org/gitlab!24673"},
+  :merge_error nil,
+  :squash false,
+  :title "Add possibility to search for partial iids on EpicResolver",
+  :author
+  {:id 3078895,
+   :name "Patrick Derichs",
+   :username "pderichs",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+   :web_url "https://gitlab.com/pderichs"},
+  :updated_at "2020-02-27T09:20:20.547Z",
+  :source_project_id 278964,
+  :reference "!24673",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "11",
+  :blocking_discussions_resolved false,
+  :source_branch "118797-epics-by-iid-graphql-pd",
+  :closed_by nil,
+  :id 49294023,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "2b5e3b6372d5f6e8beb946d8e0e3352059e79e38",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24673",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:15:16.836Z",
+  :user {:can_merge false},
+  :sha "2b5e3b6372d5f6e8beb946d8e0e3352059e79e38",
+  :assignee
+  {:id 1562869,
+   :name "Andreas Brandl",
+   :username "abrandl",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/1695cc5a71bceb20e318d46114abef48?s=80&d=identicon",
+   :web_url "https://gitlab.com/abrandl"},
+  :created_at "2020-02-07T13:13:32.283Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nCreates a base class for `ResourceEvents` and removes the previously added `ResourceEventTools` (see: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24780#note_290950250).\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\n## Screenshots\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #38096",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Enterprise Edition"
+   "GitLab Starter"
+   "UX ready [DEPRECATED]"
+   "backend"
+   "backstage"
+   "burndown/up charts"
+   "devops::plan"
+   "direction"
+   "documentation"
+   "feature"
+   "group::project management"
+   "issues"
+   "missed:12.7"
+   "planning priority"
+   "technical debt"
+   "workflow::In review"],
+  :assignees
+  [{:id 3163848,
+    :name "Sarah Yasonik",
+    :username "syasonik",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+    :web_url "https://gitlab.com/syasonik"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121481011,
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :ref "refs/merge-requests/25791/merge",
+   :status "running",
+   :created_at "2020-02-27T09:32:07.702Z",
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011"},
+  :user_notes_count 14,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25791,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25791/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:32:17.427Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :status "running",
+   :id 121481011,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011",
+   :before_sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3078895,
+    :name "Patrick Derichs",
+    :username "pderichs",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+    :web_url "https://gitlab.com/pderichs"},
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121481011",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:32:07.702Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25791",
+   :relative "!25791",
+   :full "gitlab-org/gitlab!25791"},
+  :merge_error nil,
+  :squash false,
+  :title "Create base class for resource events",
+  :author
+  {:id 3078895,
+   :name "Patrick Derichs",
+   :username "pderichs",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+   :web_url "https://gitlab.com/pderichs"},
+  :updated_at "2020-02-27T09:31:33.503Z",
+  :source_project_id 278964,
+  :reference "!25791",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "7",
+  :blocking_discussions_resolved false,
+  :source_branch "38096-extract-resource-events-base-class-pd",
+  :closed_by nil,
+  :id 50686161,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25791",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:32:17.427Z",
+  :user {:can_merge false},
+  :sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+  :assignee
+  {:id 3163848,
+   :name "Sarah Yasonik",
+   :username "syasonik",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+   :web_url "https://gitlab.com/syasonik"},
+  :created_at "2020-02-24T08:44:22.526Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nThis allow to logged in users when using SAML groups SSO `/groups/:group_name/-/saml/sso`, if their SAML data matches with one of its verified emails to convert/transfer its account to managed groups\r\n\r\n*Adds the feature flag `convert_user_to_group_managed_accounts`.*\r\n\r\n## Screenshots\r\n\r\n![Screenshot_2020-02-05_at_15.47.15](/uploads/0719433df08623cba96bc191d3d96a69/Screenshot_2020-02-05_at_15.47.15.png)\r\n\r\n![Screenshot_2020-02-14_at_15.50.56](/uploads/5ab776480c354e7b3011f31aef3f2c4e/Screenshot_2020-02-14_at_15.50.56.png)\r\n\r\n![Screenshot_2020-02-14_at_15.51.36](/uploads/9f7444e0862afbd0e69736d59b2cd1b4/Screenshot_2020-02-14_at_15.51.36.png)\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [x] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [x] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [x] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nRelated #13481",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["P2"
+   "authentication"
+   "backend"
+   "devops::manage"
+   "direction"
+   "estimation::needed"
+   "group::access"
+   "missed:12.3"
+   "saml"
+   "security"],
+  :assignees
+  [{:id 444,
+    :name "Dmytro Zaporozhets",
+    :username "dzaporozhets",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/444/avatar.png",
+    :web_url "https://gitlab.com/dzaporozhets"}
+   {:id 4056133,
+    :name "Jeremy Matos",
+    :username "jeremymatos",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/7c972d878793ca2302186e5d8c0c0dd8?s=80&d=identicon",
+    :web_url "https://gitlab.com/jeremymatos"}
+   {:id 4412196,
+    :name "Sebastián Arcila Valenzuela",
+    :username "sarcila",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/45d1bb76ddcc06a228925028f647f8bc?s=80&d=identicon",
+    :web_url "https://gitlab.com/sarcila"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121469656,
+   :sha "ec5c04ede387b85f14f3ca0c9648d0e04e1b2023",
+   :ref "refs/merge-requests/24329/merge",
+   :status "running",
+   :created_at "2020-02-27T09:03:37.589Z",
+   :updated_at "2020-02-27T09:06:09.936Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121469656"},
+  :user_notes_count 88,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 12, :completed_count 3},
+  :iid 24329,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/24329/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:06:09.933Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:06:09.936Z",
+   :status "running",
+   :id 121469656,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121469656",
+   :before_sha "ec5c04ede387b85f14f3ca0c9648d0e04e1b2023",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 4412196,
+    :name "Sebastián Arcila Valenzuela",
+    :username "sarcila",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/45d1bb76ddcc06a228925028f647f8bc?s=80&d=identicon",
+    :web_url "https://gitlab.com/sarcila"},
+   :sha "ec5c04ede387b85f14f3ca0c9648d0e04e1b2023",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121469656",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:03:37.589Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!24329",
+   :relative "!24329",
+   :full "gitlab-org/gitlab!24329"},
+  :merge_error nil,
+  :squash true,
+  :title "Allow to convert users to Group Managed Accounts",
+  :author
+  {:id 4412196,
+   :name "Sebastián Arcila Valenzuela",
+   :username "sarcila",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/45d1bb76ddcc06a228925028f647f8bc?s=80&d=identicon",
+   :web_url "https://gitlab.com/sarcila"},
+  :updated_at "2020-02-27T09:11:18.638Z",
+  :source_project_id 278964,
+  :reference "!24329",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "16",
+  :blocking_discussions_resolved false,
+  :source_branch "13481-map-users-to-group-managed-accounts",
+  :closed_by nil,
+  :id 48922090,
+  :diff_refs
+  {:base_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38",
+   :head_sha "e16c37a32028cd4ee7b9bea0409d2b8e3f90bf32",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24329",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:06:09.933Z",
+  :user {:can_merge false},
+  :sha "e16c37a32028cd4ee7b9bea0409d2b8e3f90bf32",
+  :assignee
+  {:id 444,
+   :name "Dmytro Zaporozhets",
+   :username "dzaporozhets",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/444/avatar.png",
+   :web_url "https://gitlab.com/dzaporozhets"},
+  :created_at "2020-02-04T00:22:12.943Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\n\nWith [recent changes](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24698) to forking behavior\nAPI was prohibited to fork to the same namespace as project namespace even if user provides alternative name and path. \nThis MR fixes the problem and makes project namespace a valid fork target.\n\n<!--\n\nDescribe in detail what your merge request does and why.\n\nAre there any risks involved with the proposed change? What additional\ntest coverage is introduced to offset the risk?\n\nPlease keep this description up-to-date with any discussion that takes\nplace so that reviewers can understand your intent. This is especially\nimportant if they didn't participate in the discussion.\n\n-->\n\n## Does this MR meet the acceptance criteria?\n\n### Conformity\n\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\n\n### Availability and Testing\n\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\nWhat additional test coverage or changes to tests will be needed?\nWill it require cross-browser testing?\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\n\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\n\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\n\n### Security\n\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\n\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \n\n\nCloses #208167",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Category:Authentication and Authorization"
+   "S2"
+   "backend"
+   "bug"
+   "database"
+   "database::review pending"
+   "devops::manage"
+   "group::access"
+   "regression"
+   "regression:12.8"],
+  :assignees
+  [{:id 2982208,
+    :name "Gosia Ksionek",
+    :username "mksionek",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/e21ab44381c4fba54dc05c5676eb1c8a?s=80&d=identicon",
+    :web_url "https://gitlab.com/mksionek"}
+   {:id 3482158,
+    :name "Pavel Shutsin",
+    :username "pshutsin",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+    :web_url "https://gitlab.com/pshutsin"}
+   {:id 4156052,
+    :name "Adam Hegyi",
+    :username "ahegyi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+    :web_url "https://gitlab.com/ahegyi"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121467008,
+   :sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :ref "refs/merge-requests/26062/merge",
+   :status "running",
+   :created_at "2020-02-27T08:54:35.375Z",
+   :updated_at "2020-02-27T08:54:47.411Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121467008"},
+  :user_notes_count 3,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 26062,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/26062/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T08:54:47.409Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T08:54:47.411Z",
+   :status "running",
+   :id 121467008,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121467008",
+   :before_sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3482158,
+    :name "Pavel Shutsin",
+    :username "pshutsin",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+    :web_url "https://gitlab.com/pshutsin"},
+   :sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121467008",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:54:35.375Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!26062",
+   :relative "!26062",
+   :full "gitlab-org/gitlab!26062"},
+  :merge_error nil,
+  :squash false,
+  :title "Allow to fork to the same namespace with different name",
+  :author
+  {:id 3482158,
+   :name "Pavel Shutsin",
+   :username "pshutsin",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+   :web_url "https://gitlab.com/pshutsin"},
+  :updated_at "2020-02-27T09:22:13.167Z",
+  :source_project_id 278964,
+  :reference "!26062",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "5",
+  :blocking_discussions_resolved true,
+  :source_branch
+  "208167-bigfix-unable-to-fork-project-to-the-same-namespace",
+  :closed_by nil,
+  :id 51006757,
+  :diff_refs
+  {:base_sha "eb36e9e1fdd1e48bce1dfe65b40d6cd5b6e42e1c",
+   :head_sha "23e4bb746ebcb36c49554e978ad3e706bd5efe6a",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/26062",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:54:47.409Z",
+  :user {:can_merge false},
+  :sha "23e4bb746ebcb36c49554e978ad3e706bd5efe6a",
+  :assignee
+  {:id 2982208,
+   :name "Gosia Ksionek",
+   :username "mksionek",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/e21ab44381c4fba54dc05c5676eb1c8a?s=80&d=identicon",
+   :web_url "https://gitlab.com/mksionek"},
+  :created_at "2020-02-27T08:51:29.345Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\n\nWith [recent changes](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24698) to forking behavior\nAPI was prohibited to fork to the same namespace as project namespace even if user provides alternative name and path. \nThis MR fixes the problem and makes project namespace a valid fork target.\n\n<!--\n\nDescribe in detail what your merge request does and why.\n\nAre there any risks involved with the proposed change? What additional\ntest coverage is introduced to offset the risk?\n\nPlease keep this description up-to-date with any discussion that takes\nplace so that reviewers can understand your intent. This is especially\nimportant if they didn't participate in the discussion.\n\n-->\n\n## Does this MR meet the acceptance criteria?\n\n### Conformity\n\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\n\n### Availability and Testing\n\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\nWhat additional test coverage or changes to tests will be needed?\nWill it require cross-browser testing?\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\n\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\n\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\n\n### Security\n\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\n\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \n\n\nCloses #208167",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Category:Authentication and Authorization"
+   "S2"
+   "backend"
+   "bug"
+   "database"
+   "database::review pending"
+   "devops::manage"
+   "group::access"
+   "regression"
+   "regression:12.8"],
+  :assignees
+  [{:id 2982208,
+    :name "Gosia Ksionek",
+    :username "mksionek",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/e21ab44381c4fba54dc05c5676eb1c8a?s=80&d=identicon",
+    :web_url "https://gitlab.com/mksionek"}
+   {:id 3482158,
+    :name "Pavel Shutsin",
+    :username "pshutsin",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+    :web_url "https://gitlab.com/pshutsin"}
+   {:id 4156052,
+    :name "Adam Hegyi",
+    :username "ahegyi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+    :web_url "https://gitlab.com/ahegyi"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121467008,
+   :sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :ref "refs/merge-requests/26062/merge",
+   :status "running",
+   :created_at "2020-02-27T08:54:35.375Z",
+   :updated_at "2020-02-27T08:54:47.411Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121467008"},
+  :user_notes_count 3,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 26062,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/26062/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T08:54:47.409Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T08:54:47.411Z",
+   :status "running",
+   :id 121467008,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121467008",
+   :before_sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3482158,
+    :name "Pavel Shutsin",
+    :username "pshutsin",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+    :web_url "https://gitlab.com/pshutsin"},
+   :sha "fca524ae1297c99dd9cd07e88ab7babd2b5d3382",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121467008",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:54:35.375Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!26062",
+   :relative "!26062",
+   :full "gitlab-org/gitlab!26062"},
+  :merge_error nil,
+  :squash false,
+  :title "Allow to fork to the same namespace with different name",
+  :author
+  {:id 3482158,
+   :name "Pavel Shutsin",
+   :username "pshutsin",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3482158/avatar.png",
+   :web_url "https://gitlab.com/pshutsin"},
+  :updated_at "2020-02-27T09:22:13.167Z",
+  :source_project_id 278964,
+  :reference "!26062",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "5",
+  :blocking_discussions_resolved true,
+  :source_branch
+  "208167-bigfix-unable-to-fork-project-to-the-same-namespace",
+  :closed_by nil,
+  :id 51006757,
+  :diff_refs
+  {:base_sha "eb36e9e1fdd1e48bce1dfe65b40d6cd5b6e42e1c",
+   :head_sha "23e4bb746ebcb36c49554e978ad3e706bd5efe6a",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/26062",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:54:47.409Z",
+  :user {:can_merge false},
+  :sha "23e4bb746ebcb36c49554e978ad3e706bd5efe6a",
+  :assignee
+  {:id 2982208,
+   :name "Gosia Ksionek",
+   :username "mksionek",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/e21ab44381c4fba54dc05c5676eb1c8a?s=80&d=identicon",
+   :web_url "https://gitlab.com/mksionek"},
+  :created_at "2020-02-27T08:51:29.345Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nCreates a base class for `ResourceEvents` and removes the previously added `ResourceEventTools` (see: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24780#note_290950250).\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\n## Screenshots\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #38096",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Enterprise Edition"
+   "GitLab Starter"
+   "UX ready [DEPRECATED]"
+   "backend"
+   "backstage"
+   "burndown/up charts"
+   "devops::plan"
+   "direction"
+   "documentation"
+   "feature"
+   "group::project management"
+   "issues"
+   "missed:12.7"
+   "planning priority"
+   "technical debt"
+   "workflow::In review"],
+  :assignees
+  [{:id 3163848,
+    :name "Sarah Yasonik",
+    :username "syasonik",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+    :web_url "https://gitlab.com/syasonik"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121481011,
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :ref "refs/merge-requests/25791/merge",
+   :status "running",
+   :created_at "2020-02-27T09:32:07.702Z",
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011"},
+  :user_notes_count 14,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25791,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25791/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:32:17.427Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :status "running",
+   :id 121481011,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011",
+   :before_sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3078895,
+    :name "Patrick Derichs",
+    :username "pderichs",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+    :web_url "https://gitlab.com/pderichs"},
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121481011",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:32:07.702Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25791",
+   :relative "!25791",
+   :full "gitlab-org/gitlab!25791"},
+  :merge_error nil,
+  :squash false,
+  :title "Create base class for resource events",
+  :author
+  {:id 3078895,
+   :name "Patrick Derichs",
+   :username "pderichs",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+   :web_url "https://gitlab.com/pderichs"},
+  :updated_at "2020-02-27T09:31:33.503Z",
+  :source_project_id 278964,
+  :reference "!25791",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "7",
+  :blocking_discussions_resolved false,
+  :source_branch "38096-extract-resource-events-base-class-pd",
+  :closed_by nil,
+  :id 50686161,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25791",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:32:17.427Z",
+  :user {:can_merge false},
+  :sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+  :assignee
+  {:id 3163848,
+   :name "Sarah Yasonik",
+   :username "syasonik",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+   :web_url "https://gitlab.com/syasonik"},
+  :created_at "2020-02-24T08:44:22.526Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\n\nRelated https://gitlab.com/gitlab-org/gitlab/issues/17066\n\n<!--\n\nDescribe in detail what your merge request does and why.\n\nAre there any risks involved with the proposed change? What additional\ntest coverage is introduced to offset the risk?\n\nPlease keep this description up-to-date with any discussion that takes\nplace so that reviewers can understand your intent. This is especially\nimportant if they didn't participate in the discussion.\n\n-->\n\n## Screenshots\n\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\n\n## Does this MR meet the acceptance criteria?\n\n### Conformity\n\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\n\n### Availability and Testing\n\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\nWhat additional test coverage or changes to tests will be needed?\nWill it require cross-browser testing?\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\n\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\n\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\n\n### Security\n\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\n\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\n- [ ] Security reports checked/validated by a reviewer from the AppSec team",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Category:Review Apps"
+   "Deliverable"
+   "Kickoff Highlight"
+   "ReleaseP1"
+   "auto updated"
+   "ci variables"
+   "cicd::active"
+   "database"
+   "database::review pending"
+   "deploy"
+   "devops::release"
+   "direction"
+   "feature"
+   "group::progressive delivery"
+   "maturity::lovable"
+   "potential proposal"
+   "workflow::In dev"],
+  :assignees
+  [{:id 758045,
+    :name "Shinya Maeda",
+    :username "dosuken123",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+    :web_url "https://gitlab.com/dosuken123"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121464768,
+   :sha "ad39e58b24a15b4b6aedc7b6a804ae1fa1e9163f",
+   :ref "refs/merge-requests/25797/merge",
+   :status "running",
+   :created_at "2020-02-27T08:46:43.665Z",
+   :updated_at "2020-02-27T08:46:58.074Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121464768"},
+  :user_notes_count 8,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25797,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25797/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T08:46:58.072Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T08:46:58.074Z",
+   :status "running",
+   :id 121464768,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121464768",
+   :before_sha "ad39e58b24a15b4b6aedc7b6a804ae1fa1e9163f",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 758045,
+    :name "Shinya Maeda",
+    :username "dosuken123",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+    :web_url "https://gitlab.com/dosuken123"},
+   :sha "ad39e58b24a15b4b6aedc7b6a804ae1fa1e9163f",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121464768",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:46:43.665Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25797",
+   :relative "!25797",
+   :full "gitlab-org/gitlab!25797"},
+  :merge_error nil,
+  :squash false,
+  :title
+  "PoC: Set dynamic environment URLs after a job finished via dotenv",
+  :author
+  {:id 758045,
+   :name "Shinya Maeda",
+   :username "dosuken123",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+   :web_url "https://gitlab.com/dosuken123"},
+  :updated_at "2020-02-27T08:51:29.760Z",
+  :source_project_id 278964,
+  :reference "!25797",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "10",
+  :blocking_discussions_resolved true,
+  :source_branch "poc-dotenv",
+  :closed_by nil,
+  :id 50689532,
+  :diff_refs
+  {:base_sha "d35278639a00878bea0929b8fc2d917138c98ca1",
+   :head_sha "22b376efc41991b6eed9610f339f81c663d5afee",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25797",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:46:58.072Z",
+  :user {:can_merge false},
+  :sha "22b376efc41991b6eed9610f339f81c663d5afee",
+  :assignee
+  {:id 758045,
+   :name "Shinya Maeda",
+   :username "dosuken123",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+   :web_url "https://gitlab.com/dosuken123"},
+  :created_at "2020-02-24T09:19:24.134Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nThis change moves `Value Stream Analytics` from the global analytics space (https://gitlab.com/-/analytics/value_stream_analytics) to the group level.\r\n\r\nThe change is behind a feature flag: `group_level_cycle_analytics`\r\n\r\nTo try it locally, enable it in the console: `Feature.enable(:group_level_cycle_analytics)`\r\n\r\nThe old views and controllers will be cleaned up once the feature flag is eliminated. https://gitlab.com/gitlab-org/gitlab/issues/202094\r\n\r\n## Screenshots\r\n\r\nBefore\r\n\r\n![image](/uploads/4f5ea7a97de4b56e7d93d8c5a3c48db3/image.png)\r\n\r\nAfter\r\n\r\n![image](/uploads/1d93d97a886136b8590e9050324b19aa/image.png)\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #196455",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["P1"
+   "backend"
+   "backstage"
+   "devops::manage"
+   "estimation::completed"
+   "feature flag"
+   "frontend"
+   "group::analytics"
+   "missed:12.8"
+   "workflow::In dev"],
+  :assignees
+  [{:id 4156052,
+    :name "Adam Hegyi",
+    :username "ahegyi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+    :web_url "https://gitlab.com/ahegyi"}
+   {:id 4512390,
+    :name "Dan Jensen",
+    :username "djensen",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/52393934bc192b8cf2cd5c813b1e1ca8?s=80&d=identicon",
+    :web_url "https://gitlab.com/djensen"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121463573,
+   :sha "124fe8a631edd416d141e0c1140e829cc99da26a",
+   :ref "refs/merge-requests/24773/merge",
+   :status "running",
+   :created_at "2020-02-27T08:42:11.498Z",
+   :updated_at "2020-02-27T08:42:21.357Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121463573"},
+  :user_notes_count 25,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 24773,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/24773/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T08:42:21.356Z",
+   :coverage "84.85",
+   :duration nil,
+   :updated_at "2020-02-27T08:42:21.357Z",
+   :status "running",
+   :id 121463573,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121463573",
+   :before_sha "124fe8a631edd416d141e0c1140e829cc99da26a",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 4156052,
+    :name "Adam Hegyi",
+    :username "ahegyi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+    :web_url "https://gitlab.com/ahegyi"},
+   :sha "124fe8a631edd416d141e0c1140e829cc99da26a",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121463573",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:42:11.498Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!24773",
+   :relative "!24773",
+   :full "gitlab-org/gitlab!24773"},
+  :merge_error nil,
+  :squash true,
+  :title
+  "Resolve \"Move top-level Cycle Analytics to the group level\"",
+  :author
+  {:id 4156052,
+   :name "Adam Hegyi",
+   :username "ahegyi",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+   :web_url "https://gitlab.com/ahegyi"},
+  :updated_at "2020-02-27T08:46:45.137Z",
+  :source_project_id 278964,
+  :reference "!24773",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 1,
+  :downvotes 0,
+  :changes_count "19",
+  :blocking_discussions_resolved true,
+  :source_branch "196455-move-ca-to-the-group-level",
+  :closed_by nil,
+  :id 49423149,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "0d10f59b900677d6a2cd5fd3a1e9203c92640ad1",
+   :start_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24773",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:42:21.356Z",
+  :user {:can_merge false},
+  :sha "0d10f59b900677d6a2cd5fd3a1e9203c92640ad1",
+  :assignee
+  {:id 4156052,
+   :name "Adam Hegyi",
+   :username "ahegyi",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/ff7cdaff6b98fba9b977f1885578b8b3?s=80&d=identicon",
+   :web_url "https://gitlab.com/ahegyi"},
+  :created_at "2020-02-10T09:08:03.557Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\n## Screenshots\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #31160",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Category:DAST"
+   "Dogfooding"
+   "Dogfooding::Use Existing Feature"
+   "Quality"
+   "Secure::Static and Dynamic Analysis [Deprecated]"
+   "ci-build"
+   "database"
+   "database::review pending"
+   "devops::secure"],
+  :assignees
+  [{:id 128633,
+    :name "Rémy Coutable",
+    :username "rymai",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/263da227929cc0035cb0eba512bcf81a?s=80&d=identicon",
+    :web_url "https://gitlab.com/rymai"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121462310,
+   :sha "08b438aaa37289303e31f721c4f4d5706a299ffa",
+   :ref "refs/merge-requests/25453/merge",
+   :status "running",
+   :created_at "2020-02-27T08:37:14.452Z",
+   :updated_at "2020-02-27T08:37:26.935Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121462310"},
+  :user_notes_count 9,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25453,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25453/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T08:37:26.934Z",
+   :coverage "72.11",
+   :duration nil,
+   :updated_at "2020-02-27T08:37:26.935Z",
+   :status "running",
+   :id 121462310,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121462310",
+   :before_sha "08b438aaa37289303e31f721c4f4d5706a299ffa",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 128633,
+    :name "Rémy Coutable",
+    :username "rymai",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/263da227929cc0035cb0eba512bcf81a?s=80&d=identicon",
+    :web_url "https://gitlab.com/rymai"},
+   :sha "08b438aaa37289303e31f721c4f4d5706a299ffa",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121462310",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:37:14.452Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25453",
+   :relative "!25453",
+   :full "gitlab-org/gitlab!25453"},
+  :merge_error nil,
+  :squash false,
+  :title "Enable DAST full scan on nightly master scheduled pipelines",
+  :author
+  {:id 128633,
+   :name "Rémy Coutable",
+   :username "rymai",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/263da227929cc0035cb0eba512bcf81a?s=80&d=identicon",
+   :web_url "https://gitlab.com/rymai"},
+  :updated_at "2020-02-27T08:42:08.053Z",
+  :source_project_id 278964,
+  :reference "!25453",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "2",
+  :blocking_discussions_resolved false,
+  :source_branch "31160-dast-on-master",
+  :closed_by nil,
+  :id 50261698,
+  :diff_refs
+  {:base_sha "8bb83e1f1293b042023eb91408e1325191f9667c",
+   :head_sha "43b5563986fd15f84111a3dab12f50c0ce183819",
+   :start_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25453",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:37:26.934Z",
+  :user {:can_merge false},
+  :sha "43b5563986fd15f84111a3dab12f50c0ce183819",
+  :assignee
+  {:id 128633,
+   :name "Rémy Coutable",
+   :username "rymai",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/263da227929cc0035cb0eba512bcf81a?s=80&d=identicon",
+   :web_url "https://gitlab.com/rymai"},
+  :created_at "2020-02-18T16:47:18.589Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress true,
+  :description
+  "## What does this MR do?\r\n\r\nThis MR fixes a bug for `Code Review Analytics` where `0` values for the review time are treated as `null`. As a result, a `-` was displayed in the column instead of displaying \"< 1 hour\".\r\n\r\n## Screenshots\r\n\r\n| Before | After |\r\n| ------ | ------ |\r\n| ![review_time_before](/uploads/d3c53be8b8aaef32c9efc532bf663d77/review_time_before.png) | ![review_time_after](/uploads/ed4a4f306b6cac4e361e5107b2c8605b/review_time_after.png) |\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #208151",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["P3"
+   "S4"
+   "bug"
+   "devops::manage"
+   "frontend"
+   "group::analytics"
+   "workflow::problem validation"],
+  :assignees
+  [{:id 1749038,
+    :name "Martin Wortschack",
+    :username "wortschi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/81f1a88935a2a512aa14db650ed37fdb?s=80&d=identicon",
+    :web_url "https://gitlab.com/wortschi"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121462098,
+   :sha "9ebf089e5d6ed549bea7bdee9dffea50cec676f5",
+   :ref "refs/merge-requests/26057/head",
+   :status "running",
+   :created_at "2020-02-27T08:36:28.508Z",
+   :updated_at "2020-02-27T08:36:38.539Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121462098"},
+  :user_notes_count 1,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 26057,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/26057/head",
+   :finished_at nil,
+   :started_at "2020-02-27T08:36:38.538Z",
+   :coverage "84.85",
+   :duration nil,
+   :updated_at "2020-02-27T08:36:38.539Z",
+   :status "running",
+   :id 121462098,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121462098",
+   :before_sha "0000000000000000000000000000000000000000",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 1749038,
+    :name "Martin Wortschack",
+    :username "wortschi",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/81f1a88935a2a512aa14db650ed37fdb?s=80&d=identicon",
+    :web_url "https://gitlab.com/wortschi"},
+   :sha "9ebf089e5d6ed549bea7bdee9dffea50cec676f5",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121462098",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:36:28.508Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!26057",
+   :relative "!26057",
+   :full "gitlab-org/gitlab!26057"},
+  :merge_error nil,
+  :squash true,
+  :title
+  "WIP: Resolve \"Code Review Analytics shows no data for MRs in review for less than an hour\"",
+  :author
+  {:id 1749038,
+   :name "Martin Wortschack",
+   :username "wortschi",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/81f1a88935a2a512aa14db650ed37fdb?s=80&d=identicon",
+   :web_url "https://gitlab.com/wortschi"},
+  :updated_at "2020-02-27T09:07:50.385Z",
+  :source_project_id 278964,
+  :reference "!26057",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "4",
+  :blocking_discussions_resolved true,
+  :source_branch
+  "208151-code-review-analytics-shows-no-data-for-mrs-in-review-for-less-than-an-hour",
+  :closed_by nil,
+  :id 50998502,
+  :diff_refs
+  {:base_sha "b91df0add6495cac15243f23c4d14c86085674a3",
+   :head_sha "9ebf089e5d6ed549bea7bdee9dffea50cec676f5",
+   :start_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/26057",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:36:38.538Z",
+  :user {:can_merge false},
+  :sha "9ebf089e5d6ed549bea7bdee9dffea50cec676f5",
+  :assignee
+  {:id 1749038,
+   :name "Martin Wortschack",
+   :username "wortschi",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/81f1a88935a2a512aa14db650ed37fdb?s=80&d=identicon",
+   :web_url "https://gitlab.com/wortschi"},
+  :created_at "2020-02-27T07:04:51.883Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nCreates a base class for `ResourceEvents` and removes the previously added `ResourceEventTools` (see: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24780#note_290950250).\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\n## Screenshots\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #38096",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Enterprise Edition"
+   "GitLab Starter"
+   "UX ready [DEPRECATED]"
+   "backend"
+   "backstage"
+   "burndown/up charts"
+   "devops::plan"
+   "direction"
+   "documentation"
+   "feature"
+   "group::project management"
+   "issues"
+   "missed:12.7"
+   "planning priority"
+   "technical debt"
+   "workflow::In review"],
+  :assignees
+  [{:id 3163848,
+    :name "Sarah Yasonik",
+    :username "syasonik",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+    :web_url "https://gitlab.com/syasonik"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121481011,
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :ref "refs/merge-requests/25791/merge",
+   :status "running",
+   :created_at "2020-02-27T09:32:07.702Z",
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011"},
+  :user_notes_count 14,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25791,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25791/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:32:17.427Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :status "running",
+   :id 121481011,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011",
+   :before_sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3078895,
+    :name "Patrick Derichs",
+    :username "pderichs",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+    :web_url "https://gitlab.com/pderichs"},
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121481011",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:32:07.702Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25791",
+   :relative "!25791",
+   :full "gitlab-org/gitlab!25791"},
+  :merge_error nil,
+  :squash false,
+  :title "Create base class for resource events",
+  :author
+  {:id 3078895,
+   :name "Patrick Derichs",
+   :username "pderichs",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+   :web_url "https://gitlab.com/pderichs"},
+  :updated_at "2020-02-27T09:31:33.503Z",
+  :source_project_id 278964,
+  :reference "!25791",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "7",
+  :blocking_discussions_resolved false,
+  :source_branch "38096-extract-resource-events-base-class-pd",
+  :closed_by nil,
+  :id 50686161,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25791",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:32:17.427Z",
+  :user {:can_merge false},
+  :sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+  :assignee
+  {:id 3163848,
+   :name "Sarah Yasonik",
+   :username "syasonik",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+   :web_url "https://gitlab.com/syasonik"},
+  :created_at "2020-02-24T08:44:22.526Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nCurrently, The api to list the group's members with the parameter `show_seat_info=true` on Gitlab.com returns true even if they are not belonging to the paid seat within the requested namespace.\r\n\r\nThis MR should do the following.\r\n\r\nIf API is being used on the self managed instance\r\n* It should check if the License exists and it excludes guest from active count\r\n  1. If it excludes then if the user is not a guest should return true\r\n  1. Else return true\r\n\r\nIf the API is being hit on Gitlab.com then\r\n\r\n* check if within the namespace the user is billed or not\r\n\r\n\r\n### Conformity\r\n\r\n- [x] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [x] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #207120",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["P1" "S2" "backend" "bug" "devops::growth" "group::fulfillment"],
+  :assignees
+  [{:id 4903695,
+    :name "Shreyas Agarwal",
+    :username "shreyasagarwal",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/d5b09dfe06a10d119c1b2043c43de680?s=80&d=identicon",
+    :web_url "https://gitlab.com/shreyasagarwal"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121459435,
+   :sha "9a63f70d81cf78995a62a8aa05e30760aa201f02",
+   :ref "refs/merge-requests/25988/head",
+   :status "running",
+   :created_at "2020-02-27T08:26:17.732Z",
+   :updated_at "2020-02-27T08:26:29.814Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121459435"},
+  :user_notes_count 3,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 2},
+  :iid 25988,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25988/head",
+   :finished_at nil,
+   :started_at "2020-02-27T08:26:29.813Z",
+   :coverage "84.88",
+   :duration nil,
+   :updated_at "2020-02-27T08:26:29.814Z",
+   :status "running",
+   :id 121459435,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121459435",
+   :before_sha "0000000000000000000000000000000000000000",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 4903695,
+    :name "Shreyas Agarwal",
+    :username "shreyasagarwal",
+    :state "active",
+    :avatar_url
+    "https://secure.gravatar.com/avatar/d5b09dfe06a10d119c1b2043c43de680?s=80&d=identicon",
+    :web_url "https://gitlab.com/shreyasagarwal"},
+   :sha "9a63f70d81cf78995a62a8aa05e30760aa201f02",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121459435",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:26:17.732Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25988",
+   :relative "!25988",
+   :full "gitlab-org/gitlab!25988"},
+  :merge_error nil,
+  :squash true,
+  :title
+  "API for Namespace members has correct boolean for user using seat",
+  :author
+  {:id 4903695,
+   :name "Shreyas Agarwal",
+   :username "shreyasagarwal",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/d5b09dfe06a10d119c1b2043c43de680?s=80&d=identicon",
+   :web_url "https://gitlab.com/shreyasagarwal"},
+  :updated_at "2020-02-27T08:31:13.279Z",
+  :source_project_id 278964,
+  :reference "!25988",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "5",
+  :blocking_discussions_resolved false,
+  :source_branch
+  "207120-the-api-for-group-members-returns-true-for-is_using_seat-even-when-user-is-not",
+  :closed_by nil,
+  :id 50919414,
+  :diff_refs
+  {:base_sha "22d85fbc99e634e865992835313a566f544adb01",
+   :head_sha "9a63f70d81cf78995a62a8aa05e30760aa201f02",
+   :start_sha "af930cf01ca8c3010750f3c7afb78ccf7306eab9"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25988",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:26:29.813Z",
+  :user {:can_merge false},
+  :sha "9a63f70d81cf78995a62a8aa05e30760aa201f02",
+  :assignee
+  {:id 4903695,
+   :name "Shreyas Agarwal",
+   :username "shreyasagarwal",
+   :state "active",
+   :avatar_url
+   "https://secure.gravatar.com/avatar/d5b09dfe06a10d119c1b2043c43de680?s=80&d=identicon",
+   :web_url "https://gitlab.com/shreyasagarwal"},
+  :created_at "2020-02-26T12:10:14.103Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nReverts https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25936\r\n\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- ~~[ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html)~~\r\n- [x] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [x] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [x] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [x] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [x] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [x] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels ["backend" "devops::create" "group::editor"],
+  :assignees
+  [{:id 955795,
+    :name "Francisco Javier López",
+    :username "fjsanpedro",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/955795/avatar.png",
+    :web_url "https://gitlab.com/fjsanpedro"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121458665,
+   :sha "2425cc9e20b8507a4798d0edc0fc3acea9f73255",
+   :ref "refs/merge-requests/26058/head",
+   :status "running",
+   :created_at "2020-02-27T08:23:34.705Z",
+   :updated_at "2020-02-27T08:23:46.718Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121458665"},
+  :user_notes_count 1,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 6, :completed_count 6},
+  :iid 26058,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/26058/head",
+   :finished_at nil,
+   :started_at "2020-02-27T08:23:46.718Z",
+   :coverage "72.11",
+   :duration nil,
+   :updated_at "2020-02-27T08:23:46.718Z",
+   :status "running",
+   :id 121458665,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121458665",
+   :before_sha "0000000000000000000000000000000000000000",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 955795,
+    :name "Francisco Javier López",
+    :username "fjsanpedro",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/955795/avatar.png",
+    :web_url "https://gitlab.com/fjsanpedro"},
+   :sha "2425cc9e20b8507a4798d0edc0fc3acea9f73255",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121458665",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T08:23:34.705Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!26058",
+   :relative "!26058",
+   :full "gitlab-org/gitlab!26058"},
+  :merge_error nil,
+  :squash true,
+  :title
+  "Revert \"Branch 'fj-rename-unauthorized-error-to-forbidden-error'\"",
+  :author
+  {:id 955795,
+   :name "Francisco Javier López",
+   :username "fjsanpedro",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/955795/avatar.png",
+   :web_url "https://gitlab.com/fjsanpedro"},
+  :updated_at "2020-02-27T08:28:16.524Z",
+  :source_project_id 278964,
+  :reference "!26058",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "38",
+  :blocking_discussions_resolved true,
+  :source_branch "revert-0b29e5a9",
+  :closed_by nil,
+  :id 50998542,
+  :diff_refs
+  {:base_sha "b91df0add6495cac15243f23c4d14c86085674a3",
+   :head_sha "2425cc9e20b8507a4798d0edc0fc3acea9f73255",
+   :start_sha "af930cf01ca8c3010750f3c7afb78ccf7306eab9"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/26058",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:23:46.718Z",
+  :user {:can_merge false},
+  :sha "2425cc9e20b8507a4798d0edc0fc3acea9f73255",
+  :assignee
+  {:id 955795,
+   :name "Francisco Javier López",
+   :username "fjsanpedro",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/955795/avatar.png",
+   :web_url "https://gitlab.com/fjsanpedro"},
+  :created_at "2020-02-27T07:05:34.526Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\nCreates a base class for `ResourceEvents` and removes the previously added `ResourceEventTools` (see: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/24780#note_290950250).\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\n## Screenshots\r\n\r\n<!-- Please include any relevant screenshots that will assist reviewers and future readers -->\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n- [ ] Informed Infrastructure department of a default or new setting change, if applicable per [definition of done](https://docs.gitlab.com/ee/development/contributing/merge_request_workflow.html#definition-of-done)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team \r\n\r\n\r\nCloses #38096",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["Enterprise Edition"
+   "GitLab Starter"
+   "UX ready [DEPRECATED]"
+   "backend"
+   "backstage"
+   "burndown/up charts"
+   "devops::plan"
+   "direction"
+   "documentation"
+   "feature"
+   "group::project management"
+   "issues"
+   "missed:12.7"
+   "planning priority"
+   "technical debt"
+   "workflow::In review"],
+  :assignees
+  [{:id 3163848,
+    :name "Sarah Yasonik",
+    :username "syasonik",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+    :web_url "https://gitlab.com/syasonik"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121481011,
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :ref "refs/merge-requests/25791/merge",
+   :status "running",
+   :created_at "2020-02-27T09:32:07.702Z",
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011"},
+  :user_notes_count 14,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 13, :completed_count 0},
+  :iid 25791,
+  :latest_build_finished_at nil,
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/25791/merge",
+   :finished_at nil,
+   :started_at "2020-02-27T09:32:17.427Z",
+   :coverage nil,
+   :duration nil,
+   :updated_at "2020-02-27T09:32:17.429Z",
+   :status "running",
+   :id 121481011,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121481011",
+   :before_sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 3078895,
+    :name "Patrick Derichs",
+    :username "pderichs",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+    :web_url "https://gitlab.com/pderichs"},
+   :sha "a113ad875847f8a2ed824783096f9fd1b38dbca6",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121481011",
+    :group "running",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_running-9c635b2419a8e1ec991c993061b89cc5aefc0743bb238ecd0c381e7741a70e8c.png",
+    :icon "status_running",
+    :illustration nil,
+    :label "running",
+    :tooltip "running",
+    :text "running"},
+   :created_at "2020-02-27T09:32:07.702Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!25791",
+   :relative "!25791",
+   :full "gitlab-org/gitlab!25791"},
+  :merge_error nil,
+  :squash false,
+  :title "Create base class for resource events",
+  :author
+  {:id 3078895,
+   :name "Patrick Derichs",
+   :username "pderichs",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3078895/avatar.png",
+   :web_url "https://gitlab.com/pderichs"},
+  :updated_at "2020-02-27T09:31:33.503Z",
+  :source_project_id 278964,
+  :reference "!25791",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "7",
+  :blocking_discussions_resolved false,
+  :source_branch "38096-extract-resource-events-base-class-pd",
+  :closed_by nil,
+  :id 50686161,
+  :diff_refs
+  {:base_sha "52f0a475d7939ad8e2da46afb888a38437bbe0d1",
+   :head_sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+   :start_sha "4b383fa1862ad1ec94d88746f5907b1d6d021d38"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25791",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T09:32:17.427Z",
+  :user {:can_merge false},
+  :sha "19d99e5ed6a3aeecee94b03b4fa9dbc4537be387",
+  :assignee
+  {:id 3163848,
+   :name "Sarah Yasonik",
+   :username "syasonik",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3163848/avatar.png",
+   :web_url "https://gitlab.com/syasonik"},
+  :created_at "2020-02-24T08:44:22.526Z",
+  :target_branch "master"}
+ {:merge_commit_sha nil,
+  :squash_commit_sha nil,
+  :work_in_progress false,
+  :description
+  "## What does this MR do?\r\n\r\n`Ci::Build#expanded_environment_name` is very expensive process It needs to fetches number of variables to produces the correct environment name. Currently, this method is called from many places, such as pipelines.json endpoint, in such case, over 100 builds have to go through the expanding process, which produces over hundreds of queries easily.\r\n\r\nThis MR persists the `expanded_environment_name` in `ci_builds_metadata` to avoid the repeatable expanding process. \r\n\r\nClose https://gitlab.com/gitlab-org/gitlab/issues/25155 https://gitlab.com/gitlab-org/gitlab/issues/193816\r\n\r\n## Impact\r\n\r\nHere are the summary of performance bar on my local environment.\r\n\r\n- Before: [pipelines_perf_bar_1582789797711.json](/uploads/eff6e7b8e1f5d6f17f7f0d6241a2a349/pipelines_perf_bar_1582789797711.json)\r\n- After: [pipelines_perf_bar_1582789716953.json](/uploads/397372859679ef96083c9b9ed81dfc25/pipelines_perf_bar_1582789716953.json)\r\n\r\nYou see that the duration of `pipeline.json` reduced to half as `#expanded_environment_name` uses persisted value.\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [-] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [-] [Documentation](https://docs.gitlab.com/ee/development/documentation/workflow.html) ([if required](https://docs.gitlab.com/ee/development/documentation/workflow.html#when-documentation-is-required))\r\n- [x] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [x] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [x] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [x] [Database guides](https://docs.gitlab.com/ee/development/README.html#database-guides)\r\n- [x] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Availability and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [x] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/test-engineering).\r\n- [-] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [-] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [-] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [-] Security reports checked/validated by a reviewer from the AppSec team",
+  :merge_status "can_be_merged",
+  :subscribed false,
+  :labels
+  ["backstage"
+   "database"
+   "database::approved"
+   "devops::release"
+   "group::progressive delivery"
+   "performance"],
+  :assignees
+  [{:id 64248,
+    :name "Stan Hu",
+    :username "stanhu",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/64248/stanhu.jpg",
+    :web_url "https://gitlab.com/stanhu"}],
+  :closed_at nil,
+  :force_remove_source_branch true,
+  :has_conflicts false,
+  :should_remove_source_branch nil,
+  :target_project_id 278964,
+  :pipeline
+  {:id 121456317,
+   :sha "5eb272fcb2ecbef9effdb23df2ea5b3b64faa8db",
+   :ref "refs/merge-requests/22374/head",
+   :status "success",
+   :created_at "2020-02-27T08:19:55.454Z",
+   :updated_at "2020-02-27T09:14:32.173Z",
+   :web_url
+   "https://gitlab.com/gitlab-org/gitlab/pipelines/121456317"},
+  :user_notes_count 18,
+  :first_deployed_to_production_at nil,
+  :milestone
+  {:description "",
+   :due_date "2020-03-17",
+   :iid 44,
+   :state "active",
+   :title "12.9",
+   :group_id 9970,
+   :updated_at "2019-09-20T21:22:44.003Z",
+   :start_date "2020-02-18",
+   :id 1001916,
+   :web_url "https://gitlab.com/groups/gitlab-org/-/milestones/44",
+   :created_at "2019-09-15T20:54:50.875Z"},
+  :task_completion_status {:count 6, :completed_count 6},
+  :iid 22374,
+  :latest_build_finished_at "2020-02-27T09:14:32.102Z",
+  :discussion_locked nil,
+  :time_stats
+  {:time_estimate 0,
+   :total_time_spent 0,
+   :human_time_estimate nil,
+   :human_total_time_spent nil},
+  :merged_at nil,
+  :head_pipeline
+  {:ref "refs/merge-requests/22374/head",
+   :finished_at "2020-02-27T09:14:32.102Z",
+   :started_at "2020-02-27T08:20:06.416Z",
+   :coverage "84.85",
+   :duration 3254,
+   :updated_at "2020-02-27T09:14:32.173Z",
+   :status "success",
+   :id 121456317,
+   :web_url "https://gitlab.com/gitlab-org/gitlab/pipelines/121456317",
+   :before_sha "0000000000000000000000000000000000000000",
+   :tag false,
+   :committed_at nil,
+   :user
+   {:id 758045,
+    :name "Shinya Maeda",
+    :username "dosuken123",
+    :state "active",
+    :avatar_url
+    "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+    :web_url "https://gitlab.com/dosuken123"},
+   :sha "5eb272fcb2ecbef9effdb23df2ea5b3b64faa8db",
+   :detailed_status
+   {:details_path "/gitlab-org/gitlab/pipelines/121456317",
+    :group "success-with-warnings",
+    :has_details true,
+    :favicon
+    "https://gitlab.com/assets/ci_favicons/favicon_status_success-8451333011eee8ce9f2ab25dc487fe24a8758c694827a582f17f42b0a90446a2.png",
+    :icon "status_warning",
+    :illustration nil,
+    :label "passed with warnings",
+    :tooltip "passed",
+    :text "passed"},
+   :created_at "2020-02-27T08:19:55.454Z",
+   :yaml_errors nil},
+  :state "opened",
+  :references
+  {:short "!22374",
+   :relative "!22374",
+   :full "gitlab-org/gitlab!22374"},
+  :merge_error nil,
+  :squash false,
+  :title "Persist expanded environment name in ci build metadata",
+  :author
+  {:id 758045,
+   :name "Shinya Maeda",
+   :username "dosuken123",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/758045/avatar.png",
+   :web_url "https://gitlab.com/dosuken123"},
+  :updated_at "2020-02-27T08:24:13.331Z",
+  :source_project_id 278964,
+  :reference "!22374",
+  :merge_when_pipeline_succeeds false,
+  :upvotes 0,
+  :downvotes 0,
+  :changes_count "10",
+  :blocking_discussions_resolved true,
+  :source_branch "persist-expanded-environment-name-in-build-metadata",
+  :closed_by nil,
+  :id 46169877,
+  :diff_refs
+  {:base_sha "d35278639a00878bea0929b8fc2d917138c98ca1",
+   :head_sha "5eb272fcb2ecbef9effdb23df2ea5b3b64faa8db",
+   :start_sha "af930cf01ca8c3010750f3c7afb78ccf7306eab9"},
+  :web_url
+  "https://gitlab.com/gitlab-org/gitlab/-/merge_requests/22374",
+  :project_id 278964,
+  :approvals_before_merge nil,
+  :merged_by nil,
+  :latest_build_started_at "2020-02-27T08:20:06.416Z",
+  :user {:can_merge false},
+  :sha "5eb272fcb2ecbef9effdb23df2ea5b3b64faa8db",
+  :assignee
+  {:id 64248,
+   :name "Stan Hu",
+   :username "stanhu",
+   :state "active",
+   :avatar_url
+   "https://assets.gitlab-static.net/uploads/-/system/user/avatar/64248/stanhu.jpg",
+   :web_url "https://gitlab.com/stanhu"},
+  :created_at "2020-01-02T07:55:39.771Z",
+  :target_branch "master"}]
