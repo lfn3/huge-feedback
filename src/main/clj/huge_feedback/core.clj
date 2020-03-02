@@ -17,6 +17,8 @@
 
 (def fig-build-id "dev")
 
+(defn cljs-repl [] (figwheel.main.api/cljs-repl fig-build-id))
+
 (def figwheel-config {:id fig-build-id
                       :options {:main 'huge-feedback.core
                                 :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
