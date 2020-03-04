@@ -5,7 +5,10 @@
             [figwheel.main.api]
             [huge-feedback.routes :as routes]
             [nrepl.server :as nrepl]
-            [cider.piggieback]))
+            [cider.piggieback]
+            [clojure.java.io :as io]
+            [clojure.edn :as edn])
+  (:import (java.io PushbackReader)))
 
 (def handler
   (bidi.ring/make-handler routes/serverside-routes routes/serverside-handler-map))
@@ -19,13 +22,23 @@
 
 (defn cljs-repl [] (figwheel.main.api/cljs-repl fig-build-id))
 
-(def figwheel-config {:id fig-build-id
-                      :options {:main 'huge-feedback.core
-                                :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true}
-                                :preloads             ['day8.re-frame-10x.preload]}
-                      :config {:watch-dirs ["src/main/cljs" "src/main/cljc"]
-                               :mode :serve
-                               :open-url "http://localhost:3000/"}})
+(def figwheel-config {:id      fig-build-id
+                      :options {:main            'huge-feedback.core
+                                :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
+                                :preloads        ['day8.re-frame-10x.preload]}
+                      :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
+                                :mode       :serve
+                                :open-url   "http://localhost:3000/"}})
+
+(defn read-local-config []
+  (->> "public/config.edn"
+       (io/resource)
+       (io/reader)
+       (PushbackReader.)
+       (edn/read)))
+
+(mount/defstate local-config
+  :start (read-local-config))
 
 (mount/defstate ^{:on-reload :noop} figwheel
   :start (figwheel.main.api/start figwheel-config)

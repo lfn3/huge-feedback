@@ -3,7 +3,8 @@
             [clojure.string :as str]
             [clojure.spec.alpha :as s]
             [ajax.json]
-            [ajax.ring]))
+            [ajax.ring]
+            [clojure.tools.reader.edn :as edn]))
 
 (s/def ::token string?)
 (s/def ::project-id int?)
@@ -96,6 +97,16 @@
                {})
        (vals)))
 
+(def mr-id-from-ref-regex #"refs/merge-requests/(\d+)/\w+")
+
+(defn get-mr-iid-from-ref [ref]
+  (when-let [[[_ mr-id]] (->> ref (re-seq mr-id-from-ref-regex))]
+    (edn/read-string mr-id)))
+
+(s/fdef get-mr-iid-from-ref
+  :args (s/cat :ref string?)
+  :ret (s/nilable int?))
+
 (defn stage-state [jobs]
   (->> jobs
        (map #(select-keys %1 [:stage :status :name :id]))
@@ -128,3 +139,7 @@
                         "GET"
                         config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
+(defn get-mr-for-pipeline [pipeline config handler]
+  (when-let [mr-iid (-> pipeline :ref (get-mr-iid-from-ref))]
+    (get-merge-request mr-iid config handler)))
