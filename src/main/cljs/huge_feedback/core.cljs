@@ -60,6 +60,10 @@
                                                  (map (juxt :id identity))
                                                  (into {})))))
 
+(rf/reg-event-db :merge-requests
+  (fn [db [_ merge-request-id mr]]
+    (assoc-in db [:merge-requests merge-request-id] mr)))
+
 (defn menu-item [item active-panel]
   (let [inner (if (= item active-panel)
                 [:li.active (name item)]
@@ -116,12 +120,22 @@
                                                                           (fn [resp] (rf/dispatch [:jobs pipeline-id resp]))))))
        (dorun)))
 
+(defn get-merge-requests [gitlab-config pipelines]
+  (->> pipelines
+       (map (fn [pipeline] (gitlab/get-mr-for-pipeline pipeline
+                                                       gitlab-config
+                                                       (fn [resp] (rf/dispatch [:merge-requests (:iid resp) resp])))))
+       (filter identity)                                    ; filter out nils
+       (map (fn [req-map] (dispatch-req gitlab-config req-map)))
+       (dorun)))
+
 (defn get-pipelines [config]
   (dispatch-req config
                 (gitlab/get-pipelines-including-at-least-one-master-build
                   (::gitlab/config config)
                   (fn [[_ {:keys [body]}]]
                     (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
+                    (get-merge-requests (::gitlab/config config) body)
                     (poll-jobs (::gitlab/config config) body)))))
 
 (defn poll-gitlab-once []
