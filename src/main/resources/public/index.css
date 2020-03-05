@@ -119,6 +119,13 @@
 	border-left-color: lightskyblue;
 }
 
+.pending {
+    background-color: orange;
+}
+.pipeline-stage.pending::after {
+    border-left-color: orange;
+}
+
 /* Jobs table */
 
 .job-status {
