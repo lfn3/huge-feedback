@@ -49,6 +49,11 @@
     (when does-not-contain-master-pipeline?
       (get-next-link-header-value resp))))
 
+(defn paginate-until-n-pipelines [n resp]
+  (let [remaining (swap! n - (->> resp :body (count)))]
+    (when (< 0 remaining)
+      (get-next-link-header-value resp))))
+
 (defn pipelines->by-id [pipelines]
   (->> pipelines
        (map (juxt :id identity))
@@ -65,6 +70,12 @@
                         "GET"
                         config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+
+(defn get-n-pipelines [config handler n]
+  (let [counter (atom n)]
+   (http/with-paginator-handler (get-pipelines-for-project config handler)
+                                (partial paginate-until-n-pipelines counter))))
+
 
 (defn get-pipelines-including-at-least-one-master-build [config handler]
   (http/with-paginator-handler (get-pipelines-for-project config handler)
