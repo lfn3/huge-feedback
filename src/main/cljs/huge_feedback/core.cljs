@@ -146,7 +146,8 @@
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
 ;TODO: since this is getting rate limited.
 (defn continuously-poll-gitlab []
-  (js/clearTimeout @(rf/subscribe [:next-poll-id]))
+  (when-let [poll-id @(rf/subscribe [:next-poll-id])]
+    (js/clearTimeout poll-id))
   (poll-gitlab-once)
   (rf/dispatch [:next-poll-id (js/setTimeout continuously-poll-gitlab refresh-interval-ms)]))
 

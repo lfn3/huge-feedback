@@ -1,4 +1,4 @@
-(ns huge-feedback.apis.gitlab
+(ns huge-feedback.apis.test-gitlab
   (:require [huge-feedback.apis.gitlab :as gitlab]
             [clojure.test :refer [deftest is]]))
 

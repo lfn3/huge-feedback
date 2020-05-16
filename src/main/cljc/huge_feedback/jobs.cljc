@@ -1,6 +1,7 @@
 (ns huge-feedback.jobs
   (:require [re-frame.core :as rf]
-            [huge-feedback.apis.gitlab :as gitlab]))
+            [huge-feedback.apis.gitlab :as gitlab]
+            [huge-feedback.util :as util]))
 
 (defn canonical-stage-ordering [jobs-by-pipeline-id]
   (->> jobs-by-pipeline-id
@@ -58,16 +59,21 @@
    (for [job (->> jobs (vals) (add-missing-jobs table-header))]
      ^{:key (:name job)} [cell job])])
 
-(rf/reg-sub :all-jobs-by-pipeline :jobs)
+(defn body [job-table-header jobs-by-pipelines]
+  (if jobs-by-pipelines
+   [:tbody
+    (for [[pipeline-id jobs] jobs-by-pipelines]
+      ^{:key pipeline-id} [row job-table-header pipeline-id jobs])]
+   [:tbody]))
 
-(defn body [job-table-header]
-  [:tbody
-   (for [[pipeline-id jobs] @(rf/subscribe [:all-jobs-by-pipeline])]
-       ^{:key pipeline-id} [row job-table-header pipeline-id jobs])])
+(defn all-jobs-by-pipeline [{:keys [jobs] :as _db}] jobs)
+
+(rf/reg-sub :all-jobs-by-pipeline all-jobs-by-pipeline)
 
 (defn panel []
-  (let [jth @(rf/subscribe [:job-table-header])]
+  (let [jth @(rf/subscribe [:job-table-header])
+        jobs-by-pipelines @(rf/subscribe [:all-jobs-by-pipeline])]
     [:div
      [:table.job-status
       [header jth]
-      [body jth]]]))
+      [body jth jobs-by-pipelines]]]))
