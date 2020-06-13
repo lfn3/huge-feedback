@@ -24,12 +24,12 @@
 
 (defn should-proxy? [req-map] (::proxy? req-map))
 
-(defn req-map->proxy-req-map [req-map]
+(defn req-map->proxy-req-map [{:keys [handler] :as req-map}]
   (-> {:body    (dissoc req-map :handler)
        :method  "POST"
        :uri     "/proxy"
        ::format ::proxy
-       :handler (fn [resp] ((:handler req-map) resp))}
+       :handler (fn [[outer-ok? outer-resp]] (when outer-ok? (handler (:body outer-resp))))}
       (hydrate-req)))
 
 (s/def ::format (keys formats))
@@ -49,14 +49,6 @@
 
 (defn execute [req-map]
   (ajax.core/ajax-request (to-ajax-req-map req-map)))
-
-(defn with-paginator-handler [{:keys [handler] :as req-map} extract-next-url-fn]
-  (let [paginator-handler (fn paginator-handler [[ok? resp]]
-                            (handler [ok? resp])
-                            (when-let [next-url (extract-next-url-fn resp)]
-                              (execute (merge req-map {:handler paginator-handler
-                                                       :uri next-url}))))]
-    (assoc req-map :handler paginator-handler)))
 
 (defmacro sync!
   "Assumes the last element in body is a call taking handler as it's final argument,

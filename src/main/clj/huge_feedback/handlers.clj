@@ -12,11 +12,8 @@
 
 (defn proxy-request [{:keys [body]}]
   (let [p (promise)
-        handler (fn [resp]
-                  (prn "Got response " resp)
-                  (deliver p resp))
+        handler (fn [resp] (deliver p resp))
         body (edn/read (PushbackReader. (io/reader body)))]
-    (prn "Proxying request " body)
     (http/execute (-> body
                       (assoc ::http/proxy? false)
                       (assoc :handler handler)))

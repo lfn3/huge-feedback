@@ -4,33 +4,36 @@
             [clojure.spec.alpha :as s]
             [ajax.json]
             [ajax.ring]
-            [clojure.tools.reader.edn :as edn]))
+            [clojure.tools.reader.edn :as edn]
+            [re-frame.core :as rf]
+            [clojure.walk :as walk]
+            [clojure.set :as set]))
 
 (s/def ::token string?)
 (s/def ::project-id int?)
 (s/def ::base-url string?)
+(def known-keywords #{::token ::project-id ::base-url})
 (s/def ::config (s/keys :req [::token ::project-id ::base-url]))
+(s/def ::uri (s/coll-of (s/or :keyword known-keywords :str string?)))
+(s/def ::req-map (s/keys :req [::http/format]
+                         :opt [::http/proxy?]
+                         :req-un [::http/handler ::http/method ::uri]))
 
-(defn build-gitlab-request [uri method config handler & [params]]
-  (cond-> {:uri          (str (::base-url config) "/" uri "?private_token=" (::token config))
+(defn build-gitlab-request [uri method handler & [params]]
+  (cond-> {::uri         (concat [::base-url "/"] uri ["?private_token=" ::token])
            :method       method
            :handler      handler
            ::http/format ::http/json}
           params (assoc :params params)))
 
+
 (s/fdef build-gitlab-request
-        :args (s/cat :uri string? :method ::http/method :config ::config :handler fn? :params coll?)
-        :ret ::http/req-map)
-
-(defn test-request [config handler]
-  (build-gitlab-request "todos" "GET" config handler))
-
-;What is this nonsense?
-(def link-header-name #?(:clj  "Link"
-                         :cljs "link"))
+        :args (s/cat :uri ::uri :method ::http/method :handler fn? :params coll?)
+        :ret ::req-map)
 
 (defn get-next-link-header-value [resp]
-  (let [link-header (get-in resp [:headers link-header-name])
+  (let [link-header (or (get-in resp [:headers "Link"])
+                        (get-in resp [:headers "link"]))    ;;Parsed as title case java side, and lowercase js side
         next-link (-> link-header
                       (str/split #",")
                       (->>
@@ -39,19 +42,14 @@
     (when next-link
       (last (re-find #"<(http.+)>; rel=\"next\"" next-link)))))
 
-(defn paginate-until-we-find-at-least-one-master-build [resp]
+(defn is-master-pipeline? [pipeline] (-> pipeline :ref (= "master")))
+
+(defn get-next-page-url-if-no-master-pipelines [resp]
   (let [does-not-contain-master-pipeline? (->> resp
                                                :body
-                                               (map :ref)
-                                               (filter (partial = "master"))
-                                               (seq)
-                                               (nil?))]
+                                               (some is-master-pipeline?)
+                                               (not))]
     (when does-not-contain-master-pipeline?
-      (get-next-link-header-value resp))))
-
-(defn paginate-until-n-pipelines [n resp]
-  (let [remaining (swap! n - (->> resp :body (count)))]
-    (when (< 0 remaining)
       (get-next-link-header-value resp))))
 
 (defn pipelines->by-id [pipelines]
@@ -65,28 +63,15 @@
                          (map-indexed (fn [idx val] [val idx]))
                          (into {})))
 
-(defn get-pipelines-for-project [{:keys [::project-id] :as config} handler]
-  (build-gitlab-request (str "projects/" project-id "/pipelines")
+(defn get-pipelines-for-project [handler]
+  (build-gitlab-request ["projects/" ::project-id "/pipelines"]
                         "GET"
-                        config
-                        (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
+                        handler))
 
-(defn get-n-pipelines [config handler n]
-  (let [counter (atom n)]
-   (http/with-paginator-handler (get-pipelines-for-project config handler)
-                                (partial paginate-until-n-pipelines counter))))
-
-
-(defn get-pipelines-including-at-least-one-master-build [config handler]
-  (http/with-paginator-handler (get-pipelines-for-project config handler)
-                               paginate-until-we-find-at-least-one-master-build))
-
-(defn get-jobs-for-pipeline [pipeline-id {:keys [::project-id] :as config} handler]
-  (http/with-paginator-handler (build-gitlab-request (str "projects/" project-id "/pipelines/" pipeline-id "/jobs")
-                                                     "GET"
-                                                     config
-                                                     (fn [[ok? {:keys [body]}]] (when ok? (handler body))))
-                               get-next-link-header-value))
+(defn get-jobs-for-pipeline [pipeline-id handler]
+  (build-gitlab-request ["projects/" ::project-id "/pipelines/" pipeline-id "/jobs"]
+                        "GET"
+                        handler))
 
 (defn stage-ordering [jobs]
   (->> jobs
@@ -127,30 +112,63 @@
                                 (reduce-jobs-status))]))
        (into {})))
 
-(defn get-merge-request [mr-iid {:keys [::project-id] :as config} handler]
-  (build-gitlab-request (str "projects/" project-id "/merge_requests/" mr-iid)
+(defn get-merge-request [mr-iid handler]
+  (build-gitlab-request ["projects/" ::project-id "/merge_requests/" mr-iid]
                         "GET"
-                        config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
 
-(defn get-merge-requests [{:keys [::project-id] :as config} handler]
-  (build-gitlab-request (str "projects/" project-id "/merge_requests")
+(defn get-merge-requests [handler]
+  (build-gitlab-request ["projects/" ::project-id "/merge_requests"]
                         "GET"
-                        config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
 
-(defn get-mr-pipelines [mr-id {:keys [::project-id] :as config} handler]
-  (build-gitlab-request (str "projects/" project-id "/merge_requests/" mr-id "/pipelines")
+(defn get-mr-pipelines [mr-id handler]
+  (build-gitlab-request ["projects/" ::project-id "/merge_requests/" mr-id "/pipelines"]
                         "GET"
-                        config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
 
-(defn get-jobs [{:keys [::project-id] :as config} handler]
-  (build-gitlab-request (str "projects/" project-id "/jobs/")
+(defn get-jobs [handler]
+  (build-gitlab-request ["projects/" ::project-id "/jobs/"]
                         "GET"
-                        config
                         (fn [[ok? {:keys [body]}]] (when ok? (handler body)))))
 
-(defn get-mr-for-pipeline [pipeline config handler]
+(defn get-mr-for-pipeline [pipeline handler]
   (when-let [mr-iid (-> pipeline :ref (get-mr-iid-from-ref))]
-    (get-merge-request mr-iid config handler)))
+    (get-merge-request mr-iid handler)))
+
+
+(defn with-proxy [req-map config]
+  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
+
+(defn replace-with-config-item [config item]
+  (if (known-keywords item)
+    (get config item)
+    item))
+
+(defn merge-config-keys [req-map config]
+  (walk/prewalk (partial replace-with-config-item config) req-map))
+
+(s/fdef merge-config-keys
+        :args (s/cat :req-map ::req-map :config ::config)
+        :ret ::http/req-map)
+
+(defn gitlab-req->http-req [req-map config]
+  (-> req-map
+      (merge-config-keys config)
+      (set/rename-keys {::uri :uri})
+      (update :uri str/join)))
+
+(defn test-request [config handler]
+  "Here we pass the config and assemble the request directly"
+  (-> (build-gitlab-request "todos" "GET" handler)
+      (gitlab-req->http-req (::config config))
+      (with-proxy config)))
+
+(defn gitlab-request-event-fx [{:keys [db] :as cofx} [_ req-map]]
+  (let [config (:huge-feedback.config/config db)
+        transformed-req (-> req-map
+                            (gitlab-req->http-req (::config config))
+                            (with-proxy config))]
+    (assoc cofx :ajax-request transformed-req)))
+
+(rf/reg-event-fx :gitlab-request gitlab-request-event-fx)

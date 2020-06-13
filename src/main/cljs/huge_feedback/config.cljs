@@ -5,7 +5,8 @@
     [re-frame.core :as rf]
     [reagent.core :as r]
     [clojure.spec.alpha :as s]
-    [huge-feedback.routes :as routes]))
+    [huge-feedback.routes :as routes]
+    [huge-feedback.util :as util]))
 
 (defn handle-test-response [[ok? resp] config]
   (if ok?
@@ -20,7 +21,7 @@
     (nil? config) (rf/dispatch [:invalid-config "Default config not available"])
     (s/valid? ::gitlab/config (::gitlab/config config)) (do
                                                           (rf/dispatch [:validating-config config])
-                                                          (rf/dispatch [:ajax-request (gitlab/test-request (::gitlab/config config) #(handle-test-response %1 config))]))
+                                                          (rf/dispatch [:ajax-request (gitlab/test-request config #(handle-test-response %1 config))]))
     :default (rf/dispatch [:invalid-config config (s/explain-str ::gitlab/config (::gitlab/config config))])))
 
 (defn text-editor [initial-value on-save & [validate]]
@@ -49,7 +50,7 @@
          ::requesting [:div [:p "Getting default config"]]
          ::invalid [:div.warning
                     [:p "Configuration is invalid: "]
-                    [:pre message]]
+                    (util/display-html-debug message)]
          ::validating [:div [:p "Validating configuration..."]]
          ::valid [:div [:p "Config ok"]])
        (when link?

@@ -105,42 +105,54 @@
   (fn [db [_ config]]
     (assoc-in db [::config/config ::gitlab/config] config)))
 
-(defn with-proxy [config req-map]
-  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
+(defn dispatch-gl-req [req]
+  (rf/dispatch [:gitlab-request req]))
 
-(defn dispatch-req [gitlab-config req]
-  (rf/dispatch [:ajax-request (with-proxy gitlab-config req)]))
+(defn make-job-resp-handler [pipeline-id]
+  (fn job-resp-handler [[_ {:keys [body] :as resp}]]
+    (rf/dispatch [:jobs pipeline-id body])
+    (when-let [next-page-url (gitlab/get-next-link-header-value resp)]
+      (-> (gitlab/get-jobs-for-pipeline pipeline-id job-resp-handler)
+          (assoc ::gitlab/uri [next-page-url])
+          (dispatch-gl-req)))))
 
-(defn poll-jobs [gitlab-config pipelines]
+(defn poll-jobs-for-pipeline [pipeline-id]
+  (->> (make-job-resp-handler pipeline-id)
+       (gitlab/get-jobs-for-pipeline pipeline-id )
+       (dispatch-gl-req)))
+
+(defn poll-jobs [pipelines]
   (->> pipelines
        (map :id)
-       (map (fn [pipeline-id] (dispatch-req gitlab-config
-                                            (gitlab/get-jobs-for-pipeline pipeline-id
-                                                                          gitlab-config
-                                                                          (fn [resp] (rf/dispatch [:jobs pipeline-id resp]))))))
+       (map poll-jobs-for-pipeline)
        (dorun)))
 
-(defn get-merge-requests [gitlab-config pipelines]
+(defn get-merge-requests [pipelines]
   (->> pipelines
-       (map (fn [pipeline] (gitlab/get-mr-for-pipeline pipeline
-                                                       gitlab-config
-                                                       (fn [resp] (rf/dispatch [:merge-requests (:iid resp) resp])))))
+       (map (fn [pipeline]
+              (gitlab/get-mr-for-pipeline pipeline
+                                          (fn [resp] (rf/dispatch [:merge-requests (:iid resp) resp])))))
        (filter identity)                                    ; filter out nils
-       (map (fn [req-map] (dispatch-req gitlab-config req-map)))
+       (map (fn [req-map] (dispatch-gl-req req-map)))
        (dorun)))
 
-(defn get-pipelines [config]
-  (dispatch-req config
-                (gitlab/get-pipelines-including-at-least-one-master-build
-                  (::gitlab/config config)
-                  (fn [[_ {:keys [body]}]]
-                    (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
-                    (get-merge-requests (::gitlab/config config) body)
-                    (poll-jobs (::gitlab/config config) body)))))
+(defn pipeline-resp-handler [[_ {:keys [body] :as resp}]]
+  (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
+  (get-merge-requests body)
+  (poll-jobs body)
+  (when-let [next-page-url (gitlab/get-next-page-url-if-no-master-pipelines resp)]
+    (-> (gitlab/get-pipelines-for-project pipeline-resp-handler)
+        (assoc ::gitlab/uri [next-page-url])
+        (dispatch-gl-req))))
+
+(defn get-pipelines []
+  (-> pipeline-resp-handler
+      (gitlab/get-pipelines-for-project)
+      (dispatch-gl-req)))
 
 (defn poll-gitlab-once []
   (when (= ::config/valid (first @(rf/subscribe [:config-state])))
-    (get-pipelines @(rf/subscribe [:config]))))
+    (get-pipelines)))
 
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
