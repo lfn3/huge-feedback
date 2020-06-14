@@ -13,16 +13,20 @@
     (rf/dispatch [:set-config config])
     (rf/dispatch [:invalid-config config (str "Got error when attempting test request to gitlab: " \newline resp)])))
 
+(s/def ::use-cors-proxy? boolean?)
+(s/def ::num-pipelines-to-show int?)
+
 (s/def ::config (s/keys :req [::gitlab/config
-                              :huge-feedback.core/use-cors-proxy?]))
+                              ::use-cors-proxy?
+                              ::num-pipelines-to-show]))
 
 (defn validate-then-set-config [config]
   (cond
     (nil? config) (rf/dispatch [:invalid-config "Default config not available"])
-    (s/valid? ::gitlab/config (::gitlab/config config)) (do
-                                                          (rf/dispatch [:validating-config config])
-                                                          (rf/dispatch [:ajax-request (gitlab/test-request config #(handle-test-response %1 config))]))
-    :default (rf/dispatch [:invalid-config config (s/explain-str ::gitlab/config (::gitlab/config config))])))
+    (s/valid? ::config config) (do
+                                 (rf/dispatch [:validating-config config])
+                                 (rf/dispatch [:ajax-request (gitlab/test-request config #(handle-test-response %1 config))]))
+    :default (rf/dispatch [:invalid-config (s/explain-str ::config config)])))
 
 (defn text-editor [initial-value on-save & [validate]]
   (let [state (r/atom {:input initial-value :valid? true})]
@@ -50,7 +54,7 @@
          ::requesting [:div [:p "Getting default config"]]
          ::invalid [:div.warning
                     [:p "Configuration is invalid: "]
-                    (util/display-html-debug message)]
+                    [:p message]]
          ::validating [:div [:p "Validating configuration..."]]
          ::valid [:div [:p "Config ok"]])
        (when link?
@@ -69,8 +73,7 @@
 
 
 (rf/reg-event-db :validating-config
-  (fn [db [_ config]] (-> db
-                          (assoc ::config-state ::validating))))
+  (fn [db [_ config]] (assoc db ::config-state ::validating)))
 
 (rf/reg-event-db :set-config
   (fn [{:keys [::config-state] :as db} [_ config]]

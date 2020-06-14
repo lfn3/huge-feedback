@@ -6,7 +6,7 @@ First step is to configure the application. I've used something like:
 {:huge-feedback.apis.gitlab/config   {:huge-feedback.apis.gitlab/base-url   "https://gitlab.com/api/v4"
                                       :huge-feedback.apis.gitlab/project-id 13083
                                       :huge-feedback.apis.gitlab/token      "REDACTED"}
- :huge-feedback.core/use-cors-proxy? true}
+ :huge-feedback.config/use-cors-proxy? true}
 ```
 in `src/main/resources/config.edn`, which the frontend will request and pick up as a default.
 (Or you can paste something into the `config` text box)

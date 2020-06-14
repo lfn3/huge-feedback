@@ -138,7 +138,7 @@
 
 
 (defn with-proxy [req-map config]
-  (assoc req-map ::http/proxy? (:huge-feedback.core/use-cors-proxy? config)))
+  (assoc req-map ::http/proxy? (:huge-feedback.config/use-cors-proxy? config)))
 
 (defn replace-with-config-item [config item]
   (if (known-keywords item)

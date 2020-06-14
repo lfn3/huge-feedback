@@ -10,7 +10,8 @@
             [huge-feedback.config :as config]
             [huge-feedback.pipelines :as pipelines]
             [huge-feedback.jobs :as jobs]
-            [huge-feedback.apis.http :as http]))
+            [huge-feedback.apis.http :as http]
+            [clojure.set :as set]))
 
 (defn parse-serverside-config-response [[ok? resp]]
   (when (and ok? (= 200 (:status resp)))
@@ -46,11 +47,13 @@
 
 (rf/reg-sub :active-panel #(get %1 :active-panel))
 
+(rf/reg-sub :pipelines (fn [db _] (:pipelines db)))
+
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
     (-> db
         (update :pipelines merge pipelines-by-id)           ;TODO: this will grow without bound.
-        (update :jobs #(->> %1
+        #_(update :jobs #(->> %1
                             (filter (fn [[k _]] (get pipelines-by-id k)))
                             (into {}))))))
 
@@ -137,13 +140,18 @@
        (dorun)))
 
 (defn pipeline-resp-handler [[_ {:keys [body] :as resp}]]
-  (rf/dispatch [:pipelines (gitlab/pipelines->by-id body)])
-  (get-merge-requests body)
-  (poll-jobs body)
-  (when-let [next-page-url (gitlab/get-next-page-url-if-no-master-pipelines resp)]
-    (-> (gitlab/get-pipelines-for-project pipeline-resp-handler)
-        (assoc ::gitlab/uri [next-page-url])
-        (dispatch-gl-req))))
+  (let [pipelines-by-id (gitlab/pipelines->by-id body)]
+    (rf/dispatch [:pipelines pipelines-by-id])
+    (get-merge-requests body)
+    (poll-jobs body)
+    (let [target-num-pipelines (get @(rf/subscribe [:config]) ::config/num-pipelines-to-show)
+          current-pipeline-ids (set/union (keys pipelines-by-id) (keys @(rf/subscribe [:pipelines])))
+          current-num-pipelines (count current-pipeline-ids)]
+      (when-let [next-page-url (and (< current-num-pipelines target-num-pipelines)
+                                    (gitlab/get-next-link-header-value resp))]
+        (-> (gitlab/get-pipelines-for-project pipeline-resp-handler)
+            (assoc ::gitlab/uri [next-page-url])
+            (dispatch-gl-req))))))
 
 (defn get-pipelines []
   (-> pipeline-resp-handler
