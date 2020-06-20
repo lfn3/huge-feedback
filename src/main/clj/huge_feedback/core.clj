@@ -8,7 +8,8 @@
             [cider.piggieback]
             [clojure.java.io :as io]
             [clojure.edn :as edn])
-  (:import (java.io PushbackReader)))
+  (:import (java.io PushbackReader))
+  (:gen-class))
 
 (def handler
   (bidi.ring/make-handler routes/serverside-routes routes/serverside-handler-map))
@@ -27,6 +28,7 @@
                                 :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
                                 :preloads        ['day8.re-frame-10x.preload]}
                       :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
+                                :target-dir "target/resources"
                                 :mode       :serve
                                 :open-url   "http://localhost:3000/"}})
 
@@ -52,4 +54,7 @@
   (figwheel.main.api/cljs-repl fig-build-id))
 
 (defn -main [& args]
-  (mount/start))
+  (.addShutdownHook (Runtime/getRuntime)
+                    (Thread. #(mount/stop)))
+  (mount/start #'server)
+  (.join server))

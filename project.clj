@@ -4,9 +4,7 @@
                  [cheshire "5.8.1"]
                  [ring/ring-core "1.7.1"]
                  [ring/ring-jetty-adapter "1.7.1"]
-                 [bidi "2.1.4"]
                  [mount "0.1.16"]
-                 [clj-http "3.9.1"]
 
                  ;cljc
                  [bidi "2.1.5"]
@@ -28,14 +26,18 @@
   :test-paths ["src/test/clj"]
 
   :cljsbuild {:builds [{:source-paths ["src/main/cljs" "src/main/cljc"]
-                        :compiler     {:output-to "target/public/cljs-out/dev-main.js"
-                                       :output-dir "target/public/cljs-out"
+                        :compiler     {:output-to "target/resources/public/cljs-out/dev-main.js"
+                                       :output-dir "target/resources/public/cljs-out"
                                        :asset-path "cljs-out"
 
                                        :main         huge-feedback.core}}]}
+  :hooks [leiningen.cljsbuild]
 
-  :resource-paths ["target" "src/main/resources"]
+  :resource-paths ["src/main/resources" "target/resources"]
+  :clean-targets ^{:protect false} [:compile-path :target-path]
 
-  :main huge-feedback.core/-main
+  :profiles {:uberjar {:aot :all}}
+
+  :main huge-feedback.core
 
   :plugins [[lein-cljsbuild "1.1.7"]])
