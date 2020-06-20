@@ -71,8 +71,8 @@
 
 #?(:cljs (do
            (rf/reg-event-fx :ajax-request
-             (fn [cofx [_ req-map]]
-               (assoc cofx :ajax-request req-map)))
+             (fn [_cofx [_ req-map]]
+               {:ajax-request req-map}))
 
            (rf/reg-fx :ajax-request
             (fn [req-map]

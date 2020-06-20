@@ -169,6 +169,6 @@
         transformed-req (-> req-map
                             (gitlab-req->http-req (::config config))
                             (with-proxy config))]
-    (assoc cofx :ajax-request transformed-req)))
+    {:ajax-request transformed-req}))
 
 (rf/reg-event-fx :gitlab-request gitlab-request-event-fx)
