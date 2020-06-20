@@ -12,15 +12,7 @@
 
                  ;cljs
                  [org.clojure/clojurescript "1.10.339"]
-                 [re-frame "0.10.6"]
-
-                 ;dev
-                 [nrepl "0.6.0"]
-                 [com.bhauman/figwheel-main "0.1.9"]
-                 [cider/piggieback "0.4.0"]
-                 [day8.re-frame/re-frame-10x "0.3.3"]
-                 [org.eclipse.jetty.websocket/websocket-server "9.4.12.v20180830"]
-                 [org.eclipse.jetty.websocket/websocket-servlet "9.4.12.v20180830"]]
+                 [re-frame "0.10.6"]]
 
   :source-paths ["src/main/clj" "src/main/cljc" "src/main/cljs"]
   :test-paths ["src/test/clj"]
@@ -31,13 +23,22 @@
                                        :asset-path "cljs-out"
 
                                        :main         huge-feedback.core}}]}
-  :hooks [leiningen.cljsbuild]
+  ;:hooks [leiningen.cljsbuild]
 
   :resource-paths ["src/main/resources" "target/resources"]
   :clean-targets ^{:protect false} [:compile-path :target-path]
 
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:uberjar {:aot :all
+                       :prep-tasks ["compile" ["cljsbuild" "once"]]}
+             :dev {:source-paths ["src/dev/clj"]
+                   :dependencies [[lein-cljsbuild "1.1.8"]
+                                  [nrepl "0.6.0"]
+                                  [com.bhauman/figwheel-main "0.1.9"]
+                                  [cider/piggieback "0.4.0"]
+                                  [day8.re-frame/re-frame-10x "0.3.3"]
+                                  [org.eclipse.jetty.websocket/websocket-server "9.4.12.v20180830"]
+                                  [org.eclipse.jetty.websocket/websocket-servlet "9.4.12.v20180830"]]}}
 
   :main huge-feedback.core
 
-  :plugins [[lein-cljsbuild "1.1.7"]])
+  :plugins [[lein-cljsbuild "1.1.8"]])
