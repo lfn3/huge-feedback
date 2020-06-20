@@ -4,14 +4,12 @@
             [re-frame.core :as rf]
             [huge-feedback.util :as util]
             [huge-feedback.apis.gitlab :as gitlab]
-            [huge-feedback.apis.http]
             [huge-feedback.apis.huge-feedback]
-            [clojure.tools.reader.edn :as edn]
             [huge-feedback.config :as config]
             [huge-feedback.pipelines :as pipelines]
             [huge-feedback.jobs :as jobs]
-            [huge-feedback.apis.http :as http]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [mount.core :as mount]))
 
 (defn parse-serverside-config-response [[ok? resp]]
   (when (and ok? (= 200 (:status resp)))
@@ -162,14 +160,22 @@
   (when (= ::config/valid (first @(rf/subscribe [:config-state])))
     (get-pipelines)))
 
+; TODO: this could be made a bit more reliable.
+(defn cancel-polling []
+  (when-let [poll-id @(rf/subscribe [:next-poll-id])]
+    (js/clearTimeout poll-id)))
+
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
 ;TODO: since this is getting rate limited.
 (defn continuously-poll-gitlab []
-  (when-let [poll-id @(rf/subscribe [:next-poll-id])]
-    (js/clearTimeout poll-id))
+  (cancel-polling)
   (poll-gitlab-once)
   (rf/dispatch [:next-poll-id (js/setTimeout continuously-poll-gitlab refresh-interval-ms)]))
+
+(mount/defstate gitlab-poller
+  :start (continuously-poll-gitlab)
+  :stop (cancel-polling))
 
 (defn main []
   (enable-console-print!)
@@ -179,7 +185,7 @@
   (rg/render [app] (js/document.getElementById "app"))
 
   (set! (.-onpopstate js/window) routes/handle-pop-state)
-  #_(continuously-poll-gitlab)
+  (mount/start #'gitlab-poller)
 
   (when (nil? (-> js/window (.-history) (.-state)))
     (.replaceState (.-history js/window)
