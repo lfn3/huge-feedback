@@ -51,7 +51,7 @@
   [:td {:class (:status job)
         :title (:name job)}
    (if (not= "not-created" (:status job))
-     [:a.block {:href (:web_url job)}])])
+     [:a.block {:href (:web_url job) :target "_blank"}])])
 
 (defn row [table-header pipeline-id jobs]
   [:tr
@@ -62,7 +62,7 @@
 (defn body [job-table-header jobs-by-pipelines]
   (if jobs-by-pipelines
    [:tbody
-    (for [[pipeline-id jobs] jobs-by-pipelines]
+    (for [[pipeline-id jobs] (reverse (sort-by key jobs-by-pipelines))]
       ^{:key pipeline-id} [row job-table-header pipeline-id jobs])]
    [:tbody]))
 

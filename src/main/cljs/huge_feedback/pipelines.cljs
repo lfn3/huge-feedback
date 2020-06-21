@@ -47,7 +47,7 @@
 
 (defn pipeline-html [pipeline]
   [:div
-   [:a.block {:href (:web_url pipeline)}
+   [:a.block {:href (:web_url pipeline) :target "_blank"}
     [:div (str (:ref pipeline) \@ (:sha pipeline))]
     [:div.pipeline
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
@@ -55,7 +55,7 @@
 
 (defn mini-pipeline-html [pipeline]
   [:div
-   [:a.block {:href (:web_url pipeline)}
+   [:a.block {:href (:web_url pipeline) :target "_blank"}
     [:div.pipeline.mini
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
        (pipeline-stage-html stage-state))]]])
