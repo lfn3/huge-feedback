@@ -69,7 +69,7 @@
 ; TODO: this could be made a bit more reliable.
 (defn cancel-polling []
   (when-let [poll-id @(rf/subscribe [:next-poll-id])]
-(js/clearTimeout poll-id)))
+    (js/clearTimeout poll-id)))
 
 ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
 ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
