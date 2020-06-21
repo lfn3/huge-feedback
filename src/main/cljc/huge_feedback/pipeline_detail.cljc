@@ -1,4 +1,4 @@
-(ns huge-feedback.jobs
+(ns huge-feedback.pipeline-detail
   (:require [re-frame.core :as rf]
             [huge-feedback.apis.gitlab :as gitlab]
             [huge-feedback.util :as util]))

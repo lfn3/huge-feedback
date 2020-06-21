@@ -7,7 +7,7 @@
 (def index-key ::index)
 
 (def clientside-routes ["/" {"" index-key
-                             "jobs" ::jobs
+                             "pipeline-detail" ::pipeline-detail
                              "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]

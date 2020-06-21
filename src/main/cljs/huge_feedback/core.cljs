@@ -3,13 +3,10 @@
             [reagent.core :as rg]
             [re-frame.core :as rf]
             [huge-feedback.util :as util]
-            [huge-feedback.apis.gitlab :as gitlab]
             [huge-feedback.apis.huge-feedback]
             [huge-feedback.config :as config]
             [huge-feedback.pipelines :as pipelines]
-            [huge-feedback.jobs :as jobs]
-            [clojure.set :as set]
-            [mount.core :as mount]))
+            [huge-feedback.pipeline-detail :as pipeline-detail]))
 
 (defn parse-serverside-config-response [[ok? resp]]
   (when (and ok? (= 200 (:status resp)))
@@ -36,7 +33,7 @@
 (defmulti active-panel :handler)
 
 (defmethod active-panel ::routes/index [_] [pipelines/panel])
-(defmethod active-panel ::routes/jobs [_] [jobs/panel])
+(defmethod active-panel ::routes/pipeline-detail [_] [pipeline-detail/panel])
 (defmethod active-panel :config [_] [config/panel])
 
 (defmethod active-panel :default [& args]
@@ -65,21 +62,21 @@
   (fn [db [_ merge-request-id mr]]
     (assoc-in db [:merge-requests merge-request-id] mr)))
 
-(defn menu-item [item active-panel]
-  (let [inner (if (= item active-panel)
-                [:li.active (name item)]
-                [:li item])]
-    (routes/link-for inner item)))
+(defn menu-item [name route active-panel]
+  (let [inner (if (= route active-panel)
+                [:li.active name]
+                [:li name])]
+    (routes/link-for inner route)))
 
-(def panels [::routes/index
-             ::routes/jobs
-             :config])
+(def panels {::routes/index "Pipelines"
+             ::routes/pipeline-detail "Pipeline Detail"
+             :config "Config"})
 
 (defn header [active-panel]
   [:header
    [:ul
-    (for [p panels]
-      ^{:key (name p)} [menu-item p active-panel])]
+    (for [[route name] panels]
+      ^{:key route} [menu-item name route active-panel])]
    [config/status]])
 
 (defn app []
