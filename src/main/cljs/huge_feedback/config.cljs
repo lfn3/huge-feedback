@@ -6,11 +6,12 @@
     [reagent.core :as r]
     [clojure.spec.alpha :as s]
     [huge-feedback.routes :as routes]
-    [huge-feedback.util :as util]))
+    [huge-feedback.gitlab-polling]))
 
 (defn handle-test-response [[ok? resp] config]
   (if ok?
-    (rf/dispatch [:set-config config])
+    (do (rf/dispatch-sync [:set-config config])
+        (huge-feedback.gitlab-polling/continuously-poll-gitlab))
     (rf/dispatch [:invalid-config config (str "Got error when attempting test request to gitlab: " \newline resp)])))
 
 (s/def ::use-cors-proxy? boolean?)
@@ -71,7 +72,6 @@
             (rf/dispatch [:invalid-config (.-message e)])
             false))]])
 
-
 (rf/reg-event-db :validating-config
   (fn [db [_ config]] (assoc db ::config-state ::validating)))
 
@@ -87,3 +87,13 @@
     (-> db
         (assoc ::config-state ::invalid)
         (assoc ::config-message message))))
+
+(rf/reg-event-db :config
+  (fn [db [_ config]]
+    (assoc-in db [::config ::gitlab/config] config)))
+
+(rf/reg-sub :config
+  (fn [db] (get-in db [::config])))
+
+(rf/reg-sub :gitlab-config
+  (fn [db] (get-in db [::config ::gitlab/config])))
