@@ -4,7 +4,8 @@
             [ring.adapter.jetty :as jetty]
             [huge-feedback.routes :as routes]
             [clojure.java.io :as io]
-            [clojure.edn :as edn])
+            [clojure.edn :as edn]
+            [huge-feedback.config :as config])
   (:import (java.io PushbackReader))
   (:gen-class))
 
@@ -16,19 +17,8 @@
                                    :join? false})
   :stop (.stop server))
 
-(defn read-local-config []
-  (->> "public/config.edn"
-       (io/resource)
-       (io/reader)
-       (PushbackReader.)
-       (edn/read)))
-
-(mount/defstate local-config
-  :start (read-local-config))
-
-
-(defn -main [& args]
+(defn -main [& [config-path]]
   (.addShutdownHook (Runtime/getRuntime)
                     (Thread. #(mount/stop)))
-  (mount/start #'server)
+  (mount/start-with-args config-path #'server #'config/local-config)
   (.join server))

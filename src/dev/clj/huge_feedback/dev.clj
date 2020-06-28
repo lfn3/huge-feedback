@@ -3,7 +3,8 @@
             [figwheel.main.api]
             [cider.piggieback]
             [mount.core :as mount]
-            [huge-feedback.core]))
+            [huge-feedback.core]
+            [clojure.java.io :as io]))
 
 (def fig-build-id "dev")
 
@@ -28,3 +29,7 @@
 
 (defn cljs-repl []
   (figwheel.main.api/cljs-repl fig-build-id))
+
+(def config-path "src\\dev\\clj\\huge_feedback\\config.edn")
+
+(defn start [] (mount/start-with-args config-path))

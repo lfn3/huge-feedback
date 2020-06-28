@@ -4,7 +4,8 @@
             [huge-feedback.apis.http :as http]
             [clojure.tools.reader.edn :as edn]
             [ring.util.response]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [huge-feedback.config :as config])
   (:import (java.io PushbackReader)))
 
 (defn index [_]
@@ -45,3 +46,5 @@
     (or (resp/resource-response target {:root "public"})
         (resp/file-response target {:root "target/public"})
         (resp/not-found "Not found"))))
+
+(defn config-edn [_request] (resp/response (str config/local-config)))

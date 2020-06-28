@@ -1,4 +1,4 @@
-src/main/resources/public/config.edn
+src/dev/clj/huge_feedback/config.edn
 target/
 .nrepl-port
 *.iml

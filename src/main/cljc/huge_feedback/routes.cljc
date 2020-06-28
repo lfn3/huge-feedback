@@ -15,10 +15,12 @@
                              ["config" index-key]
                              ["proxy" :huge-feedback.handlers/proxy]
                              ["cached-app-db" :huge-feedback.handlers/cached-app-db]
+                             ["config.edn" :huge-feedback.handlers/config.edn]
                              [true :huge-feedback.handlers/resources]]])
 
 #?(:clj (def serverside-handler-map {index-key                         handlers/index
                                      :huge-feedback.handlers/proxy     handlers/proxy-request
+                                     :huge-feedback.handlers/config.edn     handlers/config-edn
                                      :huge-feedback.handlers/cached-app-db    handlers/cached-app-db
                                      :huge-feedback.handlers/resources handlers/resources}))
 
