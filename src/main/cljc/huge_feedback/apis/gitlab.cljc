@@ -9,7 +9,7 @@
             [clojure.walk :as walk]
             [clojure.set :as set]))
 
-(s/def ::token string?)
+(s/def ::token (s/or :token string? :from-proxy (partial = ::from-proxy)))
 (s/def ::project-id int?)
 (s/def ::base-url string?)
 (def known-keywords #{::token ::project-id ::base-url})
@@ -138,29 +138,31 @@
 
 
 (defn with-proxy [req-map config]
-  (assoc req-map ::http/proxy? (:huge-feedback.config/use-cors-proxy? config)))
+  (let [proxy? (:huge-feedback.config/use-cors-proxy? config)]
+    (cond-> (assoc req-map ::http/proxy? proxy?)
+            (not proxy?) (set/rename-keys {::uri :uri}))))
 
 (defn replace-with-config-item [config item]
   (if (known-keywords item)
-    (get config item)
+    (let [replacement (get config item)]
+      (if-not (= ::from-proxy replacement)
+        replacement
+        item))
     item))
 
 (defn merge-config-keys [req-map config]
   (walk/prewalk (partial replace-with-config-item config) req-map))
 
-(s/fdef merge-config-keys
+(defn gitlab-req->http-req [req-map config]
+  (-> req-map (merge-config-keys config)))
+
+(s/fdef gitlab-req->http-req
         :args (s/cat :req-map ::req-map :config ::config)
         :ret ::http/req-map)
 
-(defn gitlab-req->http-req [req-map config]
-  (-> req-map
-      (merge-config-keys config)
-      (set/rename-keys {::uri :uri})
-      (update :uri str/join)))
-
 (defn test-request [config handler]
   "Here we pass the config and assemble the request directly"
-  (-> (build-gitlab-request "todos" "GET" handler)
+  (-> (build-gitlab-request ["todos"] "GET" handler)
       (gitlab-req->http-req (::config config))
       (with-proxy config)))
 

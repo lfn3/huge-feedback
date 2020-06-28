@@ -4,7 +4,8 @@
             [ajax.edn]
             [ajax.ring]
             [clojure.spec.alpha :as s]
-            #?@(:cljs [[re-frame.core :as rf]])))
+            #?@(:cljs [[re-frame.core :as rf]])
+            [clojure.string :as str]))
 
 (def local-format {:format          (ajax.edn/edn-request-format)
                    :response-format (ajax.ring/ring-response-format
@@ -20,14 +21,15 @@
 
 (defn hydrate-req [req-map]
   (-> req-map
-      (merge (clojure.core/get formats (::format req-map)))))
+      (merge (clojure.core/get formats (::format req-map)))
+      (update :uri str/join)))
 
 (defn should-proxy? [req-map] (::proxy? req-map))
 
 (defn req-map->proxy-req-map [{:keys [handler] :as req-map}]
   (-> {:body    (dissoc req-map :handler)
        :method  "POST"
-       :uri     "/proxy"
+       :uri     ["/proxy"]
        ::format ::proxy
        :handler (fn [[outer-ok? outer-resp]] (when outer-ok? (handler (:body outer-resp))))}
       (hydrate-req)))
@@ -36,7 +38,7 @@
 (s/def ::proxy? boolean?)
 (s/def ::handler fn?)
 (s/def ::method #{"GET" "POST"})
-(s/def ::uri string?)
+(s/def ::uri (s/coll-of (s/or :str string? :kw keyword?)))
 
 (s/def ::req-map (s/keys :req [::format]
                          :opt [::proxy?]

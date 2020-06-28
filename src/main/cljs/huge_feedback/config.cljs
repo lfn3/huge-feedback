@@ -12,7 +12,7 @@
   (if ok?
     (do (rf/dispatch-sync [:set-config config])
         (huge-feedback.gitlab-polling/continuously-poll-gitlab))
-    (rf/dispatch [:invalid-config config (str "Got error when attempting test request to gitlab: " \newline resp)])))
+    (rf/dispatch [:invalid-config (str "Got error when attempting test request to gitlab: " \newline resp)])))
 
 (s/def ::use-cors-proxy? boolean?)
 (s/def ::num-pipelines-to-show int?)
@@ -55,7 +55,7 @@
          ::requesting [:div [:p "Getting default config"]]
          ::invalid [:div.warning
                     [:p "Configuration is invalid: "]
-                    [:p message]]
+                    [:p (str message)]]
          ::validating [:div [:p "Validating configuration..."]]
          ::valid [:div [:p "Config ok"]])
        (when link?
