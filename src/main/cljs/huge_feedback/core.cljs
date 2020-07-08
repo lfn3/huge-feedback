@@ -8,18 +8,17 @@
             [huge-feedback.pipelines :as pipelines]
             [huge-feedback.pipeline-detail :as pipeline-detail]))
 
-(defn parse-serverside-config-response [[ok? resp]]
-  (when (and ok? (= 200 (:status resp)))
-    (:body resp)))
+(defn handle-serverside-config-response [[ok? resp]]
+  (when-let [cfg (and ok? (= 200 (:status resp)) (:body resp))]
+    (rf/dispatch [:set-config cfg])                         ; We set it so it can be seen in the ui
+    (config/validate-then-set-config cfg)))                 ; And then validate it
 
 (defn reset-fx []
   (let [active-panel (routes/parse-url (-> js/window (.-location) (.-pathname)))]
-    {:db           {:active-panel active-panel
+    {:db           {:active-panel         active-panel
                     ::config/config-state ::config/requesting}
      ;TODO: pull in a saved config from localstorage?
-     :ajax-request (huge-feedback.apis.huge-feedback/get-config #(-> %1
-                                                                     (parse-serverside-config-response)
-                                                                     (config/validate-then-set-config)))}))
+     :ajax-request (huge-feedback.apis.huge-feedback/get-config handle-serverside-config-response)}))
 
 (rf/reg-event-fx :initialize
   (fn [{:keys [db]} _]
