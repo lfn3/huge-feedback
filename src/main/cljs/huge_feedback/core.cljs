@@ -61,28 +61,28 @@
   (fn [db [_ merge-request-id mr]]
     (assoc-in db [:merge-requests merge-request-id] mr)))
 
-(defn menu-item [name route active-panel]
-  (let [inner (if (= route active-panel)
-                [:li.active name]
-                [:li name])]
-    (routes/link-for inner route)))
+(defn menu-item [elem route active-panel]
+  (let [inner (routes/link-for elem route)]
+    (if (= route (:handler active-panel))
+      [:li.active inner]
+      [:li inner])))
 
-(def panels {::routes/index "Pipelines"
-             ::routes/pipeline-detail "Pipeline Detail"
-             :config "Config"})
+(def panels {::routes/index           [:span "Pipelines"]
+             ::routes/pipeline-detail [:span "Pipeline Detail"]
+             :config                  [:span "Config" [config/status-icon]]})
 
 (defn header [active-panel]
-  [:header
+  [:nav.main
    [:ul
     (for [[route name] panels]
-      ^{:key route} [menu-item name route active-panel])]
-   [config/status]])
+      ^{:key route} [menu-item name route active-panel])]])
 
 (defn app []
   (let [p @(rf/subscribe [:active-panel])]
     [:div
      [header p]
-     [active-panel p]]))
+     [:main
+      [active-panel p]]]))
 
 (defn main []
   (enable-console-print!)

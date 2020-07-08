@@ -47,7 +47,16 @@
   (fn [{:keys [::config-state ::config-message]}]
     [config-state config-message]))
 
-(defn status [& [link?]]
+(defn status-icon []
+  (let [[state] @(rf/subscribe [:config-state])
+        icon (case state
+               ::requesting "⚙️"
+               ::validating "⚙️"
+               ::invalid "❌"
+               ::valid "✔️")]
+    [:span.config-status-icon (str \space icon)]))
+
+(defn status []
   (fn []
     (let [[state message] @(rf/subscribe [:config-state])]
       [:div.config-status
@@ -57,9 +66,7 @@
                     [:p "Configuration is invalid: "]
                     [:p (str message)]]
          ::validating [:div [:p "Validating configuration..."]]
-         ::valid [:div [:p "Config ok"]])
-       (when link?
-         (routes/link-for "Edit config" :config))])))
+         ::valid [:div [:p "Config ok"]])])))
 
 (defn panel []
   [:div

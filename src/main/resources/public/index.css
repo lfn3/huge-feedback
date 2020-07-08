@@ -1,3 +1,47 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+main {
+    margin: 8px;
+}
+
+nav.main {
+    background: #333333;
+    padding: 10px;
+    color: #dddddd;
+}
+
+nav.main ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav.main li {
+    display: block;
+    margin: 0 20px;
+}
+
+nav.main li:last-child {
+    margin-left: auto;
+}
+
+nav.main a, nav.main:visited {
+    text-decoration: none;
+    color: #dddddd;
+}
+
+.active {
+    text-decoration: underline;
+}
+
+.config-status-icon, .config-status-icon * {
+    display: inline;
+}
+
+
 /* Pipeline page */
 
 .pipeline {
