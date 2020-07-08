@@ -12,8 +12,10 @@
 (def handler
   (bidi.ring/make-handler routes/serverside-routes routes/serverside-handler-map))
 
+(def default-port 80)
+
 (mount/defstate server
-  :start (jetty/run-jetty handler {:port  (::config/server-port config/local-config)
+  :start (jetty/run-jetty handler {:port  (or (::config/server-port config/local-config) default-port)
                                    :join? false})
   :stop (.stop server))
 
