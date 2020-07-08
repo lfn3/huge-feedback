@@ -4,7 +4,8 @@
             [cider.piggieback]
             [mount.core :as mount]
             [huge-feedback.core]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [huge-feedback.config :as config]))
 
 (def fig-build-id "dev")
 
@@ -17,7 +18,7 @@
                       :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
                                 :target-dir "target/resources"
                                 :mode       :serve
-                                :open-url   "http://localhost:3000/"}})
+                                :open-url   (str "http://localhost:" (::config/server-port config/local-config) \/)}})
 
 (mount/defstate ^{:on-reload :noop} figwheel
                 :start (figwheel.main.api/start figwheel-config)
