@@ -3,7 +3,7 @@
             [figwheel.main.api]
             [cider.piggieback]
             [mount.core :as mount]
-            [huge-feedback.core]
+            [huge-feedback.core :as core]
             [clojure.java.io :as io]
             [huge-feedback.config :as config]))
 
@@ -18,7 +18,8 @@
                       :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
                                 :target-dir "target/resources"
                                 :mode       :serve
-                                :open-url   (str "http://localhost:" (::config/server-port config/local-config) \/)}})
+                                :css-dirs ["src/main/resources/public"]
+                                :open-url   (str "http://localhost:" (core/get-port) \/)}})
 
 (mount/defstate ^{:on-reload :noop} figwheel
                 :start (figwheel.main.api/start figwheel-config)

@@ -14,8 +14,11 @@
 
 (def default-port 80)
 
+(defn get-port []
+  (or (::config/server-port config/local-config) default-port))
+
 (mount/defstate server
-  :start (jetty/run-jetty handler {:port  (or (::config/server-port config/local-config) default-port)
+  :start (jetty/run-jetty handler {:port (get-port)
                                    :join? false})
   :stop (.stop server))
 
