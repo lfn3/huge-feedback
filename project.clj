@@ -1,4 +1,4 @@
-(defproject huge-feedback "0.1.0"
+(defproject huge-feedback "0.2.0-SNAPSHOT"
   :dependencies [;clj
                  [org.clojure/clojure "1.10.0"]
                  [cheshire "5.8.1"]
