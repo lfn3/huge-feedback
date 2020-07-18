@@ -11,18 +11,19 @@
 
 (defn cljs-repl [] (figwheel.main.api/cljs-repl fig-build-id))
 
-(def figwheel-config {:id      fig-build-id
-                      :options {:main            'huge-feedback.core
-                                :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
-                                :preloads        ['day8.re-frame-10x.preload]}
-                      :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
-                                :target-dir "target/resources"
-                                :mode       :serve
-                                :css-dirs ["src/main/resources/public"]
-                                :open-url   (str "http://localhost:" (core/get-port) \/)}})
+(defn figwheel-config [port]
+  {:id      fig-build-id
+   :options {:main            'huge-feedback.core
+             :closure-defines {"re_frame.trace.trace_enabled_QMARK_" true}
+             :preloads        ['day8.re-frame-10x.preload]}
+   :config  {:watch-dirs ["src/main/cljs" "src/main/cljc"]
+             :target-dir "target/resources"
+             :mode       :serve
+             :css-dirs   ["src/main/resources/public"]
+             :open-url   (str "http://localhost:" port \/)}})
 
 (mount/defstate ^{:on-reload :noop} figwheel
-                :start (figwheel.main.api/start figwheel-config)
+                :start (figwheel.main.api/start (figwheel-config (core/get-port)))
                 :stop (figwheel.main.api/stop fig-build-id))
 
 (mount/defstate ^{:on-reload :noop} nrepl
