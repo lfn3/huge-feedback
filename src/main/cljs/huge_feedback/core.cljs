@@ -1,6 +1,6 @@
 (ns huge-feedback.core
   (:require [huge-feedback.routes :as routes]
-            [reagent.core :as rg]
+            [reagent.dom :as rg-dom]
             [re-frame.core :as rf]
             [huge-feedback.util :as util]
             [huge-feedback.apis.huge-feedback]
@@ -89,7 +89,7 @@
 
   (rf/dispatch-sync [:initialize])
 
-  (rg/render [app] (js/document.getElementById "app"))
+  (rg-dom/render [app] (js/document.getElementById "app"))
 
   (set! (.-onpopstate js/window) routes/handle-pop-state)
 

@@ -12,7 +12,7 @@
 
                  ;cljs
                  [org.clojure/clojurescript "1.10.339"]
-                 [re-frame "0.10.6"]]
+                 [re-frame "1.0.0-rc6"]]
 
   :source-paths ["src/main/clj" "src/main/cljc" "src/main/cljs"]
   :test-paths ["src/test/clj"]
@@ -35,7 +35,8 @@
                                   [nrepl "0.6.0"]
                                   [com.bhauman/figwheel-main "0.1.9"]
                                   [cider/piggieback "0.4.0"]
-                                  [day8.re-frame/re-frame-10x "0.3.3"]
+                                  [day8.re-frame/re-frame-10x "0.7.0"]
+                                  [binaryage/devtools "1.0.2"]
                                   [org.eclipse.jetty.websocket/websocket-server "9.4.12.v20180830"]
                                   [org.eclipse.jetty.websocket/websocket-servlet "9.4.12.v20180830"]]}}
 
