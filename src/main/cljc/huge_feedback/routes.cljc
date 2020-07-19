@@ -11,7 +11,7 @@
                              "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]
-                             ["jobs" index-key]
+                             ["pipeline-detail" index-key]
                              ["config" index-key]
                              ["proxy" :huge-feedback.handlers/proxy]
                              ["cached-app-db" :huge-feedback.handlers/cached-app-db]
