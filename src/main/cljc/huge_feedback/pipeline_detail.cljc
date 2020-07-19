@@ -1,7 +1,8 @@
 (ns huge-feedback.pipeline-detail
   (:require [re-frame.core :as rf]
             [huge-feedback.apis.gitlab :as gitlab]
-            [huge-feedback.util :as util]))
+            [huge-feedback.util :as util]
+            [clojure.set :as set]))
 
 (defn canonical-stage-ordering [jobs-by-pipeline-id]
   (->> jobs-by-pipeline-id
@@ -30,6 +31,7 @@
   (let [total-jobs (->> job-table-header (map last) (map count) (reduce + 0))]
    [:thead
     [:tr
+     [:th "MR"]
      [:th "Pipeline"]
      [:th {:col-span total-jobs} "Stage"]]
     [:tr
@@ -53,20 +55,36 @@
    (if (not= "not-created" (:status job))
      [:a.block {:href (:web_url job) :target "_blank"}])])
 
-(defn row [table-header pipeline-id jobs]
+(defn mr-header [{:keys [ref merge-request] :as _pipeline}]
+  (let [is-master? (= ref "master")
+        ]
+    [:th (if is-master? "mstr" [:a {:href (:web_url merge-request) :target "_blank"}
+                                (get merge-request :id)])]))
+
+(defn row [table-header {:keys [id web_url] :as pipeline} jobs]
   [:tr
-   [:th pipeline-id]
+   [mr-header pipeline]
+   [:th [:a {:href web_url :target "_blank"} id]]
    (for [job (->> jobs (vals) (add-missing-jobs table-header))]
      ^{:key (:name job)} [cell job])])
 
 (defn body [job-table-header jobs-by-pipelines]
   (if jobs-by-pipelines
    [:tbody
-    (for [[pipeline-id jobs] (reverse (sort-by key jobs-by-pipelines))]
-      ^{:key pipeline-id} [row job-table-header pipeline-id jobs])]
+    (for [[{:keys [id] :as pipeline} jobs] (reverse (sort-by (comp :id key) jobs-by-pipelines))]
+      ^{:key id} [row job-table-header pipeline jobs])]
    [:tbody]))
 
-(defn all-jobs-by-pipeline [{:keys [jobs] :as _db}] jobs)
+(defn add-mr [mrs {:keys [ref] :as pipeline}]
+  (if-let [mr-id (gitlab/get-mr-iid-from-ref ref)]
+    (assoc pipeline :merge-request (get mrs mr-id))
+    pipeline))
+
+(defn all-jobs-by-pipeline [{:keys [jobs pipelines merge-requests] :as _db}]
+  (->> pipelines
+       (set/rename-keys jobs)
+       (map (fn [[k v]] [(add-mr merge-requests k) v]))
+       (into {})))
 
 (rf/reg-sub :all-jobs-by-pipeline all-jobs-by-pipeline)
 
