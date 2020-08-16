@@ -12,7 +12,7 @@
 
                  ;cljs
                  [org.clojure/clojurescript "1.10.339"]
-                 [re-frame "1.0.0-rc6"]]
+                 [re-frame "1.0.0"]]
 
   :source-paths ["src/main/clj" "src/main/cljc" "src/main/cljs"]
   :test-paths ["src/test/clj"]
@@ -33,7 +33,7 @@
              :dev {:source-paths ["src/dev/clj"]
                    :dependencies [[lein-cljsbuild "1.1.8"]
                                   [nrepl "0.6.0"]
-                                  [com.bhauman/figwheel-main "0.1.9"]
+                                  [com.bhauman/figwheel-main "0.2.11"]
                                   [cider/piggieback "0.4.0"]
                                   [day8.re-frame/re-frame-10x "0.7.0"]
                                   [binaryage/devtools "1.0.2"]
