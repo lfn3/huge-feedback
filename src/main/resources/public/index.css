@@ -188,3 +188,11 @@ nav.main a, nav.main:visited {
     width:100%;
     font-size: 2px;
 }
+
+.job-detail-chart {
+    width: 80%;
+}
+
+.job-detail-chart div {
+    width: 100%;
+}

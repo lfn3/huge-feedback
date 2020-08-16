@@ -2,20 +2,14 @@
   (:require [re-frame.core :as rf]
             [huge-feedback.apis.gitlab :as gitlab]
             [huge-feedback.util :as util]
+            [huge-feedback.job-utils :as job-utils]
             [clojure.set :as set]))
-
-(defn canonical-stage-ordering [jobs-by-pipeline-id]
-  (->> jobs-by-pipeline-id
-       (vals)
-       (map (comp gitlab/stage-ordering vals))
-       (sort-by count)
-       (last)))
 
 (defn job-table-header
   "Returns a collection of tuples stage names and collection of job names in that stage"
   [{:keys [jobs] :as _db}]
   (let [flattened-jobs (->> jobs (vals) (mapcat vals))
-        stage-ordering (canonical-stage-ordering jobs)
+        stage-ordering (job-utils/canonical-stage-ordering (vals jobs))
         job-names-by-stage (->> flattened-jobs
                                 (group-by :stage)
                                 (map (fn [[k vs]] [k (->> vs
@@ -75,15 +69,10 @@
       ^{:key id} [row job-table-header pipeline jobs])]
    [:tbody]))
 
-(defn add-mr [mrs {:keys [ref] :as pipeline}]
-  (if-let [mr-id (gitlab/get-mr-iid-from-ref ref)]
-    (assoc pipeline :merge-request (get mrs mr-id))
-    pipeline))
-
 (defn all-jobs-by-pipeline [{:keys [jobs pipelines merge-requests] :as _db}]
   (->> pipelines
        (set/rename-keys jobs)
-       (map (fn [[k v]] [(add-mr merge-requests k) v]))
+       (map (fn [[k v]] [(job-utils/add-mr merge-requests k) v]))
        (into {})))
 
 (rf/reg-sub :all-jobs-by-pipeline all-jobs-by-pipeline)

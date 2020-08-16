@@ -8,10 +8,12 @@
 
 (def clientside-routes ["/" {"" index-key
                              "pipeline-detail" ::pipeline-detail
+                             "job-detail" ::job-detail
                              "config" :config}])
 
 (def serverside-routes ["/" [["" index-key]
                              ["pipeline-detail" index-key]
+                             ["job-detail" index-key]
                              ["config" index-key]
                              ["proxy" :huge-feedback.handlers/proxy]
                              ["cached-app-db" :huge-feedback.handlers/cached-app-db]

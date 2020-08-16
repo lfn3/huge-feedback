@@ -6,7 +6,8 @@
             [huge-feedback.apis.huge-feedback]
             [huge-feedback.config :as config]
             [huge-feedback.pipelines :as pipelines]
-            [huge-feedback.pipeline-detail :as pipeline-detail]))
+            [huge-feedback.pipeline-detail :as pipeline-detail]
+            [huge-feedback.job-detail :as job-detail]))
 
 (defn handle-serverside-config-response [[ok? resp]]
   (when-let [cfg (and ok? (= 200 (:status resp)) (:body resp))]
@@ -33,6 +34,7 @@
 
 (defmethod active-panel ::routes/index [_] [pipelines/panel])
 (defmethod active-panel ::routes/pipeline-detail [_] [pipeline-detail/panel])
+(defmethod active-panel ::routes/job-detail [_] [job-detail/panel])
 (defmethod active-panel :config [_] [config/panel])
 
 (defmethod active-panel :default [& args]
@@ -69,6 +71,7 @@
 
 (def panels {::routes/index           [:span "Pipelines"]
              ::routes/pipeline-detail [:span "Pipeline Detail"]
+             ::routes/job-detail       [:span "Job Detail"]
              :config                  [:span "Config" [config/status-icon]]})
 
 (defn header [active-panel]
