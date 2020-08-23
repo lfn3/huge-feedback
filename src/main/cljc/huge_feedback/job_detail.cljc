@@ -7,24 +7,37 @@
             [huge-feedback.util :as util]))
 
 (defn job-chart [data]
-  {:data     {:values data}
-   :height   15
-   :width    "container"
-   :encoding {:x     {:field "pipeline-id" :type "nominal"}
-              :y     {:field "duration" :type "quantitative" :scale {:zero false} :axis {:title nil :grid false}}
-              :color {:field "status" :legend {:direction "horizontal" :orient "top"}}
-              :href  {:field "web_url" :type "nominal"}
-              :row   {:field "name" :type "nominal" :spacing 5 :header {:labelAngle 0
-                                                                        :labelAlign "left"
-                                                                        :title      nil}}}
-   :resolve  {:scale {:y "independent"}}
-   :mark     {:type "point" :filled true}})
+  {:data    {:values data}
+
+   :facet   {:row {:field "name" :type "nominal" :spacing 5 :header {:labelAngle 0
+                                                                     :labelAlign "left"
+                                                                     :title      nil}}}
+   :spec    {:layer  [{:encoding {:x     {:field "pipeline-id" :type "nominal"}
+                                  :y     {:field "duration" :type "quantitative" :scale {:zero false} :axis {:title nil :grid false}}
+                                  :color {:field  "status"
+                                          :legend {:direction "horizontal" :orient "top"}
+                                          :scale  {:domain ["success" "failed" "running" "pending" "manual" "skipped" "canceled" "created"]
+                                                   :range  ["#108548" "#dd2b0e" "#428fdc" "#fc9403" "#c4c4c4" "#c4c4c4" "#c4c4c4" "#c4c4c4"]}}
+                                  :href  {:field "web_url" :type "nominal"}}
+                       :mark     {:type "point" :filled true}}
+                      #_{:encoding {:x {:field "pipeline-id" :type "nominal"}
+                                  :y {:field     "duration"
+                                      :transform [{:filter {:field "pipeline-id" :valid true}}]
+                                      :type      "quantitative"
+                                      :scale     {:zero false}
+                                      :axis      {:title nil :grid false}}}
+                       :mark     {:type "line"}}]
+             :height 15
+             :width  "container"}
+
+   :resolve {:scale {:y "independent"}}})
 
 (defn chart [data]
   #?(:clj  "Chart would go here"
      :cljs (let [jsd (clj->js data)
                  opts (clj->js {:mode "vega-lite"
-                                :renderer :canvas})]
+                                :renderer :canvas
+                                :loader {:target "_blank"}})]
              (r/create-class
                {:component-did-mount (fn [this]
                                        (js/vegaEmbed (rd/dom-node this) jsd opts))
