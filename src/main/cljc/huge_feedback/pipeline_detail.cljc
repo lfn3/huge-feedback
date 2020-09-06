@@ -27,7 +27,7 @@
      [:th "Pipeline"]
      [:th {:col-span total-jobs} "Stage"]]
     [:tr
-     [:th]
+     [:th {:col-span 2}]
      (for [[sn job-names] job-table-header]
        ^{:key sn} [:th {:col-span (count job-names)} sn])]]))
 
@@ -48,8 +48,7 @@
      [:a.block {:href (:web_url job) :target "_blank"}])])
 
 (defn mr-header [{:keys [ref merge-request] :as _pipeline}]
-  (let [is-master? (= ref "master")
-        ]
+  (let [is-master? (= ref "master")]
     [:th (if is-master? "mstr" [:a {:href (:web_url merge-request) :target "_blank"}
                                 (get merge-request :id)])]))
 
