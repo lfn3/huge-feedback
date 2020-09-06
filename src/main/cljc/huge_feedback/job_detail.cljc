@@ -45,11 +45,7 @@
                 :reagent-render      (fn [_] [:div.vega-chart "Chart would go here with data: " (pr-str jsd)])}))))
 
 (defn jobs-chart-fmt [{:keys [jobs] :as _db}]
-  (->> jobs
-       (vals)
-       (mapcat vals)
-       (map (fn [{:keys [pipeline] :as v}] (assoc v :pipeline-id (:id pipeline))))
-       (map #(select-keys %1 [:name :pipeline-id :stage :duration :status :web_url]))))
+  (->> jobs (vals) (mapcat vals)))
 
 (rf/reg-sub :jobs-chart-fmt jobs-chart-fmt)
 

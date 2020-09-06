@@ -45,19 +45,27 @@
 
 (rf/reg-sub :pipelines (fn [db _] (:pipelines db)))
 
-(rf/reg-event-db :pipelines
-  (fn [db [_ pipelines-by-id]]
-    (update db :pipelines merge pipelines-by-id)))
+(defn add-pipelines [db [_ pipelines-by-id]]
+  (->> pipelines-by-id
+       (map (fn [[k v]] [k (select-keys v #{:id :iid :sha :ref :stage :web_url})]))
+       (update db :pipelines merge )))
 
-(rf/reg-event-db :jobs
-  (fn [db [_ pipeline-id jobs]]
-    (update-in db [:jobs pipeline-id] merge (->> jobs
-                                                 (map (juxt :id identity))
-                                                 (into {})))))
+(rf/reg-event-db :pipelines add-pipelines)
 
-(rf/reg-event-db :merge-requests
-  (fn [db [_ merge-request-id mr]]
-    (assoc-in db [:merge-requests merge-request-id] mr)))
+(defn add-jobs [db [_ pipeline-id jobs]]
+  (->> jobs
+       (map (fn [v] (assoc v :pipeline-id (get-in v [:pipeline :id]))))
+       (map (fn [v] (select-keys v #{:id :stage :status :name :duration :pipeline-id :web_url})))
+       (map (juxt :id identity))
+       (into {})
+       (update-in db [:jobs pipeline-id] merge)))
+
+(rf/reg-event-db :jobs add-jobs)
+
+(defn add-merge-requests [db [_ merge-request-id mr]]
+  (assoc-in db [:merge-requests merge-request-id] mr))
+
+(rf/reg-event-db :merge-requests add-merge-requests)
 
 (defn menu-item [elem route active-panel]
   (let [inner (routes/link-for elem route)]
@@ -67,7 +75,7 @@
 
 (def panels {::routes/index           [:span "Pipelines"]
              ::routes/pipeline-detail [:span "Pipeline Detail"]
-             ::routes/job-detail       [:span "Job Detail"]
+             ::routes/job-detail      [:span "Job Detail"]
              :config                  [:span "Config" [config/status-icon]]})
 
 (defn header [active-panel]
