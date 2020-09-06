@@ -7,3 +7,7 @@
   (is (nil? (gitlab/get-mr-iid-from-ref "12-9-auto-deploy-20200226")))
   (is (= 26062
          (gitlab/get-mr-iid-from-ref "refs/merge-requests/26062/merge"))))
+
+(deftest test-only-latest-runs
+  (is (= (gitlab/only-latest-runs [{:id 1 :name "name"}, {:id 2 :name "name"}])
+         [{:id 2 :name "name"}])))

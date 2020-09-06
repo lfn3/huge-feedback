@@ -1,7 +1,8 @@
 (ns huge-feedback.pipeline-detail
   (:require [re-frame.core :as rf]
             [huge-feedback.job-utils :as job-utils]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [huge-feedback.apis.gitlab :as gitlab]))
 
 (defn job-table-header
   "Returns a collection of tuples stage names and collection of job names in that stage"
@@ -56,7 +57,7 @@
   [:tr
    [mr-header pipeline]
    [:th [:a {:href web_url :target "_blank"} id]]
-   (for [job (->> jobs (vals) (add-missing-jobs table-header))]
+   (for [job (->> jobs (vals) (gitlab/only-latest-runs) (add-missing-jobs table-header))]
      ^{:key (:name job)} [cell job])])
 
 (defn body [job-table-header jobs-by-pipelines]
