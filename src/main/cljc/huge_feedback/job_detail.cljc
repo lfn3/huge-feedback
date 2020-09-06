@@ -6,11 +6,11 @@
 
 (defn job-chart [data]
   {:data    {:values data}
-
    :facet   {:row {:field "name" :type "nominal" :spacing 5 :header {:labelAngle 0
                                                                      :labelAlign "left"
                                                                      :title      nil}}}
-   :spec    {:layer  [{:encoding {:x     {:field "pipeline-id" :type "nominal"}
+   :spec    {:layer  [{:encoding {:x     {:field "pipeline-id" :type "nominal"
+                                          :axis {:orient "top" :labelAngle -60}}
                                   :y     {:field "duration"
                                           :type "quantitative"
                                           :scale {:zero false}
@@ -24,7 +24,6 @@
                        :transform [{:filter {:field "duration" :gt 0}}]}
                       #_{:encoding {:x {:field "pipeline-id" :type "nominal"}
                                   :y {:field     "duration"
-                                      :transform [{:filter {:field "pipeline-id" :valid true}}]
                                       :type      "quantitative"
                                       :scale     {:zero false}
                                       :axis      {:title nil :grid false}}}
