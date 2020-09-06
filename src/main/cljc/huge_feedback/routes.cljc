@@ -2,22 +2,29 @@
   (:require [bidi.bidi :as bidi]
             [clojure.tools.reader.edn :as edn]
             #?@(:cljs [[re-frame.core :as rf]]
-                :clj  [[huge-feedback.handlers :as handlers]])))
+                :clj  [[huge-feedback.handlers :as handlers]])
+            [clojure.walk :as walk]))
 
 (def index-key ::index)
 
-(def clientside-routes ["/" {"" index-key
-                             "pipeline-detail" ::pipeline-detail
-                             "job-detail" ::job-detail
-                             "config" :config}])
+(def clientside-routes ["/" [["" index-key]
+                             ["pipeline-detail" ::pipeline-detail]
+                             ["job-detail" ::job-detail]
+                             ["config" :config]]])
 
-(def serverside-routes ["/" [["" index-key]
-                             ["pipeline-detail" index-key]
-                             ["job-detail" index-key]
-                             ["config" index-key]
-                             ["proxy" :huge-feedback.handlers/proxy]
-                             ["config.edn" :huge-feedback.handlers/config.edn]
-                             [true :huge-feedback.handlers/resources]]])
+(defn clientside-routes-for-server [routes]
+  "This is almost certainly incorrect, but probably sufficient for now."
+  (->> routes
+       (last)                                               ; Strip off the leading /
+       (walk/postwalk (fn [x] (if (keyword? x) index-key x)) )))
+
+(def serverside-routes ["/" (-> clientside-routes
+                                (clientside-routes-for-server)
+                                (concat
+                                  [["proxy" :huge-feedback.handlers/proxy]
+                                   ["config.edn" :huge-feedback.handlers/config.edn]
+                                   [true :huge-feedback.handlers/resources]])
+                                (vec))])
 
 #?(:clj (def serverside-handler-map {index-key                         handlers/index
                                      :huge-feedback.handlers/proxy     handlers/proxy-request
@@ -38,13 +45,13 @@
 
 (defn parse-url [url]
   (let [clientside-match (bidi/match-route clientside-routes url)
-        serverside-match (bidi/match-route serverside-routes url)]  
+        serverside-match (bidi/match-route serverside-routes url)]
     #?(:clj (cond
               serverside-match serverside-match
               clientside-match index-key) ;Return the index page, and let the client side url parsing sort it out.
-       :cljs (cond 
+       :cljs (cond
                 clientside-match clientside-match
-                serverside-match (throw (js/Error. (client-server-mismatch-message url))))))) 
+                serverside-match (throw (js/Error. (client-server-mismatch-message url)))))))
 
 #?(:cljs (do
             (rf/reg-event-fx :navigate-to-panel
