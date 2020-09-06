@@ -1,7 +1,5 @@
 (ns huge-feedback.pipeline-detail
   (:require [re-frame.core :as rf]
-            [huge-feedback.apis.gitlab :as gitlab]
-            [huge-feedback.util :as util]
             [huge-feedback.job-utils :as job-utils]
             [clojure.set :as set]))
 

@@ -1,6 +1,5 @@
 (ns huge-feedback.gitlab-polling
-  (:require [mount.core :as mount]
-            [re-frame.core :as rf]
+  (:require [re-frame.core :as rf]
             [huge-feedback.apis.gitlab :as gitlab]
             [clojure.set :as set]))
 
@@ -66,15 +65,16 @@
   (when (= :huge-feedback.config/valid (first @(rf/subscribe [:config-state])))
     (get-pipelines)))
 
-; TODO: this could be made a bit more reliable.
-(defn cancel-polling []
-  (when-let [poll-id @(rf/subscribe [:next-poll-id])]
-    (js/clearTimeout poll-id)))
+#?(:cljs (do
+           ; TODO: this could be made a bit more reliable.
+           (defn cancel-polling []
+             (when-let [poll-id @(rf/subscribe [:next-poll-id])]
+               (js/clearTimeout poll-id)))
 
-;TODO: make this more selective - only look for jobs that are in a non-terminal state?
-;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
-;TODO: since this is getting rate limited.
-(defn continuously-poll-gitlab []
-  (cancel-polling)
-  (poll-gitlab-once)
-  (rf/dispatch [:next-poll-id (js/setTimeout continuously-poll-gitlab refresh-interval-ms)]))
+           ;TODO: make this more selective - only look for jobs that are in a non-terminal state?
+           ;TODO: And just look at the last page of a pipeline's jobs (where any new jobs will go)
+           ;TODO: since this is getting rate limited.
+           (defn continuously-poll-gitlab []
+             (cancel-polling)
+             (poll-gitlab-once)
+             (rf/dispatch [:next-poll-id (js/setTimeout continuously-poll-gitlab refresh-interval-ms)]))))

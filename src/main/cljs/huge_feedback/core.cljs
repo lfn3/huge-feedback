@@ -47,11 +47,7 @@
 
 (rf/reg-event-db :pipelines
   (fn [db [_ pipelines-by-id]]
-    (-> db
-        (update :pipelines merge pipelines-by-id)           ;TODO: this will grow without bound.
-        #_(update :jobs #(->> %1
-                            (filter (fn [[k _]] (get pipelines-by-id k)))
-                            (into {}))))))
+    (update db :pipelines merge pipelines-by-id)))
 
 (rf/reg-event-db :jobs
   (fn [db [_ pipeline-id jobs]]

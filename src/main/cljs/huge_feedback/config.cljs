@@ -5,7 +5,6 @@
     [re-frame.core :as rf]
     [reagent.core :as r]
     [clojure.spec.alpha :as s]
-    [huge-feedback.routes :as routes]
     [huge-feedback.gitlab-polling]))
 
 (defn handle-test-response [[ok? resp] config]

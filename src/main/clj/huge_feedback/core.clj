@@ -3,10 +3,7 @@
             [mount.core :as mount]
             [ring.adapter.jetty :as jetty]
             [huge-feedback.routes :as routes]
-            [clojure.java.io :as io]
-            [clojure.edn :as edn]
             [huge-feedback.config :as config])
-  (:import (java.io PushbackReader))
   (:gen-class))
 
 (def handler
