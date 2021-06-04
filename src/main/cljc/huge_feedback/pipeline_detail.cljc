@@ -49,9 +49,10 @@
      [:a.block {:href (:web_url job) :target "_blank"}])])
 
 (defn mr-header [{:keys [ref merge-request] :as _pipeline}]
-  (let [is-master? (= ref "master")]
-    [:th (if is-master? "mstr" [:a {:href (:web_url merge-request) :target "_blank"}
-                                (get merge-request :id)])]))
+  [:th (cond (= ref "master") "mstr"
+             (= ref "main") "main"
+             :else [:a {:href (:web_url merge-request) :target "_blank"}
+                    (get merge-request :id)])])
 
 (defn row [table-header {:keys [id web_url] :as pipeline} jobs]
   [:tr
