@@ -1,4 +1,4 @@
-(defproject huge-feedback "0.2.0"
+(defproject huge-feedback "0.3.0"
   :dependencies [;clj
                  [org.clojure/clojure "1.10.0"]
                  [cheshire "5.8.1"]
@@ -30,7 +30,7 @@
 
   :profiles {:uberjar {:aot :all
                        :prep-tasks ["compile" ["cljsbuild" "once"]]}
-             :dev {:source-paths ["src/dev/clj"]
+             :dev {:source-paths ["src/dev/clj" "src/dev/cljc"]
                    :dependencies [[lein-cljsbuild "1.1.8"]
                                   [nrepl "0.6.0"]
                                   [com.bhauman/figwheel-main "0.2.11"]
