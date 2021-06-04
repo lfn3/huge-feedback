@@ -55,14 +55,14 @@
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
        (pipeline-stage-html stage-state))]]])
 
-(def primary-refs {"main" "master"})
+(def primary-refs #{"main" "master"})
 
 (defn panel []
   (if-let [primary (or @(rf/subscribe [:latest "main"])
                        @(rf/subscribe [:latest "master"]))]
     [:div
      [pipeline-html primary]
-     (for [pipeline (concat @(rf/subscribe [:latest "main"])
+     (for [pipeline (concat @(rf/subscribe [:rest "main"])
                             @(rf/subscribe [:rest "master"]))]
        [mini-pipeline-html pipeline])
      (for [ref (->> @(rf/subscribe [:refs])
