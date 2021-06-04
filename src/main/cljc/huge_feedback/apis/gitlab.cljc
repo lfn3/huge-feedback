@@ -42,15 +42,6 @@
     (when next-link
       (last (re-find #"<(http.+)>; rel=\"next\"" next-link)))))
 
-(defn is-master-pipeline? [pipeline] (-> pipeline :ref (= "master")))
-
-(defn get-next-page-url-if-no-master-pipelines [resp]
-  (let [does-not-contain-master-pipeline? (->> resp
-                                               :body
-                                               (some is-master-pipeline?)
-                                               (not))]
-    (when does-not-contain-master-pipeline?
-      (get-next-link-header-value resp))))
 
 (defn pipelines->by-id [pipelines]
   (->> pipelines

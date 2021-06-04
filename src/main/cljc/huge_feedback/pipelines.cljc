@@ -19,11 +19,6 @@
          (reverse)
          (rest))))
 
-(rf/reg-sub :non-master
-  (fn [{:keys [pipelines]}] (->> pipelines
-                                 (vals)
-                                 (filter (comp (partial not= "master") :ref)))))
-
 (rf/reg-sub :refs
   (fn [{:keys [pipelines]}] (->> pipelines
                                  (vals)
@@ -60,14 +55,18 @@
      (for [stage-state @(rf/subscribe [:stage-state-for-pipeline (:id pipeline)])]
        (pipeline-stage-html stage-state))]]])
 
+(def primary-refs {"main" "master"})
+
 (defn panel []
-  (if-let [master @(rf/subscribe [:latest "master"])]
+  (if-let [primary (or @(rf/subscribe [:latest "main"])
+                       @(rf/subscribe [:latest "master"]))]
     [:div
-     [pipeline-html master]
-     (for [pipeline @(rf/subscribe [:rest "master"])]
+     [pipeline-html primary]
+     (for [pipeline (concat @(rf/subscribe [:latest "main"])
+                            @(rf/subscribe [:rest "master"]))]
        [mini-pipeline-html pipeline])
      (for [ref (->> @(rf/subscribe [:refs])
-                    (filter (partial not= "master")))]
+                    (filter (comp not primary-refs)))]
        [:div
         [pipeline-html @(rf/subscribe [:latest ref])]
         (for [rest @(rf/subscribe [:rest ref])]
